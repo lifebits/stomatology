@@ -1,0 +1,27 @@
+<section class="auth-modal-wrap">
+  <div class="auth-modal whiteframe-4dp">
+
+    <h4>Авторизация</h4>
+
+    <form [formGroup]="authForm" (submit)="userAuth(authForm)" novalidate>
+      <div class="flex-row">
+        <md-icon class="icon" svgIcon="main:account"></md-icon>
+        <md-input-container class="input">
+          <input mdInput formControlName="userName" placeholder="Имя пользователя">
+        </md-input-container>
+      </div>
+      <div class="flex-row">
+        <md-icon class="icon" svgIcon="main:lock"></md-icon>
+        <md-input-container class="input">
+          <input mdInput formControlName="password" placeholder="Пароль">
+        </md-input-container>
+      </div>
+      <div class="flex-row btn-wrap">
+        <button md-button (click)="closeLoginPopup()">отмена</button>
+        <button type="submit" md-raised-button>войти</button>
+      </div>
+    </form>
+
+  </div>
+</section>
+

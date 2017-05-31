@@ -1,0 +1,10 @@
+/deep/ .wrapper-outer {
+  position: relative;
+  width: 100%;
+
+  .wrapper-inner {
+    position: relative;
+    width: 1000px;
+    margin: 0 auto;
+  }
+}

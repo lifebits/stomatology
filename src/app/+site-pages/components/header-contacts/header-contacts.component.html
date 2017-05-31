@@ -1,0 +1,31 @@
+<div class="wrapper-outer">
+  <div class="wrapper-inner">
+    <ul class="contacts">
+      <li>
+        <md-icon class="inc" svgIcon="home-page:map-marker"></md-icon>
+        <a class="inc">Красноярск, Ленина, 102</a>
+      </li>
+      <li>
+        <md-icon class="inc" svgIcon="home-page:email"></md-icon>
+        <a class="inc">help@aldenta-lenina.com</a>
+      </li>
+    </ul>
+    <ul class="social">
+      <li>
+        <md-icon class="inc" svgIcon="home-page:facebook"></md-icon>
+      </li>
+      <li>
+        <md-icon class="inc" svgIcon="home-page:vk"></md-icon>
+      </li>
+      <li>
+        <md-icon class="inc" svgIcon="home-page:instagram"></md-icon>
+      </li>
+      <li>
+        <md-icon class="inc" svgIcon="home-page:odnoklassniki"></md-icon>
+      </li>
+      <li class="signIn">
+        <a [routerLink]="['/', { outlets: { popup: ['auth'] } }]">войти</a>
+      </li>
+    </ul>
+  </div>
+</div>
