@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { MdSnackBarModule } from '@angular/material';
 
-import { NotificationService } from './notification.service';
+import { NotificationService } from './notification/notification.service';
 
 @NgModule({
    imports: [

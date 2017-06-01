@@ -3,9 +3,10 @@
 
 @import "stylesheets/reset";
 
-@import "stylesheets/material";
+@import "stylesheets/material/material";
 @import "stylesheets/flex";
 @import "stylesheets/whiteframe";
+@import "stylesheets/notification.scss";
 
 
 html, body {

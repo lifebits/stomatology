@@ -1,0 +1,16 @@
+snack-bar-container {
+  &.success {
+    background-color: #83b14f;
+
+    button {
+      font-weight: 400 !important;
+    }
+  }
+  &.warn {
+    background-color: #a4564c;
+
+    button {
+      font-weight: 400 !important;
+    }
+  }
+}
