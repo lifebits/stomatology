@@ -6,11 +6,11 @@ import { HttpModule } from '@angular/http';
 
 import { AppRoutingModule } from './app.routing.module';
 import { UsersModule } from './users/users.module';
+import { ServicesModule } from './services/services.module';
 import { SitePagesModule } from './+site-pages/site-pages.module';
 
 import { AppComponent } from './app.component';
 import { NotFoundComponent } from './not-found/not-found.component';
-
 
 @NgModule({
    declarations: [
@@ -22,6 +22,7 @@ import { NotFoundComponent } from './not-found/not-found.component';
       FormsModule,
       HttpModule,
       BrowserAnimationsModule,
+      ServicesModule,
       AppRoutingModule,
       UsersModule,
       SitePagesModule,
