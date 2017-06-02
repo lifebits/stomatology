@@ -3,16 +3,22 @@
     "id": "1",
     "account": {
       "login": "veronika@lifebits.ru",
-      "password": "qwerty"
+      "role": ["chief"],
+      "password": "q"
     },
+    "firstName": "Вероника",
+    "lastName": "Попова",
     "token": "111111"
   },
   {
     "id": "2",
     "account": {
       "login": "nikolay@lifebits.ru",
+      "role": ["ceo"],
       "password": "123"
     },
+    "firstName": "Николай",
+    "lastName": "Попов",
     "token": "222222"
   }
 ]
