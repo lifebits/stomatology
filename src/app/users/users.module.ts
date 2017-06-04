@@ -4,7 +4,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MdIconModule, MdButtonModule, MdInputModule } from '@angular/material';
 
 import { AuthComponent } from './auth/auth.component';
-
 import { AuthService } from './auth/auth.service';
 
 @NgModule({

@@ -2,9 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
+import { NotificationService } from 'app/services/notification/notification.service';
 import { AuthService } from './auth.service';
 
 import { LoginUser } from '../users.interface';
+
+import 'rxjs/operator/debounceTime';
 
 @Component({
    selector: 'app-auth',
@@ -14,21 +17,32 @@ import { LoginUser } from '../users.interface';
 export class AuthComponent implements OnInit {
 
    public authForm: FormGroup = new FormGroup({
-      userName: new FormControl('Veronika', [Validators.required]),
+      login: new FormControl('veronika@lifebits.ru', [Validators.required]),
       password: new FormControl('', [Validators.required])
    });
 
    constructor(
       private router: Router,
-      private auth: AuthService) {
+      private auth: AuthService,
+      private notification: NotificationService) {
+   }
+
+   ngOnInit(): void {
 
    }
 
-   ngOnInit() {
+   submit({ value, valid }: {value: LoginUser, valid: boolean}): void {
+      if (valid) {
+         this.auth.login(value).subscribe(
+            result => {
+               this.notification.success('Авторизация выполнена успешно');
+               this.closeLoginPopup();
+            }
+         );
+      } else {
+         this.notification.error('Форма заполнена некорректно');
+      }
 
-   }
-
-   userAuth({ value, valid }: {value: LoginUser, valid: boolean}): void {
       console.log(value, valid);
    }
 
@@ -36,4 +50,5 @@ export class AuthComponent implements OnInit {
       this.router.navigate([{outlets: {popup: null}}]);
    }
 
+   // private getValidationErrors(formGroup: FormGroup, validationMsg: Object) {}
 }
