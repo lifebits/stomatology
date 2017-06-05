@@ -1,0 +1,8 @@
+<svg><defs>
+    <svg id="account" viewBox="0 0 24 24">
+        <path d="M12,4A4,4 0 0,1 16,8A4,4 0 0,1 12,12A4,4 0 0,1 8,8A4,4 0 0,1 12,4M12,14C16.42,14 20,15.79 20,18V20H4V18C4,15.79 7.58,14 12,14Z" />
+    </svg>
+    <svg id="menu" viewBox="0 0 24 24">
+        <path d="M3,6H21V8H3V6M3,11H21V13H3V11M3,16H21V18H3V16Z" />
+    </svg>
+</defs></svg>
