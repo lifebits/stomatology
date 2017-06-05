@@ -35,6 +35,27 @@
       color: #73b944;
     }
   }
+
+  .user-greeting {
+    margin-left: 20px;
+    margin-right: 10px;
+  }
+
+  .user-menu {
+    margin-left: 10px;
+    margin-right: 0;
+
+    .mat-icon-button {
+      width: 24px;
+      height: 24px;
+      line-height: 24px;
+
+      .mat-icon {
+        width: 24px;
+        height: 24px;
+      }
+    }
+  }
 }
 
 ul {

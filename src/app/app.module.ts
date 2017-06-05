@@ -5,6 +5,8 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
 import { AppRoutingModule } from './app.routing.module';
+
+import { AnalyticsModule } from './+analytics/analytics.module';
 import { UsersModule } from './users/users.module';
 import { ServicesModule } from './services/services.module';
 import { SitePagesModule } from './+site-pages/site-pages.module';
@@ -26,6 +28,7 @@ import { NotFoundComponent } from './not-found/not-found.component';
       AppRoutingModule,
       UsersModule,
       SitePagesModule,
+      AnalyticsModule,
    ],
    providers: [],
    bootstrap: [AppComponent]

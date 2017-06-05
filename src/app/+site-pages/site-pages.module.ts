@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SitePagesRoutingModule } from './site-pages.routing.module';
 
-import { MdIconModule, MdButtonModule } from '@angular/material';
+import { MdIconModule, MdButtonModule, MdMenuModule } from '@angular/material';
 
 import { HeaderContactsComponent } from './components/header-contacts/header-contacts.component';
 import { HeaderLogoComponent } from './components/header-logo/header-logo.component';
@@ -19,7 +19,8 @@ import { AboutPageComponent } from './about-page/about-page.component';
       CommonModule,
       SitePagesRoutingModule,
       MdIconModule,
-      MdButtonModule
+      MdButtonModule,
+      MdMenuModule
    ],
    declarations: [
       HeaderContactsComponent,

@@ -10,6 +10,10 @@ const routes: Routes = [
       loadChildren: './+site-pages/site-pages.module#SitePagesModule'
    },
    {
+      path: 'analytics',
+      loadChildren: './+analytics/analytics.module#AnalyticsModule'
+   },
+   {
       path: 'auth',
       component: AuthComponent,
       outlet: 'popup'
