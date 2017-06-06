@@ -1,0 +1,24 @@
+<md-card>
+  <table>
+    <thead>
+      <tr>
+        <th>Дата обращения</th>
+        <th>Администратор</th>
+        <th>Источник обращения</th>
+        <th>Пациент</th>
+        <th>Запись на консультацию</th>
+        <th>Фамилия врача</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of data">
+        <td>{{ item['Дата обращения'] | date:"dd/MM/yyyy" }}</td>
+        <td>{{ item['Администратор'] }}</td>
+        <td>{{ item['Источник обращения'] }}</td>
+        <td>{{ item['Фамилия'] + ' ' + item['Имя'] + ' ' + item['Отчество'] }}</td>
+        <td>{{ item['Записан на первичную консультацию'] | date:"dd/MM/yyyy" }}</td>
+        <td>{{ item['Фамилия врача'] }}</td>
+      </tr>
+    </tbody>
+  </table>
+</md-card>
