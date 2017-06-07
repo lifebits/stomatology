@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 
 import { ReferralService } from './referral.service';
+import { SortingService } from 'app/services/sorting/sorting.service';
 
 import 'rxjs/operator/debounceTime';
 
@@ -69,7 +70,8 @@ export class ReferralComponent implements OnInit {
    });
 
    constructor(
-      private referral: ReferralService) {
+      private referral: ReferralService,
+      private sort: SortingService) {
 
       this.filterForm.valueChanges
          .debounceTime(300)
@@ -85,7 +87,7 @@ export class ReferralComponent implements OnInit {
       this.referral.getDirectedPatients().subscribe(
          result => {
             this.referralInitList = result;
-            this.referralList = result.sort(this.ascSort('Дата обращения'));
+            this.referralList = result.sort(this.sort.asc('Дата обращения'));
             this.referralCounter = result.length;
          }
       );
@@ -118,7 +120,11 @@ export class ReferralComponent implements OnInit {
 
       this.tableFields.splice(tableFieldIndex, 1, tableField);
 
-      (tableField.ascSort) ? this.referralList.sort(this.ascSort(tableField.name)) : this.referralList.sort(this.descSort(tableField.name));
+      if (tableField.ascSort) {
+         this.referralList.sort(this.sort.asc(tableField.name));
+      } else {
+         this.referralList.sort(this.sort.desc(tableField.name));
+      }
 
 
       function resetActiveStatus(item) {
@@ -140,27 +146,4 @@ export class ReferralComponent implements OnInit {
       }
    }
 
-   private ascSort(fieldName: string): Function {
-      return function(a, b) {
-         if (a[fieldName] > b[fieldName]) {
-            return 1;
-         }
-         if (a[fieldName] < b[fieldName]) {
-            return -1;
-         }
-         return 0;
-      };
-   }
-
-   private descSort(fieldName: string): Function {
-      return function(a, b) {
-         if (a[fieldName] > b[fieldName]) {
-            return -1;
-         }
-         if (a[fieldName] < b[fieldName]) {
-            return 1;
-         }
-         return 0;
-      };
-   }
 }
