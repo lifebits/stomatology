@@ -1,10 +1,24 @@
 <md-card>
+
+  <div class="flex-row">
+    <h2>Статистика обращений</h2>
+    <span class="counter">кол-во обращений: {{referralCounter}}</span>
+    <div class="backendForm">
+
+    </div>
+    <form [formGroup]="filterForm" class="filterForm">
+      <md-input-container class="search-container">
+        <input formControlName="query" mdInput placeholder="Строка поиска">
+      </md-input-container>
+    </form>
+  </div>
+
   <table>
     <thead>
       <tr>
         <th *ngFor="let item of tableFields; let i = index" (click)="setActiveSortField(i)">
-          <span>{{item.title}}</span>
-          <md-icon svgIcon="{{item.svg}}"></md-icon>
+          <span>{{ item.title }}</span>
+          <md-icon svgIcon="{{ item.svg }}"></md-icon>
         </th>
       </tr>
     </thead>
@@ -18,5 +32,13 @@
         <td>{{ item['Фамилия врача'] }}</td>
       </tr>
     </tbody>
+    <tfoot>
+      <tr>
+        <th *ngFor="let item of tableFields;">
+          <span>{{ item.title }}</span>
+        </th>
+      </tr>
+    </tfoot>
   </table>
+
 </md-card>

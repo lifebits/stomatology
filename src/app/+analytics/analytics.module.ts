@@ -1,7 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule } from '@angular/forms';
 
-import { MdIconModule, MdCardModule } from '@angular/material';
+import { MdIconModule, MdCardModule, MdInputModule } from '@angular/material';
 
 import { AnalyticsRoutingModule } from './analytics.routing.module';
 import { ParseXlsComponent } from './parse-xls/parse-xls.component';
@@ -16,8 +17,10 @@ import { ReferralService } from './referral/referral.service';
 @NgModule({
    imports: [
       CommonModule,
+      ReactiveFormsModule,
       MdIconModule,
       MdCardModule,
+      MdInputModule,
       AnalyticsRoutingModule
    ],
    declarations: [
