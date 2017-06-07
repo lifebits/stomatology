@@ -4,6 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { AnalyticsComponent } from './analytics.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { ReferralComponent } from './referral/referral.component';
+import { TherapyComponent } from './therapy/therapy.component';
 
 // import { ParseXlsComponent } from './parse-xls/parse-xls.component';
 
@@ -13,7 +14,8 @@ const routes: Routes = [
       component: AnalyticsComponent,
       children: [
          {path: '', component: DashboardComponent},
-         {path: 'referral', component: ReferralComponent}
+         {path: 'referral', component: ReferralComponent},
+         {path: 'therapy', component: TherapyComponent}
       ]
    }
 ];

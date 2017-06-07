@@ -13,6 +13,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { ReferralComponent } from './referral/referral.component';
 
 import { ReferralService } from './referral/referral.service';
+import { TherapyComponent } from './therapy/therapy.component';
 
 @NgModule({
    imports: [
@@ -30,6 +31,7 @@ import { ReferralService } from './referral/referral.service';
       AnalyticsNavigatorComponent,
       DashboardComponent,
       ReferralComponent,
+      TherapyComponent,
    ],
    providers: [
       ReferralService
