@@ -11,9 +11,22 @@ table {
     border-bottom: 1px solid #d0d0d0;
 
     th {
+      position: relative;
+      padding-right: 24px;
       line-height: 1.2;
       font-weight: 600;
       border-bottom: 1px solid #d0d0d0;
+      cursor: default;
+    }
+
+    .mat-icon {
+      position: absolute;
+      margin-top: -8px;
+      top: 50%;
+      right: 2px;
+      width: 16px;
+      height: 16px;
+      color: #999;
     }
   }
 
@@ -25,6 +38,7 @@ table {
   }
 
   td {
+    line-height: 1.2;
     border-top: 1px solid #E6E6E6;
   }
 }

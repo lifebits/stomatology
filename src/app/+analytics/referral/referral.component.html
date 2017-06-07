@@ -2,16 +2,14 @@
   <table>
     <thead>
       <tr>
-        <th>Дата обращения</th>
-        <th>Администратор</th>
-        <th>Источник обращения</th>
-        <th>Пациент</th>
-        <th>Запись на консультацию</th>
-        <th>Фамилия врача</th>
+        <th *ngFor="let item of tableFields; let i = index" (click)="setActiveSortField(i)">
+          <span>{{item.title}}</span>
+          <md-icon svgIcon="{{item.svg}}"></md-icon>
+        </th>
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let item of data">
+      <tr *ngFor="let item of referralList">
         <td>{{ item['Дата обращения'] | date:"dd/MM/yyyy" }}</td>
         <td>{{ item['Администратор'] }}</td>
         <td>{{ item['Источник обращения'] }}</td>
