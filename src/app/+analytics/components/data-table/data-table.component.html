@@ -1,0 +1,23 @@
+<table>
+
+  <thead>
+    <tr>
+      <th *ngFor="let item of fields; let i = index" (click)="setActiveSortField(i)">
+        <span>{{ item.title }}</span>
+        <md-icon svgIcon="{{ item.svg }}"></md-icon>
+      </th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr *ngFor="let item of tableRows">
+      <td>{{ item['Дата обращения'] }}</td>
+      <td>{{ item['Администратор'] }}</td>
+      <td>{{ item['Источник обращения'] }}</td>
+      <td>{{ item['Фамилия'] + ' ' + item['Имя'] + ' ' + item['Отчество'] }}</td>
+      <td>{{ item['Записан на первичную консультацию'] }}</td>
+      <td>{{ item['Фамилия врача'] }}</td>
+    </tr>
+  </tbody>
+
+</table>

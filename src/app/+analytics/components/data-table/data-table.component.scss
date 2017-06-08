@@ -1,0 +1,61 @@
+table {
+  display: table;
+  width: 100%;
+  margin: 0 auto;
+  clear: both;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: 0.86em;
+
+  thead {
+    border-bottom: 1px solid #d0d0d0;
+
+    th {
+      position: relative;
+      padding-right: 24px;
+      line-height: 1.3;
+      font-weight: 600;
+      border-bottom: 1px solid #d0d0d0;
+      cursor: default;
+    }
+
+    .mat-icon {
+      position: absolute;
+      margin-top: -8px;
+      top: 50%;
+      right: 2px;
+      width: 16px;
+      height: 16px;
+      color: #999;
+    }
+  }
+
+  tbody {
+    tr:hover {
+      background-color: #F3F3F3;
+    }
+  }
+
+  tfoot {
+    border-top: 1px solid #d0d0d0;
+
+    th {
+      position: relative;
+      line-height: 1.2;
+      font-weight: 600;
+      border-top: 1px solid #d0d0d0;
+    }
+  }
+
+  th, td {
+    display: table-cell;
+    text-align: left;
+    vertical-align: middle;
+    padding: 15px 5px;
+  }
+
+  td {
+    line-height: 1.2;
+    border-top: 1px solid #E6E6E6;
+  }
+}
