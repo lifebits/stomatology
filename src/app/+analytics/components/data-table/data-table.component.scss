@@ -1,3 +1,27 @@
+h2 {
+  line-height: 1.2;
+  font-size: 1.4em;
+  text-transform: uppercase;
+  color: #607d8b;
+}
+
+.counter {
+  margin-left: 30px;
+  line-height: 1.2;
+}
+
+.backendForm {
+  margin-right: auto;
+}
+
+.filterForm {
+  width: 30%;
+
+  .search-container {
+    width: 100%;
+  }
+}
+
 table {
   display: table;
   width: 100%;

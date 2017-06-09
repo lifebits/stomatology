@@ -1,8 +1,11 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { FormGroup, FormControl } from '@angular/forms';
+
 import { TableField } from './data-table.interface';
 import { SortingService } from 'app/services/sorting/sorting.service';
 
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import 'rxjs/operator/debounceTime';
 
 @Component({
    selector: 'app-data-table',
@@ -15,6 +18,9 @@ export class DataTableComponent implements OnInit {
 
    @Input()
    set data(value) {
+      if (!this.data && value) {
+         value = this.sortDataByField(this.normalizeDate(value), this.fields[0]);
+      }
       this.dataSource.next(value);
    }
 
@@ -23,9 +29,17 @@ export class DataTableComponent implements OnInit {
    }
 
    @Input()
+   title: string;
+
+   @Input()
    fields: TableField[];
 
-   tableRows;
+   rowCounter: number;
+   tableRows: Object[];
+
+   filterForm: FormGroup = new FormGroup({
+      query: new FormControl('')
+   });
 
    constructor(
       private sort: SortingService) {
@@ -35,55 +49,79 @@ export class DataTableComponent implements OnInit {
    ngOnInit() {
       this.dataSource
          .filter(p => !!p)
-         .subscribe(value => this.setActiveSortField(0));
+         .subscribe(data => {
+            this.tableRows = data;
+            this.rowCounter = data.length;
+         });
+      this.filterForm.valueChanges
+         .debounceTime(200)
+         .subscribe(
+            value => {
+               this.tableRows = this.dataFilter(this.data, value.query);
+               this.rowCounter = this.tableRows.length;
+            }
+         );
    }
 
-   setActiveSortField(tableFieldIndex) {
-      // const sortData = JSON.parse(JSON.stringify(this.data));
-      const sortData = this.data.map(i => Object.assign({}, i));
-      const tableField = this.fields[tableFieldIndex];
+   private dataFilter(data: Object[], query: string): Object[] {
+      const filteredData = data.map(i => Object.assign({}, i));
+      const isFilteredFields = this.fields.filter(p => p.isFiltered);
 
+      return filteredData.filter(item => {
+         return isFilteredFields.some(field => {
+            if (item[field.name]) {
+               const str = item[field.name].toLowerCase();
+               return (str.indexOf(query.toLowerCase()) + 1);
+            }
+         });
+      });
+   }
+
+   setSortByFieldIndex(fieldIndex) {
+      this.data = this.sortDataByField(this.data, this.fields[fieldIndex]);
+   }
+
+   private sortDataByField(sortData, tableField): Object[] {
       if (!tableField.active) {
-         this.fields.map(item => resetActiveStatus(item));
+         this.fields.map(item => this.resetActiveStatus(item));
          tableField.active = true;
       } else {
          tableField.ascSort = !tableField.ascSort;
       }
 
-      tableField.svg = getSVG(tableField.active, tableField.ascSort);
+      tableField.svg = this.getSVG(tableField.active, tableField.ascSort);
 
-      this.fields.splice(tableFieldIndex, 1, tableField);
+      this.fields.splice(this.fields.indexOf(tableField), 1, tableField);
 
       (tableField.ascSort) ? sortData.sort(this.sort.asc(tableField.name)) : sortData.sort(this.sort.desc(tableField.name));
 
-      this.tableRows = this.normalizeDate(sortData);
+      return sortData;
+   }
 
+   private resetActiveStatus(item: TableField): TableField {
+      item.active = false;
+      item.svg = this.getSVG(item.active, item.ascSort);
+      return item;
+   }
 
-      function resetActiveStatus(item) {
-         item.active = false;
-         item.svg = getSVG(item.active, item.ascSort);
-         return item;
+   private getSVG(activeStatus: boolean, ascSortStatus: boolean): string {
+      if (!activeStatus) {
+         return 'analytics:sort';
       }
-
-      function getSVG(activeStatus, ascSortStatus): string {
-         if (!activeStatus) {
-            return 'analytics:sort';
-         }
-         if (activeStatus && ascSortStatus) {
-            return 'analytics:sort-ascending';
-         }
-         if (activeStatus && !ascSortStatus) {
-            return 'analytics:sort-descending';
-         }
+      if (activeStatus && ascSortStatus) {
+         return 'analytics:sort-ascending';
+      }
+      if (activeStatus && !ascSortStatus) {
+         return 'analytics:sort-descending';
       }
    }
 
-   private normalizeDate(data) {
+   private normalizeDate(data): Object[] {
       const dateFields = this.fields.filter(p => p.dataType === 'date');
       return data.map(item => {
          dateFields.forEach(dateField => {
             if (item[dateField.name]) {
-               item[dateField.name] = new Intl.DateTimeFormat().format(new Date(item[dateField.name]));
+               item[dateField.name] = new Date(item[dateField.name]);
             }
          });
          return item;
