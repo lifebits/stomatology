@@ -78,7 +78,7 @@ export class DataTableComponent implements OnInit {
    }
 
    setSortByFieldIndex(fieldIndex) {
-      this.data = this.sortDataByField(this.data, this.fields[fieldIndex]);
+      this.data = this.sortDataByField(this.tableRows, this.fields[fieldIndex]);
    }
 
    private sortDataByField(sortData, tableField): Object[] {
@@ -118,10 +118,16 @@ export class DataTableComponent implements OnInit {
 
    private normalizeDate(data): Object[] {
       const dateFields = this.fields.filter(p => p.dataType === 'date');
+      const numberFields = this.fields.filter(p => p.dataType === 'number');
       return data.map(item => {
          dateFields.forEach(dateField => {
             if (item[dateField.name]) {
                item[dateField.name] = new Date(item[dateField.name]);
+            }
+         });
+         numberFields.forEach(numberField => {
+            if (item[numberField.name]) {
+               item[numberField.name] = +item[numberField.name];
             }
          });
          return item;

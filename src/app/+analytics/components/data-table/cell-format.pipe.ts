@@ -14,8 +14,12 @@ export class CellFormatPipe implements PipeTransform {
 
    transform(value: any, args?: any): any {
 
-      if (value instanceof Date) {
+      if ( value instanceof Date ) {
          return this.datePipe.transform(value, args);
+      }
+
+      if ( Number.isFinite(value) ) {
+         return this.decimalPipe.transform(value);
       }
 
       return value;
