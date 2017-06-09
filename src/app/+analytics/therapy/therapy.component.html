@@ -1,3 +1,9 @@
 <md-card>
-  therapy works!
+
+  <app-data-table
+    [title] = "'Статистика по терапии'"
+    [fields]="tableFields"
+    [data]="data">
+  </app-data-table>
+
 </md-card>
