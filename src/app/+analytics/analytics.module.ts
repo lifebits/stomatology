@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe, DecimalPipe } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 
 import { MdIconModule, MdCardModule, MdInputModule } from '@angular/material';
@@ -9,11 +9,14 @@ import { ParseXlsComponent } from './parse-xls/parse-xls.component';
 import { AnalyticsComponent } from './analytics.component';
 import { AnalyticsHeaderComponent } from './components/analytics-header/analytics-header.component';
 import { AnalyticsNavigatorComponent } from './components/analytics-navigator/analytics-navigator.component';
+import { DataTableComponent } from './components/data-table/data-table.component';
+
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { ReferralComponent } from './referral/referral.component';
-
 import { ReferralService } from './referral/referral.service';
 import { TherapyComponent } from './therapy/therapy.component';
+
+import { CellFormatPipe } from './components/data-table/cell-format.pipe';
 
 @NgModule({
    imports: [
@@ -32,8 +35,12 @@ import { TherapyComponent } from './therapy/therapy.component';
       DashboardComponent,
       ReferralComponent,
       TherapyComponent,
+      DataTableComponent,
+      CellFormatPipe,
    ],
    providers: [
+      DatePipe,
+      DecimalPipe,
       ReferralService
    ]
 })
