@@ -13,7 +13,6 @@ import { DataTableComponent } from './components/data-table/data-table.component
 
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { ReferralComponent } from './referral/referral.component';
-import { ReferralService } from './referral/referral.service';
 import { TherapyComponent } from './therapy/therapy.component';
 
 import { CellFormatPipe } from './components/data-table/cell-format.pipe';
@@ -40,8 +39,7 @@ import { CellFormatPipe } from './components/data-table/cell-format.pipe';
    ],
    providers: [
       DatePipe,
-      DecimalPipe,
-      ReferralService
+      DecimalPipe
    ]
 })
 export class AnalyticsModule {
