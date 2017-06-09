@@ -14,6 +14,7 @@ import { DataTableComponent } from './components/data-table/data-table.component
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { ReferralComponent } from './referral/referral.component';
 import { TherapyComponent } from './therapy/therapy.component';
+import { OrthopedicsComponent } from './orthopedics/orthopedics.component';
 
 import { CellFormatPipe } from './components/data-table/cell-format.pipe';
 
@@ -36,6 +37,7 @@ import { CellFormatPipe } from './components/data-table/cell-format.pipe';
       TherapyComponent,
       DataTableComponent,
       CellFormatPipe,
+      OrthopedicsComponent,
    ],
    providers: [
       DatePipe,

@@ -5,8 +5,7 @@ import { AnalyticsComponent } from './analytics.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { ReferralComponent } from './referral/referral.component';
 import { TherapyComponent } from './therapy/therapy.component';
-
-// import { ParseXlsComponent } from './parse-xls/parse-xls.component';
+import { OrthopedicsComponent } from './orthopedics/orthopedics.component';
 
 const routes: Routes = [
    {
@@ -15,7 +14,8 @@ const routes: Routes = [
       children: [
          {path: '', component: DashboardComponent},
          {path: 'referral', component: ReferralComponent},
-         {path: 'therapy', component: TherapyComponent}
+         {path: 'therapy', component: TherapyComponent},
+         {path: 'orthopedics', component: OrthopedicsComponent}
       ]
    }
 ];
