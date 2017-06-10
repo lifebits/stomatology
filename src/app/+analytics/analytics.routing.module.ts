@@ -6,6 +6,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { ReferralComponent } from './referral/referral.component';
 import { TherapyComponent } from './therapy/therapy.component';
 import { OrthopedicsComponent } from './orthopedics/orthopedics.component';
+import { SurgeryComponent } from './surgery/surgery.component';
 
 const routes: Routes = [
    {
@@ -15,7 +16,8 @@ const routes: Routes = [
          {path: '', component: DashboardComponent},
          {path: 'referral', component: ReferralComponent},
          {path: 'therapy', component: TherapyComponent},
-         {path: 'orthopedics', component: OrthopedicsComponent}
+         {path: 'orthopedics', component: OrthopedicsComponent},
+         {path: 'surgery', component: SurgeryComponent}
       ]
    }
 ];

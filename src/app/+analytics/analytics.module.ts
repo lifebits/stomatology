@@ -15,6 +15,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { ReferralComponent } from './referral/referral.component';
 import { TherapyComponent } from './therapy/therapy.component';
 import { OrthopedicsComponent } from './orthopedics/orthopedics.component';
+import { SurgeryComponent } from './surgery/surgery.component';
 
 import { CellFormatPipe } from './components/data-table/cell-format.pipe';
 
@@ -38,6 +39,7 @@ import { CellFormatPipe } from './components/data-table/cell-format.pipe';
       DataTableComponent,
       CellFormatPipe,
       OrthopedicsComponent,
+      SurgeryComponent,
    ],
    providers: [
       DatePipe,

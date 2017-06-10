@@ -26,7 +26,7 @@ const PARTS: AnalyticsParts[] = [
    {
       title: 'Хирургия',
       svg: 'analytics:surgery',
-      route: ''
+      route: ['./surgery']
    },
    {
       title: 'Ортодонтия',
