@@ -3,8 +3,7 @@ import { Http, Response } from '@angular/http';
 
 @Component({
    selector: 'app-referral',
-   templateUrl: './referral.component.html',
-   styleUrls: ['./referral.component.scss']
+   templateUrl: './referral.component.html'
 })
 export class ReferralComponent implements OnInit {
 

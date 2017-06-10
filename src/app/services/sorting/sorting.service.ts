@@ -5,8 +5,8 @@ export class SortingService {
 
   constructor() { }
 
-   asc(fieldName: string): Function {
-      return function(a, b) {
+   asc(fieldName: string) {
+      return function(a, b): number {
          if (a[fieldName] > b[fieldName]) {
             return 1;
          }
@@ -17,8 +17,8 @@ export class SortingService {
       };
    }
 
-   desc(fieldName: string): Function {
-      return function(a, b) {
+   desc(fieldName: string) {
+      return function(a, b): number {
          if (a[fieldName] > b[fieldName]) {
             return -1;
          }

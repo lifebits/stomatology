@@ -65,9 +65,17 @@ export class TherapyComponent implements OnInit {
          active: false,
          ascSort: true,
          isFiltered: true
+      }, {
+         name: 'Кол-во',
+         title: 'Кол-во',
+         dataType: 'number',
+         svg: 'analytics:sort',
+         active: false,
+         ascSort: true,
+         isFiltered: false
       }
    ];
-   data: [{}];
+   data: Object[];
 
    constructor(
       private http: Http) {
