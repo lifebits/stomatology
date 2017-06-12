@@ -1,24 +1,27 @@
 :host {
   position: relative;
   height: 60px;
+  color: #FFFFFF;
 }
 
 header {
   height: inherit;
-  width: 100%;
+  width: auto;
+  padding: 0 20px;
   color: #eeeeee;
   background-color: #607d8b;
 
   ul.left {
-    margin-right: auto;
-
-    .menu-icon {
-      padding: 0 16px;
-    }
+    width: 220px;
 
     h2 {
+      margin-right: 60px;
       font-size: 1.2em;
     }
+  }
+
+  .date-range-selection {
+    margin-right: auto;
   }
 
   li, .mat-icon {
@@ -30,4 +33,6 @@ header {
     width: 26px;
     height: 26px;
   }
+
+
 }
