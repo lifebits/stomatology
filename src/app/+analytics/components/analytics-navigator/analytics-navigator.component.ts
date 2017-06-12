@@ -31,11 +31,16 @@ const PARTS: AnalyticsParts[] = [
    {
       title: 'Ортодонтия',
       svg: 'analytics:orthodontics',
-      route: ''
+      route: ['./orthodontics']
    },
    {
       title: 'Гигиентисты',
       svg: 'analytics:hygienists',
+      route: ''
+   },
+   {
+      title: 'Снимки',
+      svg: 'analytics:pictures',
       route: ''
    }
 ];
