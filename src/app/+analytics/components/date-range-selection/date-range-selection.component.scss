@@ -1,0 +1,48 @@
+:host {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  font-size: 0.8em;
+}
+
+/deep/ .mat-input-container {
+  &.white {
+    .mat-input-underline {
+      border-color: white;
+    }
+
+    label:not(.mat-empty) {
+      display: none;
+    }
+
+    label.mat-empty {
+      color: #eeeeee;
+    }
+  }
+}
+
+.date {
+  ul {
+    padding-left: 8px;
+  }
+
+  li {
+    width: 160px;
+    margin-right: 20px;
+  }
+
+  .mat-datepicker-toggle {
+    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAMAAADXqc3KAAAAD1BMVEUAAAD///////////////+PQt5oAAAABHRSTlMASuLjm9VMIAAAADdJREFUeAFjIABYWBAsIiQYmVhQABMjVIKZBQ0ww3RjAAokMN1OWAJhAv0lIICGEpjBjjuiqAoAE5gDFW825WYAAAAASUVORK5CYII=);
+  }
+}
+
+.mat-button {
+  min-width: 50px;
+  line-height: 32px;
+  padding: 0 10px;
+}
+
+li {
+  margin: 2px;
+}

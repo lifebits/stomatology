@@ -1,0 +1,38 @@
+<form [formGroup]="dateForm" class="date" novalidate>
+  <ul class="flex-row">
+    <li>
+      <md-input-container class="white">
+        <input formControlName="startDate" mdInput [mdDatepicker]="startDate"
+               placeholder="Начальная дата">
+        <button mdSuffix [mdDatepickerToggle]="startDate"></button>
+      </md-input-container>
+      <md-datepicker #startDate></md-datepicker>
+    </li>
+    <li>
+      <md-input-container class="white">
+        <input formControlName="endDate" mdInput [mdDatepicker]="picker"
+               placeholder="Конечная дата">
+        <button mdSuffix [mdDatepickerToggle]="picker"></button>
+      </md-input-container>
+      <md-datepicker #picker></md-datepicker>
+    </li>
+  </ul>
+</form>
+
+<ul class="flex-row date-range-selection">
+  <li>
+    <button md-button>год</button>
+  </li>
+  <li>
+    <button md-button>квартал</button>
+  </li>
+  <li>
+    <button md-button>месяц</button>
+  </li>
+  <li>
+    <button md-button>неделя</button>
+  </li>
+  <li>
+    <button md-button>день</button>
+  </li>
+</ul>
