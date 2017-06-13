@@ -21,6 +21,9 @@ import { OrthodonticsComponent } from './orthodontics/orthodontics.component';
 
 import { CellFormatPipe } from './components/data-table/cell-format.pipe';
 
+import { AnalyticsService } from './analytics.service';
+import { DateRangeService } from './components/date-range-selection/date-range.service';
+
 @NgModule({
    imports: [
       CommonModule,
@@ -50,7 +53,9 @@ import { CellFormatPipe } from './components/data-table/cell-format.pipe';
    ],
    providers: [
       DatePipe,
-      DecimalPipe
+      DecimalPipe,
+      AnalyticsService,
+      DateRangeService
    ]
 })
 export class AnalyticsModule {

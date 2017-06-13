@@ -20,19 +20,9 @@
 </form>
 
 <ul class="flex-row date-range-selection">
-  <li>
-    <button md-button>год</button>
-  </li>
-  <li>
-    <button md-button>квартал</button>
-  </li>
-  <li>
-    <button md-button>месяц</button>
-  </li>
-  <li>
-    <button md-button>неделя</button>
-  </li>
-  <li>
-    <button md-button>день</button>
+  <li *ngFor="let button of buttons" [ngClass]="{'active': button.isActive}">
+    <button md-button (click)="setDateRange(button)">
+      {{ button.title }}
+    </button>
   </li>
 </ul>
