@@ -1,0 +1,14 @@
+{
+  "name": "parse-xlsx-to-json",
+  "version": "1.0.0",
+  "description": "parsing xlsx files to json",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "lifebits",
+  "license": "ISC",
+  "dependencies": {
+    "xlsx": "^0.10.5"
+  }
+}
