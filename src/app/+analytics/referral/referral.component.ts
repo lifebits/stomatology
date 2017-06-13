@@ -45,7 +45,7 @@ export class ReferralComponent implements OnInit {
          name: 'Записан на первичную консультацию',
          title: 'Запись на консультацию',
          dataType: 'date',
-         pattern: 'dd/MM/yyyy',
+         pattern: 'dd/MM/yyyy HH:mm',
          svg: 'analytics:sort',
          active: false,
          ascSort: true,
@@ -58,9 +58,29 @@ export class ReferralComponent implements OnInit {
          active: false,
          ascSort: true,
          isFiltered: true
+      }, {
+         name: 'Дата ПК',
+         title: 'Дата ПК',
+         dataType: 'date',
+         pattern: 'dd/MM/yyyy HH:mm',
+         svg: 'analytics:sort',
+         active: false,
+         ascSort: true,
+         isFiltered: false
+      }, {
+         name: 'Дата ПЛ',
+         title: 'Дата ПЛ',
+         dataType: 'date',
+         pattern: 'dd/MM/yyyy',
+         svg: 'analytics:sort',
+         active: false,
+         ascSort: true,
+         isFiltered: false
       }
+
    ];
-   data: [{}];
+
+   data: Object[];
 
    constructor(
       private http: Http) {
