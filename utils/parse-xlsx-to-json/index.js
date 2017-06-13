@@ -37,6 +37,23 @@ function normalizeLogbook(object) {
       if (!item['Источник обращения']) {
          item['Источник обращения'] = 'Не указан';
       }
+      if (item['Дата ПК']) {
+         const date = new Date(item['Дата ПК']);
+         if (item['Время ПК']) {
+            const timeArray = item['Время ПК'].split(':');
+            date.setHours(timeArray[0], timeArray[1]);
+         }
+         item['Дата ПК'] = date;
+      }
+      if (!item['Дата ПК']) {
+         item['Дата ПК'] = null;
+      }
+      if (item['Дата ПЛ']) {
+         item['Дата ПЛ'] = new Date(item['Дата ПЛ']);
+      }
+      if (!item['Дата ПЛ']) {
+         item['Дата ПЛ'] = null;
+      }
       return item;
    });
 
