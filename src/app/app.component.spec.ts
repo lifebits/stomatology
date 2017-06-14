@@ -1,12 +1,12 @@
-import {TestBed, async} from '@angular/core/testing';
+import { TestBed, async } from '@angular/core/testing';
 
-import {HomePageModule} from './+site-pages/home-page/home-page.module';
-import {AppComponent} from './app.component';
+import { AppComponent } from './app.component';
+import { SitePagesModule } from './+site-pages/site-pages.module';
 
 describe('AppComponent', () => {
    beforeEach(async(() => {
       TestBed.configureTestingModule({
-         imports: [HomePageModule],
+         imports: [SitePagesModule],
          declarations: [
             AppComponent
          ],
