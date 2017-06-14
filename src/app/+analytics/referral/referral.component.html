@@ -1,15 +1,12 @@
 <md-card>
 
   <section class="buttons-wrap">
-    <button *ngFor="let button of buttonsList" md-raised-button [ngClass]="{'active': button.active}">
+    <a *ngFor="let button of buttonsList" md-raised-button [ngClass]="{'active': button.active}"
+       [routerLink]="button.route" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">
       {{ button.title }}
-    </button>
+    </a>
   </section>
 
-  <app-data-table
-    [title] = "'Список обращений'"
-    [fields]="tableFields"
-    [data]="data">
-  </app-data-table>
+  <router-outlet></router-outlet>
 
 </md-card>
