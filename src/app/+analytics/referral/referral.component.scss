@@ -1,0 +1,12 @@
+.buttons-wrap {
+  margin-bottom: 20px;
+
+  .mat-raised-button {
+    margin-right: 8px;
+    line-height: 32px;
+
+    &.active {
+      background-color: #ffecb3;
+    }
+  }
+}

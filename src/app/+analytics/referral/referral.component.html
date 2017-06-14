@@ -1,5 +1,11 @@
 <md-card>
 
+  <section class="buttons-wrap">
+    <button *ngFor="let button of buttonsList" md-raised-button [ngClass]="{'active': button.active}">
+      {{ button.title }}
+    </button>
+  </section>
+
   <app-data-table
     [title] = "'Список обращений'"
     [fields]="tableFields"

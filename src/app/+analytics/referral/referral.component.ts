@@ -1,13 +1,40 @@
 import { Component, OnInit } from '@angular/core';
 import { Http, Response } from '@angular/http';
 
+import { TableField } from '../components/data-table/data-table.interface';
+
 @Component({
    selector: 'app-referral',
-   templateUrl: './referral.component.html'
+   templateUrl: './referral.component.html',
+   styleUrls: ['./referral.component.scss']
 })
 export class ReferralComponent implements OnInit {
 
-   tableFields = [
+   buttonsList = [
+      {
+         name: 'mainList',
+         title: 'Основной список',
+         active: true
+      }, {
+         name: 'contacts',
+         title: 'Контакты текущих пациентов',
+         active: false
+      }, {
+         name: 'pk',
+         title: 'Доведены до ПК',
+         active: false
+      }, {
+         name: 'pl',
+         title: 'Доведены до ПЛ',
+         active: false
+      }, {
+         name: 'vl',
+         title: 'Доведены до ВЛ',
+         active: false
+      }
+   ];
+
+   tableFields: TableField[] = [
       {
          name: 'Дата обращения',
          title: 'Дата обращения',
@@ -99,5 +126,7 @@ export class ReferralComponent implements OnInit {
          .map((res: Response) => res.json())
          .map((data) => data['Обращения']);
    }
+
+
 
 }
