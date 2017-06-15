@@ -9,11 +9,9 @@ export class CellFormatPipe implements PipeTransform {
    constructor(
       private datePipe: DatePipe,
       private decimalPipe: DecimalPipe) {
-
    }
 
    transform(value: any, args?: any): any {
-
       if ( value instanceof Date ) {
          return this.datePipe.transform(value, args);
       }
