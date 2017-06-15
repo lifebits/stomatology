@@ -3,7 +3,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 
 import { MdIconModule } from '@angular/material';
 
-import {AnalyticsNavigatorComponent} from './analytics-navigator.component';
+import { AnalyticsNavigatorComponent } from './analytics-navigator.component';
 
 describe('AnalyticsNavigatorComponent', () => {
    let component: AnalyticsNavigatorComponent;
