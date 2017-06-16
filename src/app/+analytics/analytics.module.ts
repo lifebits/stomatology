@@ -5,6 +5,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MdIconModule, MdCardModule, MdInputModule, MdButtonModule, MdDatepickerModule, MdNativeDateModule } from '@angular/material';
 
 import { AnalyticsRoutingModule } from './analytics.routing.module';
+import { DashboardModule } from './dashboard/dashboard.module';
+
 import { ParseXlsComponent } from './parse-xls/parse-xls.component';
 import { AnalyticsComponent } from './analytics.component';
 import { AnalyticsHeaderComponent } from './components/analytics-header/analytics-header.component';
@@ -12,7 +14,6 @@ import { AnalyticsNavigatorComponent } from './components/analytics-navigator/an
 import { DataTableComponent } from './components/data-table/data-table.component';
 import { DateRangeSelectionComponent } from './components/date-range-selection/date-range-selection.component';
 
-import { DashboardComponent } from './dashboard/dashboard.component';
 import { ReferralComponent } from './referral/referral.component';
 import { TherapyComponent } from './therapy/therapy.component';
 import { OrthopedicsComponent } from './orthopedics/orthopedics.component';
@@ -28,6 +29,8 @@ import { ReferralIncComponent } from './referral/referral-inc/referral-inc.compo
 @NgModule({
    imports: [
       CommonModule,
+      AnalyticsRoutingModule,
+      DashboardModule,
       ReactiveFormsModule,
       MdIconModule,
       MdCardModule,
@@ -35,14 +38,12 @@ import { ReferralIncComponent } from './referral/referral-inc/referral-inc.compo
       MdButtonModule,
       MdNativeDateModule,
       MdDatepickerModule,
-      AnalyticsRoutingModule
    ],
    declarations: [
       ParseXlsComponent,
       AnalyticsComponent,
       AnalyticsHeaderComponent,
       AnalyticsNavigatorComponent,
-      DashboardComponent,
       ReferralComponent,
       TherapyComponent,
       DataTableComponent,

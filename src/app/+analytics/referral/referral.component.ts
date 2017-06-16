@@ -10,7 +10,7 @@ export class ReferralComponent implements OnInit {
    buttonsList = [
       {
          title: 'Основной список',
-         route: ['./']
+         route: ['./main']
       }, {
          title: 'Доведены до ПК',
          route: ['./consultation']

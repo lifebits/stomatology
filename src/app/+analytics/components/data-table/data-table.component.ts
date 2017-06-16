@@ -18,14 +18,13 @@ export class DataTableComponent implements OnInit {
 
    @Input()
    set data(value) {
-      if (!this.data && value) {
+      if (value) {
          if (this.fields) {
             value = this.sortDataByField(this.normalizeDate(value), this.fields[0]);
          } else {
             console.warn('У таблицы нет полей');
          }
       }
-      console.log('value', value);
       this.dataSource.next(value);
    }
 

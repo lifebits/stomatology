@@ -20,7 +20,7 @@ const routes: Routes = [
             path: 'referral',
             component: ReferralComponent,
             children: [
-               {path: '', component: ReferralIncComponent},
+               {path: '', redirectTo: 'main', pathMatch: 'full'},
                {path: ':listType', component: ReferralIncComponent}
             ]
          },
