@@ -54,6 +54,12 @@ function normalizeLogbook(object) {
       if (!item['Дата ПЛ']) {
          item['Дата ПЛ'] = null;
       }
+      if (!item['Телефон']) {
+         item['Телефон'] = 'не указан';
+      }
+      if (!item['Почта']) {
+         item['Почта'] = 'не указан';
+      }
       return item;
    });
 
