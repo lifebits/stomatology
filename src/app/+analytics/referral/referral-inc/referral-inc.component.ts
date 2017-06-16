@@ -73,6 +73,30 @@ const TABLE_FIELDS: TableField[] = [
       active: false,
       ascSort: true,
       isFiltered: false
+   }, {
+      name: 'Телефон',
+      title: 'Телефон',
+      dataType: 'string',
+      svg: 'analytics:sort',
+      active: false,
+      ascSort: true,
+      isFiltered: false
+   }, {
+      name: 'Почта',
+      title: 'Почта',
+      dataType: 'string',
+      svg: 'analytics:sort',
+      active: false,
+      ascSort: true,
+      isFiltered: false
+   }, {
+      name: 'Примечание',
+      title: 'Примечание',
+      dataType: 'string',
+      svg: 'analytics:sort',
+      active: false,
+      ascSort: true,
+      isFiltered: true
    }
 ];
 
@@ -94,15 +118,16 @@ export class ReferralIncComponent implements OnInit {
          'Дата обращения', 'Пациент', 'Записан на первичную консультацию', 'Фамилия врача', 'Дата ПК', 'Дата ПЛ'
       ],
       're-treatment': [
-
+         'Дата обращения', 'Пациент', 'Записан на первичную консультацию', 'Фамилия врача', 'Дата ПК', 'Дата ПЛ'
       ],
       'contacts': [
-         'Дата обращения'
+         'Дата обращения', 'Источник обращения', 'Фамилия врача', 'Пациент', 'Телефон', 'Почта', 'Примечание'
       ]
    };
 
-   tableFields: TableField[];
+   private initData: Object[];
    data: Object[];
+   tableFields: TableField[];
 
    constructor(
       private route: ActivatedRoute,
@@ -110,20 +135,22 @@ export class ReferralIncComponent implements OnInit {
    }
 
    ngOnInit() {
-      this.route.params.subscribe(
-         params => {
-            console.log(params);
+      this.route.params
+         .subscribe(params => {
             const tableName = params.listType || 'main';
             this.tableFields = this.getTableFields(tableName);
-         }
-      );
-      this.getData().subscribe(
-         result => this.data = result
-      );
+            if (this.initData) {
+               this.data = this.getFilteredData(this.initData, tableName);
+            } else {
+               this.getData().subscribe(result => {
+                  this.initData = result;
+                  this.data = this.getFilteredData(result, tableName);
+               });
+            }
+         });
    }
 
    private getTableFields(tableName: string): TableField[] {
-      console.log(this.tablesList[tableName]);
       if (this.tablesList[tableName]) {
          const tableFields = [];
          TABLE_FIELDS.forEach(item => {
@@ -138,8 +165,17 @@ export class ReferralIncComponent implements OnInit {
       }
    }
 
-   private filteredData() {
-
+   private getFilteredData(data: Object[], fieldName: string) {
+      switch (fieldName) {
+         case 'consultation':
+            return data.filter(p => p['Дата ПК']);
+         case 'primary-treatment':
+            return data.filter(p => p['Дата ПЛ']);
+         case 're-treatment':
+            return data.filter(p => p['Дата Второго лечения']);
+         default:
+            return data;
+      }
    }
 
    private getData() {
