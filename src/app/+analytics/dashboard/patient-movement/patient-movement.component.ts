@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Http, Response } from '@angular/http';
 
-import { ChartsService } from 'app/services/chart/charts.service';
+import { ChartsService, ChartsOptions } from 'app/services/chart/charts.service';
 
 export interface ChartIndicatorsList {
    referralNumbers: any[];
@@ -17,21 +17,18 @@ export interface ChartIndicatorsList {
 })
 export class PatientMovementComponent implements OnInit {
 
-   private chartOptions = {
+   private chartOptions: ChartsOptions = {
       chart: {
          type: 'spline'
       },
-
       title: {
          text: 'Движение пациентов'
       },
-
       yAxis: {
          title: {
             text: 'Количество пациентов'
          }
       },
-
       xAxis: {
          type: 'datetime',
          dateTimeLabelFormats: {
@@ -42,7 +39,6 @@ export class PatientMovementComponent implements OnInit {
             text: 'Дата'
          }
       },
-
       series: []
    };
 
@@ -59,10 +55,8 @@ export class PatientMovementComponent implements OnInit {
          .map(data => this.prepareDataForChart(data))
          .subscribe(
             (result: ChartIndicatorsList) => {
-               console.log(result);
-
                this.chartOptions.series = [{
-                  name: 'Направленные пациенты',
+                  name: 'Первичные обращения',
                   data: result.referralNumbers
                }, {
                   name: 'Первичные консультации',
@@ -147,4 +141,7 @@ export class PatientMovementComponent implements OnInit {
       return obj;
    }
 
+   private calcKeyIndicators(data) {
+
+   }
 }
