@@ -1,0 +1,11 @@
+/deep/ .row {
+  margin-bottom: 14px;
+}
+
+/deep/ .key-indicators {
+  justify-content: space-between;
+
+  app-key-indicator-widget {
+    width: 24%;
+  }
+}

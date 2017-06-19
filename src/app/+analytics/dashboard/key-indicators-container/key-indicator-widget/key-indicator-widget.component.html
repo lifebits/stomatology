@@ -1,0 +1,14 @@
+<md-card>
+  <div class="flex-row">
+    <div class="value">
+      {{ value }}
+    </div>
+    <div class="title">
+      {{ title }}
+    </div>
+  </div>
+  <div class="progress">
+    <span class="percentage">Доведение: {{ percentage }}%</span>
+    <md-progress-bar [color]="'primary'" [value]="percentage"></md-progress-bar>
+  </div>
+</md-card>
