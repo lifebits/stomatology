@@ -120,7 +120,6 @@ export class PatientMovementComponent implements OnInit {
             obj[field] = indicators;
          }
       }
-      console.log(111, obj);
       return obj;
    }
 
@@ -141,7 +140,4 @@ export class PatientMovementComponent implements OnInit {
       return obj;
    }
 
-   private calcKeyIndicators(data) {
-
-   }
 }
