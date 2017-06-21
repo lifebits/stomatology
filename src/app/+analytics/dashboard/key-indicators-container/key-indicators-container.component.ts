@@ -71,7 +71,7 @@ export class KeyIndicatorsContainerComponent implements OnInit {
       return keyIndicatorsList;
    }
 
-   private calcPercentageOfCompletion(keyIndicators: KeyIndicator[]) {
+   private calcPercentageOfCompletion(keyIndicators: KeyIndicator[]): KeyIndicator[] {
       const keyIndicatorsList = keyIndicators.map(a => Object.assign({}, a));
       keyIndicatorsList.map(indicator => {
          console.log(indicator.name);
