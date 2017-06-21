@@ -1,14 +1,5 @@
-<div class="row flex-row key-indicators">
-  <app-key-indicator-widget
-          [title]="'Обращений'" [value]="84" [percentage]="100">
-  </app-key-indicator-widget>
-  <app-key-indicator-widget
-          [title]="'Первичных консультаций'" [value]="57" [percentage]="">
-  </app-key-indicator-widget>
-  <app-key-indicator-widget
-          [title]="'Первичных лечений'" [value]="36" [percentage]="">
-  </app-key-indicator-widget>
-  <app-key-indicator-widget
-          [title]="'Повторных лечений'" [value]="9" [percentage]="">
+<div class="flex-row key-indicators">
+  <app-key-indicator-widget *ngFor="let indicator of keyIndicatorsList"
+    [title]="indicator.title" [value]="indicator.value" [percentage]="indicator.percentage">
   </app-key-indicator-widget>
 </div>
