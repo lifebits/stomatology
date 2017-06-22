@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 
-import { AnalyticsService, DateRange } from '../../analytics.service';
-import { DateRangeService } from './date-range.service';
+import { DateRangeService, DateRange } from './date-range.service';
 
 interface DateRangeButton {
    name: string;
@@ -47,21 +46,21 @@ export class DateRangeSelectionComponent implements OnInit {
    });
 
    constructor(
-      private analytics: AnalyticsService,
       private dateRange: DateRangeService) {
-
    }
 
    ngOnInit() {
-      // const range = this.dateRange.getCurrentDayRange();
-      /*this.dateForm.patchValue({
-         startDate: range.startDate,
-         endDate: range.endDate
-      });*/
-      this.dateForm.valueChanges.subscribe(
-         value => {
-            // console.log(value);
+      this.dateRange.currentDateRange$.take(1).subscribe(
+         dateRange => {
+            this.dateForm.patchValue({
+               startDate: dateRange.startDate,
+               endDate: dateRange.endDate
+            });
          }
+      );
+
+      this.dateForm.valueChanges.subscribe(
+         value => this.dateRange.setCurrentDateRange(value)
       );
    }
 
@@ -78,6 +77,12 @@ export class DateRangeSelectionComponent implements OnInit {
          case 'month':
             this.patchDateForm(this.dateRange.getCurrentMonthRange());
             break;
+         case 'quarter':
+            this.patchDateForm(this.dateRange.getCurrentQuarterRange());
+            break;
+         case 'year':
+            this.patchDateForm((this.dateRange.getCurrentYearRange()));
+            break;
       }
    }
 
@@ -89,6 +94,7 @@ export class DateRangeSelectionComponent implements OnInit {
    }
 
    private patchDateForm(value: DateRange) {
+      console.log(value);
       this.dateForm.patchValue({
          startDate: value.startDate,
          endDate: value.endDate
