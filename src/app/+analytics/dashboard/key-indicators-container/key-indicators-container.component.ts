@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Http, Response } from '@angular/http';
 
+import { DateRangeService, DateRange } from '../../components/date-range-selection/date-range.service';
+
 export interface KeyIndicator {
    name: string;
    title: string;
@@ -14,7 +16,7 @@ export interface KeyIndicator {
 })
 export class KeyIndicatorsContainerComponent implements OnInit {
 
-   keyIndicatorsList: KeyIndicator[] = [
+   private keyIndicatorsListInit: KeyIndicator[] = [
       {
          name: 'Дата обращения',
          title: 'Обращений',
@@ -38,24 +40,29 @@ export class KeyIndicatorsContainerComponent implements OnInit {
       }
    ];
 
+   keyIndicatorsList: KeyIndicator[];
+
    constructor(
-      private http: Http) {
+      private http: Http,
+      private dateRange: DateRangeService) {
    }
 
    ngOnInit() {
-      this.getData()
-         .subscribe(
-            data => {
-               this.keyIndicatorsList = this.getKeyIndicators(data, this.keyIndicatorsList);
-            }
-         );
+      this.dateRange.currentDateRange$.subscribe(
+         () => {
+            this.getData().subscribe(
+               data => this.keyIndicatorsList = this.getKeyIndicators(data, this.keyIndicatorsListInit)
+            );
+         }
+      );
    }
 
    private getData() {
       const url = 'assets/mocks/analytics/data.json';
       return this.http.get(url)
          .map((res: Response) => res.json())
-         .map((data) => data['Обращения']);
+         .map((data) => data['Обращения'])
+         .map((data) => this.dateRange.dataFilteringByDate(data, 'Дата обращения'));
    }
 
    private getKeyIndicators(data: Object[], keyIndicators: KeyIndicator[]): KeyIndicator[] {
@@ -74,7 +81,6 @@ export class KeyIndicatorsContainerComponent implements OnInit {
    private calcPercentageOfCompletion(keyIndicators: KeyIndicator[]): KeyIndicator[] {
       const keyIndicatorsList = keyIndicators.map(a => Object.assign({}, a));
       keyIndicatorsList.map(indicator => {
-         console.log(indicator.name);
          if (indicator.name === 'Дата обращения') {
             indicator.percentage = 100;
          }
