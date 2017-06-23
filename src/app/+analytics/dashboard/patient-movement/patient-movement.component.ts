@@ -86,7 +86,7 @@ export class PatientMovementComponent implements OnInit {
       return this.http.get(url)
          .map((res: Response) => res.json())
          .map((data) => data['Обращения'])
-         .map((data) => this.dateRange.dataFilteringByDate(data, 'Дата обращения'));
+         .map((data) => this.dateRange.dataFilteringByDate(data, 'Дата ПК'));
    }
 
    private dataGrouping(data: Object[], fieldGrouping: string): Object {

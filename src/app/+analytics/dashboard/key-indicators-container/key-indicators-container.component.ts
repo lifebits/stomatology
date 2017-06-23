@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Http, Response } from '@angular/http';
 
-import { DateRangeService, DateRange } from '../../components/date-range-selection/date-range.service';
+import { DateRangeService } from '../../components/date-range-selection/date-range.service';
 
 export interface KeyIndicator {
    name: string;
@@ -62,7 +62,7 @@ export class KeyIndicatorsContainerComponent implements OnInit {
       return this.http.get(url)
          .map((res: Response) => res.json())
          .map((data) => data['Обращения'])
-         .map((data) => this.dateRange.dataFilteringByDate(data, 'Дата обращения'));
+         .map((data) => this.dateRange.dataFilteringByDate(data, 'Дата ПК'));
    }
 
    private getKeyIndicators(data: Object[], keyIndicators: KeyIndicator[]): KeyIndicator[] {

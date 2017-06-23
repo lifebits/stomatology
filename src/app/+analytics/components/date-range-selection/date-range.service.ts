@@ -15,7 +15,6 @@ export class DateRangeService {
    constructor() {}
 
    setCurrentDateRange(value: DateRange) {
-      console.log('Set currentDateRangeSource: ', value);
       this.currentDateRangeSource.next(value);
    }
 
