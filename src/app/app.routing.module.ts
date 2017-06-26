@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { AuthComponent } from './users/auth/auth.component';
-import { NotFoundComponent } from './not-found/not-found.component';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 const routes: Routes = [
    {
@@ -20,7 +20,7 @@ const routes: Routes = [
    },
    {
       path: '**',
-      component: NotFoundComponent
+      component: PageNotFoundComponent
    }
 ];
 

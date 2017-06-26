@@ -12,12 +12,12 @@ import { ServicesModule } from './services/services.module';
 import { SitePagesModule } from './+site-pages/site-pages.module';
 
 import { AppComponent } from './app.component';
-import { NotFoundComponent } from './not-found/not-found.component';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 @NgModule({
    declarations: [
       AppComponent,
-      NotFoundComponent,
+      PageNotFoundComponent,
    ],
    imports: [
       BrowserModule,
