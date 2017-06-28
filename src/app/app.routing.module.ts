@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { AuthComponent } from './users/auth/auth.component';
+import { LoginComponent } from './users/login/login.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 const routes: Routes = [
@@ -14,8 +14,8 @@ const routes: Routes = [
       loadChildren: './+analytics/analytics.module#AnalyticsModule'
    },
    {
-      path: 'auth',
-      component: AuthComponent,
+      path: 'login',
+      component: LoginComponent,
       outlet: 'popup'
    },
    {

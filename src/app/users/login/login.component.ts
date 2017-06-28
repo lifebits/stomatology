@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 import { NotificationService } from 'app/services/notification/notification.service';
-import { AuthService } from './auth.service';
+import { AuthService } from '../auth/auth.service';
 
 import { LoginUser } from '../users.interface';
 
@@ -11,10 +11,10 @@ import 'rxjs/operator/debounceTime';
 
 @Component({
    selector: 'app-auth',
-   templateUrl: './auth.component.html',
-   styleUrls: ['./auth.component.scss']
+   templateUrl: './login.component.html',
+   styleUrls: ['./login.component.scss']
 })
-export class AuthComponent implements OnInit {
+export class LoginComponent implements OnInit {
 
    public authForm: FormGroup = new FormGroup({
       login: new FormControl('veronika@lifebits.ru', [Validators.required]),

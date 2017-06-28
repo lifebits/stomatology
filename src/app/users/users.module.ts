@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MdIconModule, MdButtonModule, MdInputModule } from '@angular/material';
 
-import { AuthComponent } from './auth/auth.component';
+import { LoginComponent } from './login/login.component';
 import { AuthService } from './auth/auth.service';
 
 @NgModule({
@@ -15,7 +15,7 @@ import { AuthService } from './auth/auth.service';
       MdInputModule
    ],
    declarations: [
-      AuthComponent
+      LoginComponent
    ],
    providers: [
       AuthService
