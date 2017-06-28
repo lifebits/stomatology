@@ -24,11 +24,11 @@
         <md-icon class="inc" svgIcon="home-page:odnoklassniki"></md-icon>
       </li>
       <li *ngIf="!isLoggedIn" class="signIn">
-        <a [routerLink]="['/', { outlets: { popup: ['auth'] } }]">войти</a>
+        <a [routerLink]="['/', { outlets: { popup: ['login'] } }]">войти</a>
       </li>
 
       <li *ngIf="isLoggedIn" class="user-greeting">
-        <span>Здраствуйте! {{currentUser.firstName + ' ' + currentUser.lastName}}</span>
+        <span>Здраствуйте! {{ currentUser.firstName + ' ' + currentUser.lastName }}</span>
       </li>
       <li *ngIf="isLoggedIn" class="user-menu">
         <button md-icon-button [mdMenuTriggerFor]="userMenu">
@@ -36,8 +36,8 @@
         </button>
         <md-menu #userMenu="mdMenu">
           <button md-menu-item [routerLink]="['/analytics']">
-            <md-icon svgIcon="main:file-excel"></md-icon>
-            <span>Парсинг xls</span>
+            <md-icon svgIcon="main:chart-bar"></md-icon>
+            <span>Статистика</span>
           </button>
           <button md-menu-item (click)="exit()">
             <md-icon svgIcon="main:logout-variant"></md-icon>
