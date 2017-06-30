@@ -1,0 +1,18 @@
+<form [formGroup]="authForm" (submit)="submit(authForm)" novalidate>
+  <div class="flex-row">
+    <md-icon class="icon" svgIcon="main:account"></md-icon>
+    <md-input-container class="input">
+      <input mdInput formControlName="login" placeholder="Имя пользователя">
+    </md-input-container>
+  </div>
+  <div class="flex-row">
+    <md-icon class="icon" svgIcon="main:lock"></md-icon>
+    <md-input-container class="input">
+      <input mdInput formControlName="password" placeholder="Пароль">
+    </md-input-container>
+  </div>
+  <div class="flex-row btn-wrap">
+    <button type="button" md-button (click)="closeLoginPopup()">отмена</button>
+    <button type="submit" md-raised-button>войти</button>
+  </div>
+</form>
