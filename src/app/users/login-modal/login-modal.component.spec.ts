@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MdIconModule, MdInputModule } from '@angular/material';
 
-import { AuthComponent } from './login.component';
+import { AuthComponent } from './login-modal.component';
 
 describe('AuthComponent', () => {
    let component: AuthComponent;

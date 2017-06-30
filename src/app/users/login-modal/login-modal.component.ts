@@ -11,10 +11,10 @@ import 'rxjs/operator/debounceTime';
 
 @Component({
    selector: 'app-auth',
-   templateUrl: './login.component.html',
-   styleUrls: ['./login.component.scss']
+   templateUrl: './login-modal.component.html',
+   styleUrls: ['./login-modal.component.scss']
 })
-export class LoginComponent implements OnInit {
+export class LoginModalComponent implements OnInit {
 
    public authForm: FormGroup = new FormGroup({
       login: new FormControl('veronika@lifebits.ru', [Validators.required]),

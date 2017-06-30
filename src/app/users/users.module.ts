@@ -3,8 +3,9 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MdIconModule, MdButtonModule, MdInputModule } from '@angular/material';
 
-import { LoginComponent } from './login/login.component';
+import { LoginModalComponent } from './login-modal/login-modal.component';
 import { AuthService } from './auth/auth.service';
+import { AuthGuard } from './auth/auth.guard';
 
 @NgModule({
    imports: [
@@ -15,10 +16,11 @@ import { AuthService } from './auth/auth.service';
       MdInputModule
    ],
    declarations: [
-      LoginComponent
+      LoginModalComponent
    ],
    providers: [
-      AuthService
+      AuthService,
+      AuthGuard
    ]
 })
 export class UsersModule {
