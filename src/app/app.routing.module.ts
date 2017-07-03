@@ -3,7 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { LoginComponent } from './users/login/login.component';
 import { LoginModalComponent } from './users/login-modal/login-modal.component';
-import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { PageNotFoundComponent } from './+error-pages/page-not-found/page-not-found.component';
 
 import { AuthGuard } from './users/auth/auth.guard';
 
@@ -14,8 +14,12 @@ const routes: Routes = [
    },
    {
       path: 'analytics',
-      canActivate: [AuthGuard],
+      canActivate: [ AuthGuard ],
       loadChildren: './+analytics/analytics.module#AnalyticsModule'
+   },
+   {
+      path: 'error',
+      loadChildren: './+error-pages/error-pages.module#ErrorPagesModule'
    },
    {
       path: 'login',

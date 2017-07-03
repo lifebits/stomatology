@@ -7,17 +7,17 @@ import { HttpModule } from '@angular/http';
 import { AppRoutingModule } from './app.routing.module';
 
 import { AnalyticsModule } from './+analytics/analytics.module';
-import { UsersModule } from './users/users.module';
-import { ServicesModule } from './services/services.module';
 import { SitePagesModule } from './+site-pages/site-pages.module';
+import { ErrorPagesModule } from './+error-pages/error-pages.module';
+
+import { ServicesModule } from './services/services.module';
+import { UsersModule } from './users/users.module';
 
 import { AppComponent } from './app.component';
-import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 @NgModule({
    declarations: [
-      AppComponent,
-      PageNotFoundComponent,
+      AppComponent
    ],
    imports: [
       BrowserModule,
@@ -28,9 +28,9 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
       AppRoutingModule,
       UsersModule,
       SitePagesModule,
+      ErrorPagesModule,
       AnalyticsModule,
    ],
-   providers: [],
    bootstrap: [AppComponent]
 })
 export class AppModule {
