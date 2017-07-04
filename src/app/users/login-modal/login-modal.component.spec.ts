@@ -1,26 +1,25 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-// import { Http } from '@angular/http';
 import { Router } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MdIconModule, MdInputModule } from '@angular/material';
 
-import { AuthComponent } from './login-modal.component';
+import { LoginModalComponent } from './login-modal.component';
 
-describe('AuthComponent', () => {
-   let component: AuthComponent;
-   let fixture: ComponentFixture<AuthComponent>;
+describe('LoginModalComponent', () => {
+   let component: LoginModalComponent;
+   let fixture: ComponentFixture<LoginModalComponent>;
 
    beforeEach(async(() => {
       TestBed.configureTestingModule({
          imports: [ ReactiveFormsModule, MdIconModule, MdInputModule ],
-         declarations: [ AuthComponent ],
+         declarations: [ LoginModalComponent ],
          providers: [ Router ]
       })
          .compileComponents();
    }));
 
    beforeEach(() => {
-      fixture = TestBed.createComponent(AuthComponent);
+      fixture = TestBed.createComponent(LoginModalComponent);
       component = fixture.componentInstance;
       fixture.detectChanges();
    });

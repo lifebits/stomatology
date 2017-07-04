@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 import { NotificationService } from 'app/services/notification/notification.service';
@@ -17,6 +17,8 @@ export class LoginFormComponent {
       password: new FormControl('', [Validators.required])
    });
 
+   @Output() onCanceledAuth = new EventEmitter();
+
    constructor(
       private auth: AuthService,
       private notification: NotificationService) {
@@ -26,9 +28,12 @@ export class LoginFormComponent {
       if (valid) {
          this.auth.login(value)
             .subscribe(
-               result => {
-                  this.notification.success('Авторизация выполнена успешно');
-                  // Надо сделать переход куда-нибудь
+               authStatus => {
+                  if (authStatus) {
+                     this.notification.success('Авторизация выполнена успешно');
+                  } else {
+                     this.notification.error('Не правильная пара логин / пароль');
+                  }
                }
             );
       } else {
@@ -36,6 +41,10 @@ export class LoginFormComponent {
       }
 
       console.log(value, valid);
+   }
+
+   cancelAuth() {
+      this.onCanceledAuth.emit();
    }
 
 }
