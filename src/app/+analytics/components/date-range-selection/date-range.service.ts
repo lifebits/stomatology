@@ -30,8 +30,8 @@ export class DateRangeService {
 
    getTestedDateRange(): DateRange {
       return {
-         startDate: new Date(2017, 0, 17),
-         endDate: new Date(2017, 5, 18)
+         startDate: new Date(2017, 3, 1),
+         endDate: new Date(2017, 5, 30)
       };
    }
 

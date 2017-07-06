@@ -1,11 +1,12 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 
-import { TableField } from './data-table.interface';
 import { SortingService } from 'app/services/sorting/sorting.service';
 
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import 'rxjs/operator/debounceTime';
+
+import { TableField } from './data-table.interface';
 
 @Component({
    selector: 'app-data-table',
@@ -14,22 +15,23 @@ import 'rxjs/operator/debounceTime';
 })
 export class DataTableComponent implements OnInit {
 
-   private dataSource = new BehaviorSubject([]);
+   private dataSource$ = new BehaviorSubject([]);
 
    @Input()
    set data(value) {
       if (value) {
          if (this.fields) {
+            console.log('SetData!');
             value = this.sortDataByField(this.normalizeDate(value), this.fields[0]);
          } else {
             console.warn('У таблицы нет полей');
          }
       }
-      this.dataSource.next(value);
+      this.dataSource$.next(value);
    }
 
    get data() {
-      return this.dataSource.getValue();
+      return this.dataSource$.getValue();
    }
 
    @Input()
@@ -47,11 +49,10 @@ export class DataTableComponent implements OnInit {
 
    constructor(
       private sort: SortingService) {
-
    }
 
    ngOnInit() {
-      this.dataSource
+      this.dataSource$
          .filter(p => !!p)
          .subscribe(data => {
             this.tableRows = data;
@@ -59,12 +60,10 @@ export class DataTableComponent implements OnInit {
          });
       this.filterForm.valueChanges
          .debounceTime(200)
-         .subscribe(
-            value => {
-               this.tableRows = this.dataFilter(this.data, value.query);
-               this.rowCounter = this.tableRows.length;
-            }
-         );
+         .subscribe(value => {
+            this.tableRows = this.dataFilter(this.data, value.query);
+            this.rowCounter = this.tableRows.length;
+         });
    }
 
    private dataFilter(data: Object[], query: string): Object[] {
@@ -81,11 +80,12 @@ export class DataTableComponent implements OnInit {
       });
    }
 
-   setSortByFieldIndex(fieldIndex) {
+   setSortByFieldIndex(fieldIndex: number): void {
       this.data = this.sortDataByField(this.tableRows, this.fields[fieldIndex]);
    }
 
-   private sortDataByField(sortData, tableField): Object[] {
+   private sortDataByField(sortData: Object[], tableField: TableField): Object[] {
+      console.log('SortData GO!', tableField);
       if (!tableField.active) {
          this.fields.map(item => this.resetActiveStatus(item));
          tableField.active = true;

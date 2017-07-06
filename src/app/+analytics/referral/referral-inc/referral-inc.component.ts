@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Http, Response } from '@angular/http';
 
+import { DateRangeService } from '../../components/date-range-selection/date-range.service';
+
 import { TableField } from '../../components/data-table/data-table.interface';
 
 const TABLE_FIELDS: TableField[] = [
@@ -125,29 +127,26 @@ export class ReferralIncComponent implements OnInit {
       ]
    };
 
-   private initData: Object[];
+   // private initData: Object[];
    data: Object[];
    tableFields: TableField[];
 
    constructor(
       private route: ActivatedRoute,
-      private http: Http) {
+      private http: Http,
+      private dateRange: DateRangeService) {
    }
 
    ngOnInit() {
+      let tableName: string;
       this.route.params
-         .subscribe(params => {
-            const tableName = params.listType || 'main';
+         .switchMap(params => {
+            tableName = params.listType || 'main';
             this.tableFields = this.getTableFields(tableName);
-            if (this.initData) {
-               this.data = this.getFilteredData(this.initData, tableName);
-            } else {
-               this.getData().subscribe(result => {
-                  this.initData = result;
-                  this.data = this.getFilteredData(result, tableName);
-               });
-            }
-         });
+            return this.dateRange.currentDateRange$
+         })
+         .switchMap(() => this.getData(tableName))
+         .subscribe((data) => this.data = data);
    }
 
    private getTableFields(tableName: string): TableField[] {
@@ -178,11 +177,13 @@ export class ReferralIncComponent implements OnInit {
       }
    }
 
-   private getData() {
+   private getData(tableName: string) {
       const url = 'assets/mocks/analytics/data.json';
       return this.http.get(url)
          .map((res: Response) => res.json())
-         .map((data) => data['Обращения']);
+         .map((data) => data['Обращения'])
+         .map((data) => this.getFilteredData(data, tableName))
+         .map((data) => this.dateRange.dataFilteringByDate(data, 'Дата ПК'));
    }
 
 }
