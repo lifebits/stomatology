@@ -1,0 +1,22 @@
+{
+  "name": "stomatology-server",
+  "version": "0.0.1",
+  "author": "lifebits",
+  "license": "MIT",
+  "description": "",
+  "scripts": {
+    "server:run": "node_modules/.bin/ts-node index.ts",
+    "server:dev": "nodemon -e ts  --exec \"npm run server:run\""
+  },
+  "private": true,
+  "dependencies": {
+    "express": "^4.15.3",
+    "body-parser": "^1.15.2"
+  },
+  "devDependencies": {
+    "@types/body-parser": "^1.16.4",
+    "@types/express": "^4.0.36",
+    "nodemon": "^1.11.0",
+    "ts-node": "~3.0.4"
+  }
+}
