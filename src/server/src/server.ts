@@ -3,19 +3,19 @@ import * as bodyParser from 'body-parser';
 
 import { Application } from 'express';
 
-import { referralRouter } from './routes/referral';
+import { referralRouter } from './routes/referral.router';
 
 export class Server {
 
-   app: Application;
+   app: Application = express();
 
    constructor() {
-      this.app = express();
       this.setConfig();
       this.routesApiInit();
    }
 
    private setConfig(): void {
+      this.app.use(bodyParser.json());
       this.app.use(bodyParser.urlencoded({extended: true}));
    }
 
