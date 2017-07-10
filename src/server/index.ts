@@ -1,3 +1,4 @@
+import { config } from './config/index';
 import { Server } from './src/server';
 
 const server = new Server;
@@ -7,6 +8,6 @@ app.get('/', (req, res) => {
    res.send('Hello world!');
 });
 
-app.listen(3000, () => {
+app.listen(config.get('port'), () => {
    console.log('We are live on ');
 });
