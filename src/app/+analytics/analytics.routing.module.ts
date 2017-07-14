@@ -15,7 +15,9 @@ const routes: Routes = [
       path: '',
       component: AnalyticsComponent,
       children: [
-         {path: '', component: DashboardComponent},
+         {
+            path: '', component: DashboardComponent
+         },
          {
             path: 'referral',
             component: ReferralComponent,
@@ -24,10 +26,18 @@ const routes: Routes = [
                {path: ':listType', component: ReferralIncComponent}
             ]
          },
-         {path: 'therapy', component: TherapyComponent},
-         {path: 'orthopedics', component: OrthopedicsComponent},
-         {path: 'surgery', component: SurgeryComponent},
-         {path: 'orthodontics', component: OrthodonticsComponent}
+         {
+            path: 'therapy', component: TherapyComponent
+         },
+         {
+            path: 'orthopedics', component: OrthopedicsComponent
+         },
+         {
+            path: 'surgery', component: SurgeryComponent
+         },
+         {
+            path: 'orthodontics', component: OrthodonticsComponent
+         }
       ]
    }
 ];

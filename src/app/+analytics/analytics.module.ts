@@ -7,7 +7,6 @@ import { MdIconModule, MdCardModule, MdInputModule, MdButtonModule, MdDatepicker
 import { AnalyticsRoutingModule } from './analytics.routing.module';
 import { DashboardModule } from './dashboard/dashboard.module';
 
-import { ParseXlsComponent } from './parse-xls/parse-xls.component';
 import { AnalyticsComponent } from './analytics.component';
 import { AnalyticsHeaderComponent } from './components/analytics-header/analytics-header.component';
 import { AnalyticsNavigatorComponent } from './components/analytics-navigator/analytics-navigator.component';
@@ -40,7 +39,6 @@ import { ReferralIncComponent } from './referral/referral-inc/referral-inc.compo
       MdDatepickerModule,
    ],
    declarations: [
-      ParseXlsComponent,
       AnalyticsComponent,
       AnalyticsHeaderComponent,
       AnalyticsNavigatorComponent,
