@@ -11,7 +11,8 @@ export class GenerateTestCollection {
          .catch(err => {
             console.log('CATCH: ', err);
             mongoose.disconnect();
-         });
+            return err;
+         })
    }
 
    static dropDatabase() {
@@ -20,24 +21,17 @@ export class GenerateTestCollection {
          .then(result => console.log('dataBase dropped!', result));
    }
 
-   static dropCollection() {
-      console.log('dropCollection');
-      const collection = mongoose.connection.collection('users');
-      // return new Promise(resolve => collection.drop(resolve));
-      return collection.drop();
-   }
-
    static buildIndex() {
-      console.log('build index');
       return User.ensureIndexes();
    }
 
    static createUsers() {
       console.log('createUsers');
       const users = [
-         {userName: 'Вася', password: 'supervasya'},
-         {userName: 'Петя', password: '123'},
-         {userName: 'admin', password: 'thetruehero'}
+         {userName: 'Вася', age: '10', password: 'supervasya'},
+         {userName: 'Петя', age: '11', password: '123'},
+         {userName: 'admin', age: '12', password: 'thetruehero'},
+         {userName: 'Николай', age: '13', password: 'ghbdtnckjy'}
       ];
       const arrayOfPromises = users.map(userData => {
          const user = new User(userData);

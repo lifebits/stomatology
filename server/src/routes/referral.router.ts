@@ -41,8 +41,9 @@ referralRouter.get('/consultation', function(req, res) {
 referralRouter.post('/consultation', function(req, res) {
    GenerateTestCollection.generate()
       .then(result => {
-         res.json(result)
-      });
+         res.json(result);
+      })
+      .catch(err => res.json(err));
 });
 
 referralRouter.get('/primary_treatment', function(req, res) {
