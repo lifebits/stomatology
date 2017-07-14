@@ -1,6 +1,9 @@
 import * as express from 'express';
 import { Router } from 'express';
 
+import { User } from '../models/user';
+import { GenerateTestCollection } from '../generateTestCollection';
+
 export const referralRouter: Router = express.Router();
 
 referralRouter.use(function timeLog(req, res, next) {
@@ -19,7 +22,27 @@ referralRouter.post('/', function (req, res) {
 });
 
 referralRouter.get('/consultation', function(req, res) {
+   const user = new User({
+      userName: 'Вася',
+      password: 'secret'
+   });
+   user.save(function(error, currentModel, affected) {
+      if (error) {
+         throw error;
+      }
+      console.log('affected: ', affected);
+      User.findOne({userName: 'Вася'}, function(err, resp) {
+         console.log('find: ', resp);
+      });
+   });
    res.send('Доведеные до ПК');
+});
+
+referralRouter.post('/consultation', function(req, res) {
+   GenerateTestCollection.generate()
+      .then(result => {
+         res.json(result)
+      });
 });
 
 referralRouter.get('/primary_treatment', function(req, res) {
