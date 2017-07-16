@@ -39,6 +39,10 @@
             <md-icon svgIcon="main:chart-bar"></md-icon>
             <span>Статистика</span>
           </button>
+          <button md-menu-item [routerLink]="['/logbook']">
+            <md-icon svgIcon="main:file-excel"></md-icon>
+            <span>Загрузить</span>
+          </button>
           <button md-menu-item (click)="exit()">
             <md-icon svgIcon="main:logout-variant"></md-icon>
             <span>Выйти</span>
