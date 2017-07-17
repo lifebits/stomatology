@@ -4,7 +4,8 @@
   "license": "MIT",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start:dev": "ng serve",
+    "start:prod": "ng server --prod --aot",
     "build": "ng build",
     "build:ghpages": "ng build --prod --base-href '/stomatology/'",
     "test": "ng test",
