@@ -1,7 +1,7 @@
 import { Schema } from 'mongoose';
 import { mongoose } from '../mongoose';
 
-export interface ReferralConfig {
+export interface Referral {
    clinicName: string; // название клиники
    requestDate: string; // дата обращение
    administratorName: string; // администратор
@@ -18,10 +18,10 @@ export interface ReferralConfig {
    // initialConsultationTime?: string; // время ПК
    initialTreatmentDate?: string; // дата ПЛ
    reTreatmentDate?: string; // дата второго лечения
-   completeSanationConsultationDate: string; // дата консультации на оплную санацию
+   completeSanationConsultDate: string; // дата консультации на оплную санацию
    patientPhone: string; // телефон пациента
    patientEmail: string; // электронная почта пациента
-   note: string; // примечание
+   note?: string; // примечание
 }
 
 const schema: Schema = new Schema({
@@ -40,10 +40,10 @@ const schema: Schema = new Schema({
    initialConsultationDate: Date,
    initialTreatmentDate: Date,
    reTreatmentDate: Date,
-   completeSanationConsultationDate: Date,
+   completeSanationConsultDate: Date,
    patientPhone: String,
    patientEmail: String,
    note: String
 });
 
-export const Referral = mongoose.model('Referral', schema);
+export const ReferralModel = mongoose.model('Referral', schema);
