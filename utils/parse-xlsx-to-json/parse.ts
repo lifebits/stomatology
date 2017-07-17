@@ -38,11 +38,9 @@ export class ParseLogbook {
       const checkedFields = {};
       const requiredFields = {
          'Обращения': [
-            'Дата обращения', 'Администратор', 'ФИО напра.  адм. call-центр',
-            'Фамилия', 'Имя', 'Отчество', 'Категории', 'Источник обращения',
-            'Записан на первичную консультацию', 'Где лечился ранее', 'Фамилия врача',
-            'Дата ПК', 'Время ПК', 'Дата ПЛ', 'Дата Второго лечения', 'Дата конс. на полную санацию',
-            'Телефон', 'Почта', 'Примечание'
+            'Дата обращения', 'Администратор', 'ФИО напра.  адм. call-центр', 'Фамилия', 'Имя', 'Отчество', 'Категории',
+            'Источник обращения', 'Записан на первичную консультацию', 'Где лечился ранее', 'Фамилия врача',
+            'Дата ПК', 'Время ПК', 'Дата ПЛ', 'Дата Второго лечения', 'Дата конс. на полную санацию', 'Телефон', 'Почта', 'Примечание'
          ],
          'Терапевты': [
             'Администратор', 'Дата', 'Фамилия пациента', 'Фамилия врача', 'Сумма за визит начисленная',
@@ -89,52 +87,46 @@ export class ParseLogbook {
    }
 
    private static normalizeLogbook(object) {
-      const referral = object['Обращения'];
+      const referralsList = [];
       const therapists = object['Терапевты'];
       const orthopedists = object['Ортопеды'];
       const surgeons = object['Хирурги'];
       const orthodontics = object['Ортодонтия'];
 
-      referral.map(item => {
-         item['Дата обращения'] = stringToDate(item['Дата обращения']);
-         item['Записан на первичную консультацию'] = stringToDate(item['Записан на первичную консультацию']);
-         item['Пациент'] = item['Фамилия'] + ' ' + item['Имя'] + ' ' + item['Отчество'];
-         if (!item['Фамилия врача']) {
-            item['Фамилия врача'] = 'Только обращение';
-         }
-         if (!item['Источник обращения']) {
-            item['Источник обращения'] = 'Не указан';
-         }
+      object['Обращения'].forEach(item => {
+         const newItem = {};
+
+         newItem['clinicName'] = 'krsk-lenina';
+         newItem['requestDate'] = stringToDate(item['Дата обращения']);
+         newItem['administratorName'] = item['Администратор'];
+         newItem['whoSent'] = item['ФИО напра.  адм. call-центр'];
+         newItem['patientName'] = String(item['Фамилия']).trim();
+         newItem['patientSurname'] = String(item['Имя']).trim();
+         newItem['patientPatronymic'] = String(item['Отчество']).trim();
+         newItem['patientCategory'] = item['Категории'];
+         newItem['referenceSource'] = (item['Источник обращения']) ? item['Источник обращения'] : null;
+         newItem['recordPrimaryConsultation'] = stringToDate(item['Записан на первичную консультацию']);
+         newItem['wasTreatedEarlier'] = (item['Где лечился ранее']) ? item['Где лечился ранее'] : null;
+         newItem['doctorSurname'] = (item['Фамилия врача']) ? item['Фамилия врача'] : 'Только обращение';
+
          if (item['Дата ПК']) {
             const date = new Date(item['Дата ПК']);
             if (item['Время ПК']) {
                const timeArray = item['Время ПК'].split(':');
                date.setHours(timeArray[0], timeArray[1]);
             }
-            item['Дата ПК'] = date;
+            newItem['initialConsultationDate'] = date;
          }
-         if (!item['Дата ПК']) {
-            item['Дата ПК'] = null;
-         }
-         if (item['Дата ПЛ']) {
-            item['Дата ПЛ'] = new Date(item['Дата ПЛ']);
-         }
-         if (!item['Дата ПЛ']) {
-            item['Дата ПЛ'] = null;
-         }
-         if (item['Телефон']) {
-            item['Телефон'] = 'скрыт';
-         }
-         if (!item['Телефон']) {
-            item['Телефон'] = 'не указан';
-         }
-         if (item['Почта']) {
-            item['Почта'] = 'скрыто';
-         }
-         if (!item['Почта']) {
-            item['Почта'] = 'не указан';
-         }
-         return item;
+
+         newItem['initialTreatmentDate'] = (item['Дата ПЛ']) ? new Date(item['Дата ПЛ']) : null;
+         newItem['reTreatmentDate'] = (item['Дата Второго лечения']) ? new Date(item['Дата Второго лечения']) : null;
+         newItem['completeSanationConsultDate'] = (item['Дата конс. на полную санацию'])
+            ? new Date(item['Дата конс. на полную санацию']) : null;
+         newItem['patientPhone'] = (item['Телефон']) ? item['Телефон'] : null;
+         newItem['patientEmail'] = (item['Почта']) ? item['Почта'] : null;
+         newItem['note'] = (item['Примечание']) ? item['Примечание'] : null;
+
+         referralsList.push(newItem);
       });
 
       therapists.map(item => {
@@ -194,11 +186,11 @@ export class ParseLogbook {
       });
 
       return {
-         'Обращения': referral,
-         'Терапевты': therapists,
+         referrals: referralsList,
+         /*'Терапевты': therapists,
          'Ортопеды': orthopedists,
          'Хирурги': surgeons,
-         'Ортодонтия': orthodontics
+         'Ортодонтия': orthodontics*/
       };
 
 
