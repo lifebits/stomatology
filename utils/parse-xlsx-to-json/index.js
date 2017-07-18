@@ -1,13 +1,12 @@
 const XLSX = require('xlsx');
 const fs = require('fs');
 
-const workbook = XLSX.readFile('./xlsx/test.xlsx');
+const workbook = XLSX.readFile('./xlsx/Журнал Регистрации Ленина (Апрель-Июнь) 2017.xlsx');
 
 const parsedObject = parse_to_object(workbook);
 const resultObject = normalizeLogbook(parsedObject);
 
 fs.writeFile('../../src/assets/mocks/analytics/data.json', JSON.stringify(resultObject, null, 2));
-
 
 function parse_to_object(workbook) {
    let result = {};
@@ -54,8 +53,14 @@ function normalizeLogbook(object) {
       if (!item['Дата ПЛ']) {
          item['Дата ПЛ'] = null;
       }
+      if (item['Телефон']) {
+         item['Телефон'] = 'скрыт';
+      }
       if (!item['Телефон']) {
          item['Телефон'] = 'не указан';
+      }
+      if (item['Почта']) {
+         item['Почта'] = 'скрыто';
       }
       if (!item['Почта']) {
          item['Почта'] = 'не указан';

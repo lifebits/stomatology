@@ -100,8 +100,8 @@ export class ParseLogbook {
          newItem['requestDate'] = stringToDate(item['Дата обращения']);
          newItem['administratorName'] = item['Администратор'];
          newItem['whoSent'] = item['ФИО напра.  адм. call-центр'];
-         newItem['patientName'] = String(item['Фамилия']).trim();
-         newItem['patientSurname'] = String(item['Имя']).trim();
+         newItem['patientName'] = String(item['Имя']).trim();
+         newItem['patientSurname'] = String(item['Фамилия']).trim();
          newItem['patientPatronymic'] = String(item['Отчество']).trim();
          newItem['patientCategory'] = item['Категории'];
          newItem['referenceSource'] = (item['Источник обращения']) ? item['Источник обращения'] : null;
