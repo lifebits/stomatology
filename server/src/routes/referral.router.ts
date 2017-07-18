@@ -2,6 +2,8 @@ import * as express from 'express';
 import { Router } from 'express';
 
 import { User } from '../models/user';
+import { Referral, ReferralModel } from '../models/referral';
+
 import { GenerateTestCollection } from '../generateTestCollection';
 
 export const referralRouter: Router = express.Router();
@@ -12,7 +14,15 @@ referralRouter.use(function timeLog(req, res, next) {
 });
 
 referralRouter.get('/', function(req, res) {
-   res.send('Основной список');
+   const referral = new ReferralModel({
+      clinicName: 'bobik'
+   });
+   referral.getCustomData();
+   // console.log(ReferralModel);
+   ReferralModel.find({patientName: 'Алиев'}, (err, findItem) => {
+      res.send(findItem);
+   });
+   // res.send('Основной список');
 });
 
 referralRouter.post('/', function (req, res) {

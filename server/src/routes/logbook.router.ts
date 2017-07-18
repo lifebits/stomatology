@@ -3,6 +3,7 @@ import * as multer from 'multer';
 
 import { Router } from 'express';
 import { ParseLogbook, ParseLogbookOptions } from '../../../utils/parse-xlsx-to-json/parse';
+import { LogbookController } from '../controllers/logbookController';
 
 const DIR = './uploads/';
 const upload = multer({dest: DIR});
@@ -19,7 +20,6 @@ logbookRouter.get('/', (req, res) => {
 });
 
 logbookRouter.post('/', upload.any(), (req, res) => {
-   // console.log(req.files);
    const opts: ParseLogbookOptions = {
       xlsxPath: DIR,
       xlsxName: req.files[0].filename,
@@ -27,23 +27,10 @@ logbookRouter.post('/', upload.any(), (req, res) => {
       jsonName: 'test'
    };
    ParseLogbook.parse(opts)
-      .then(result => {
-         // console.log(222, result);
-         res.json(req.files);
-      });
+      .then(parsedLogbook => LogbookController.saveLogbook(parsedLogbook))
+      .then(result => res.json(result))
+      .catch(err => res.json(err))
 
    // res.send('POST журнал регистрации');
    // res.status(204).end();
 });
-
-/*logbookRouter.post('/', (req, res) => {
-   upload(req, res, function(err) {
-      if (err) {
-         console.log(err);
-         return res.status(422).send('an Error occurred');
-      }
-      console.log(req.files);
-      res.end('Upload Completed');
-   });
-   // res.send('POST журнал регистрации');
-});*/
