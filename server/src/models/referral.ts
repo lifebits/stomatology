@@ -1,7 +1,7 @@
-import { Schema } from 'mongoose';
+import { Schema, Document } from 'mongoose';
 import { mongoose } from '../mongoose';
 
-export interface Referral {
+export interface Referral extends Document {
    clinicName: string; // название клиники
    requestDate: string; // дата обращение
    administratorName: string; // администратор
@@ -22,7 +22,12 @@ export interface Referral {
    patientPhone: string; // телефон пациента
    patientEmail: string; // электронная почта пациента
    note?: string; // примечание
+   getCustomData: () => void;
 }
+
+/*export interface ReferralModel extends Document {
+   getCustomData: () => void;
+}*/
 
 const schema: Schema = new Schema({
    clinicName: String,
@@ -46,4 +51,13 @@ const schema: Schema = new Schema({
    note: String
 });
 
-export const ReferralModel = mongoose.model('Referral', schema);
+schema.methods.getCustomData = function() {
+   console.log('Get Custom Data: ', this.get('clinicName'));
+   // return 1;
+};
+
+/*schema.static('getCustomData', (): void => {
+   console.log('Get Custom Data: ', this.get('clinicName'));
+});*/
+
+export const ReferralModel = mongoose.model<Referral>('Referral', schema);

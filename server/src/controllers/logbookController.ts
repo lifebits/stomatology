@@ -1,18 +1,16 @@
 import { mongoose } from '../mongoose';
-import { Referral, ReferralModel } from '../models/referral';
+import { DirectedPatient, DirectedPatientModel } from '../directedPatient/directedPatient.model';
 
 export interface Logbook {
-   referrals: Referral[]
+   referrals: DirectedPatient[]
 }
 
 export class LogbookController {
 
    static saveLogbook(logbook: Logbook) {
-
       return Promise.all([
-         this.createDocuments(ReferralModel, logbook.referrals)
+         this.createDocuments(DirectedPatientModel, logbook.referrals)
       ]);
-
    }
 
    private static dropDatabase() {
@@ -35,11 +33,6 @@ export class LogbookController {
             });
             return Promise.all(arrayOfPromises);
          });
-   }
-
-   private static createReferral() {
-      return Promise.resolve()
-         .then(() => ReferralModel.ensureIndexes())
    }
 
 }
