@@ -18,6 +18,11 @@ export class DateRangeService {
       this.currentDateRangeSource.next(value);
    }
 
+   getDateRangeForQuery(): string {
+      const dateRange = this.currentDateRangeSource.getValue();
+      return dateRange.startDate + ',' + dateRange.endDate;
+   }
+
    dataFilteringByDate(data: Object[], dataField: string, dateRange?: DateRange): Object[] {
       const _dateRange = dateRange || this.currentDateRangeSource.getValue();
       const startDate = +_dateRange.startDate;

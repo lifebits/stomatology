@@ -21,8 +21,8 @@ export class DataTableComponent implements OnInit {
    set data(value) {
       if (value) {
          if (this.fields) {
-            console.log('SetData!');
-            value = this.sortDataByField(this.normalizeDate(value), this.fields[0]);
+            // value = this.sortDataByField(this.normalizeDate(value), this.fields[0]);
+            value = this.normalizeDate(value);
          } else {
             console.warn('У таблицы нет полей');
          }
@@ -98,7 +98,6 @@ export class DataTableComponent implements OnInit {
       this.fields.splice(this.fields.indexOf(tableField), 1, tableField);
 
       (tableField.ascSort) ? sortData.sort(this.sort.asc(tableField.name)) : sortData.sort(this.sort.desc(tableField.name));
-
       return sortData;
    }
 
