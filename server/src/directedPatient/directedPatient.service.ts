@@ -1,75 +1,46 @@
 import { DirectedPatientModel, DirectedPatient } from './directedPatient.model';
-import {reject} from 'q';
+
+interface DirectedPatientQueryParams {
+   requestDate: string;
+   clinicName: string;
+}
+
+export interface DirectedPatientExtraOptions {
+   initialConsultationDate?: { $exists: boolean, $ne: null };
+   initialTreatmentDate?: { $exists: boolean, $ne: null };
+   reTreatmentDate?: { $exists: boolean, $ne: null };
+}
 
 export class DirectedPatientService {
 
-   static getPatientList(query) {
+   static getPatientList(query: DirectedPatientQueryParams, opts?: DirectedPatientExtraOptions) {
       const dateRange = query.requestDate.split(',');
+      const searchOpts = {
+         clinicName: query.clinicName,
+         requestDate: {
+            $gte: dateRange[0],
+            $lt: dateRange[1]
+         }
+      };
+      if (opts) {
+         Object.assign(searchOpts, opts)
+      }
       return new Promise((resolve, reject) => {
          DirectedPatientModel.find(
-            {
-               clinicName: query.clinicName,
-               requestDate: {
-                  $gte: dateRange[0],
-                  $lt: dateRange[1]
-               }
-            },
+            searchOpts,
             (err, findItems: DirectedPatient[]) => {
-               (err) ? reject(err) : resolve(findItems.map(a => {
-                  a.patientFullName = a.patientSurname + ' ' + a.patientName + ' ' + a.patientPatronymic;
-                  return a;
-               }));
+               (err) ? reject(err) : resolve(findItems.map(doc => this.addPatientFullName(doc)));
             }
-         );
+         )
       });
    }
 
-   static getPatientListBroughtToConsultation(query) {
-      const dateRange = query.requestDate.split(',');
-      return new Promise((resolve, reject) => {
-         DirectedPatientModel.find(
-            {
-               clinicName: query.clinicName,
-               requestDate: {
-                  $gte: dateRange[0],
-                  $lt: dateRange[1]
-               },
-               initialConsultationDate: {
-                  $exists: true, $ne: null
-               }
-            },
-            (err, findItems: DirectedPatient[]) => {
-               (err) ? reject(err) : resolve(findItems.map(a => {
-                  a.patientFullName = a.patientSurname + ' ' + a.patientName + ' ' + a.patientPatronymic;
-                  return a;
-               }));
-            }
-         )
-      })
-   }
-
-   static getPatientListBrougthToPrimaryTreatment(query) {
-      const dateRange = query.requestDate.split(',');
-      return new Promise((resolve, reject) => {
-         DirectedPatientModel.find(
-            {
-               clinicName: query.clinicName,
-               requestDate: {
-                  $gte: dateRange[0],
-                  $lt: dateRange[1]
-               },
-               initialTreatmentDate: {
-                  $exists: true, $ne: null
-               }
-            },
-            (err, findItems: DirectedPatient[]) => {
-               (err) ? reject(err) : resolve(findItems.map(a => {
-                  a.patientFullName = a.patientSurname + ' ' + a.patientName + ' ' + a.patientPatronymic;
-                  return a;
-               }));
-            }
-         )
-      })
+   private static addPatientFullName(document) {
+      const firstName = document.patientName || '';
+      const surname = document.patientSurname || '';
+      const patronymic = document.patientPatronymic || '';
+      document.patientFullName = surname + ' ' + firstName + ' ' + patronymic;
+      return document;
    }
 
 }

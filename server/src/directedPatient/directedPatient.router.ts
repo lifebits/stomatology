@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { DirectedPatientService } from './directedPatient.service';
+import { DirectedPatientService, DirectedPatientExtraOptions } from './directedPatient.service';
 
 export const directedPatientRouter: Router = Router();
 
@@ -19,14 +19,37 @@ directedPatientRouter
 
 directedPatientRouter
    .get('/consultation', (req, res) => {
-      DirectedPatientService.getPatientListBroughtToConsultation(req.query)
+      const opts: DirectedPatientExtraOptions = {
+         initialConsultationDate: { $exists: true, $ne: null }
+      };
+      DirectedPatientService.getPatientList(req.query, opts)
          .then(result => res.send(result))
          .catch(err => res.send(err))
    });
 
 directedPatientRouter
    .get('/primary_treatment', (req, res) => {
-      DirectedPatientService.getPatientListBrougthToPrimaryTreatment(req.query)
+      const opts: DirectedPatientExtraOptions = {
+         initialTreatmentDate: { $exists: true, $ne: null }
+      };
+      DirectedPatientService.getPatientList(req.query, opts)
+         .then(result => res.send(result))
+         .catch(err => res.send(err))
+   });
+
+directedPatientRouter
+   .get('/re_treatment', (req, res) => {
+      const opts: DirectedPatientExtraOptions = {
+         reTreatmentDate: { $exists: true, $ne: null }
+      };
+      DirectedPatientService.getPatientList(req.query, opts)
+         .then(result => res.send(result))
+         .catch(err => res.send(err))
+   });
+
+directedPatientRouter
+   .get('/contacts', (req, res) => {
+      DirectedPatientService.getPatientList(req.query)
          .then(result => res.send(result))
          .catch(err => res.send(err))
    });

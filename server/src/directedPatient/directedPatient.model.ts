@@ -48,4 +48,6 @@ const schema: Schema = new Schema({
    note: String
 });
 
+schema.index({requestDate: 1, patientSurname: 1, patientName: 1, recordPrimaryConsultation: 1, initialConsultationDate: 1}, {unique: true});
+
 export const DirectedPatientModel = mongoose.model('DirectedPatient', schema);
