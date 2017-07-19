@@ -4,6 +4,7 @@ import * as bodyParser from 'body-parser';
 import { Application } from 'express';
 
 import { logbookRouter } from './routes/logbook.router';
+import { directedPatientRouter } from './directedPatient/directedPatient.router';
 import { referralRouter } from './routes/referral.router';
 
 export class Server {
@@ -18,7 +19,6 @@ export class Server {
    private setConfig(): void {
       // create a cors middleware
       this.app.use(function(req, res, next) {
-         // set headers to allow cross origin request.
          res.header('Access-Control-Allow-Origin', 'http://localhost:4200');
          res.header('Access-Control-Allow-Methods', 'PUT, GET, POST, DELETE, OPTIONS');
          res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
@@ -31,6 +31,7 @@ export class Server {
 
    private routesApiInit(): void {
       this.app.use('/api/logbook', logbookRouter);
+      this.app.use('/api/directed_patient', directedPatientRouter);
       this.app.use('/api/referral', referralRouter);
    }
 }
