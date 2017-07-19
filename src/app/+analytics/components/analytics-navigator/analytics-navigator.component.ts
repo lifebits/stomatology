@@ -6,7 +6,7 @@ const PARTS: AnalyticsParts[] = [
    {
       title: 'Дашбоард',
       svg: 'analytics:speedometer',
-      route: ['./']
+      route: ['./dashboard']
    },
    {
       title: 'Обращения',
@@ -36,12 +36,12 @@ const PARTS: AnalyticsParts[] = [
    {
       title: 'Гигиентисты',
       svg: 'analytics:hygienists',
-      route: ''
+      route: ['./hygienists']
    },
    {
       title: 'Снимки',
       svg: 'analytics:pictures',
-      route: ''
+      route: ['./pictures']
    }
 ];
 
@@ -50,15 +50,11 @@ const PARTS: AnalyticsParts[] = [
    templateUrl: './analytics-navigator.component.html',
    styleUrls: ['./analytics-navigator.component.scss']
 })
-export class AnalyticsNavigatorComponent implements OnInit {
+export class AnalyticsNavigatorComponent {
 
    parts: AnalyticsParts[] = PARTS;
 
-   constructor() {
-   }
-
-   ngOnInit() {
-   }
+   constructor() {}
 
 }
 

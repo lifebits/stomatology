@@ -16,7 +16,7 @@ const routes: Routes = [
       component: AnalyticsComponent,
       children: [
          {
-            path: '', component: DashboardComponent
+            path: 'dashboard', component: DashboardComponent
          },
          {
             path: 'referral',

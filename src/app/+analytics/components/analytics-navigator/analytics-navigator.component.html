@@ -1,6 +1,6 @@
 <div>
   <ul class="main-parts">
-    <li *ngFor="let item of parts" [routerLink]="item.route" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">
+    <li *ngFor="let item of parts" [routerLink]="item.route" routerLinkActive="active">
       <md-icon svgIcon="{{item.svg}}"></md-icon>
       <a>{{item.title}}</a>
     </li>
