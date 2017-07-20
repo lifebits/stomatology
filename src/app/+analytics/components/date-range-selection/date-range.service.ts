@@ -15,12 +15,13 @@ export class DateRangeService {
    constructor() {}
 
    setCurrentDateRange(value: DateRange) {
+      value.endDate = new Date(value.endDate.setHours(24));
       this.currentDateRangeSource.next(value);
    }
 
    getDateRangeForQuery(): string {
       const dateRange = this.currentDateRangeSource.getValue();
-      return dateRange.startDate + ',' + dateRange.endDate;
+      return dateRange.startDate.toISOString() + ',' + dateRange.endDate.toISOString();
    }
 
    dataFilteringByDate(data: Object[], dataField: string, dateRange?: DateRange): Object[] {
@@ -36,7 +37,7 @@ export class DateRangeService {
    getTestedDateRange(): DateRange {
       return {
          startDate: new Date(2017, 5, 1),
-         endDate: new Date(2017, 5, 30)
+         endDate: new Date(2017, 5, 30, 24)
       };
    }
 
