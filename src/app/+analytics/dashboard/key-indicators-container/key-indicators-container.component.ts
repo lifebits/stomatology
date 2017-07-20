@@ -1,7 +1,11 @@
+import { environment } from 'environments/environment';
+
 import { Component, OnInit } from '@angular/core';
 import { Http, Response } from '@angular/http';
 
 import { DateRangeService } from '../../components/date-range-selection/date-range.service';
+
+const API_URL = environment.api;
 
 export interface KeyIndicator {
    name: string;
@@ -16,30 +20,6 @@ export interface KeyIndicator {
 })
 export class KeyIndicatorsContainerComponent implements OnInit {
 
-   private keyIndicatorsListInit: KeyIndicator[] = [
-      {
-         name: 'Дата обращения',
-         title: 'Обращений',
-         value: 0,
-         percentage: 0
-      }, {
-         name: 'Дата ПК',
-         title: 'Первичных консультаций',
-         value: 0,
-         percentage: 0
-      }, {
-         name: 'Дата ПЛ',
-         title: 'Первичных лечений',
-         value: 0,
-         percentage: 0
-      }, {
-         name: 'Дата Второго лечения',
-         title: 'Повторных лечений',
-         value: 0,
-         percentage: 0
-      }
-   ];
-
    keyIndicatorsList: KeyIndicator[];
 
    constructor(
@@ -48,16 +28,23 @@ export class KeyIndicatorsContainerComponent implements OnInit {
    }
 
    ngOnInit() {
-      this.dateRange.currentDateRange$.subscribe(
-         () => {
-            this.getData().subscribe(
-               data => this.keyIndicatorsList = this.getKeyIndicators(data, this.keyIndicatorsListInit)
-            );
-         }
-      );
+      this.dateRange.currentDateRange$
+         .subscribe(() => {
+            this.getData().subscribe(data => this.keyIndicatorsList = data);
+         });
    }
 
    private getData() {
+      const query = {
+         clinicName: 'krsk-lenina',
+         dateRange: this.dateRange.getCurrentDateRangeForQuery()
+      };
+      const url = API_URL + '/directed_patient/key_indicators?clinicName=' + query.clinicName + '&dateRange=' + query.dateRange;
+      return this.http.get(url)
+         .map((res: Response) => res.json());
+   }
+
+   /*private getData2() {
       const url = 'assets/mocks/analytics/data.json';
       return this.http.get(url)
          .map((res: Response) => res.json())
@@ -99,5 +86,5 @@ export class KeyIndicatorsContainerComponent implements OnInit {
          return indicator;
       });
       return keyIndicatorsList;
-   }
+   }*/
 }

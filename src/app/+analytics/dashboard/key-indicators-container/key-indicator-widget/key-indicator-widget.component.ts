@@ -16,10 +16,8 @@ export class KeyIndicatorWidgetComponent implements OnInit {
    @Input()
    percentage: number;
 
-   constructor() {
-   }
+   constructor() {}
 
-   ngOnInit() {
-   }
+   ngOnInit() {}
 
 }
