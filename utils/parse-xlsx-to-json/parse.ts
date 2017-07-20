@@ -42,7 +42,7 @@ export class ParseLogbook {
             'Источник обращения', 'Записан на первичную консультацию', 'Где лечился ранее', 'Фамилия врача',
             'Дата ПК', 'Время ПК', 'Дата ПЛ', 'Дата Второго лечения', 'Дата конс. на полную санацию', 'Телефон', 'Почта', 'Примечание'
          ],
-         'Терапевты': [
+         /*'Терапевты': [
             'Администратор', 'Дата', 'Фамилия пациента', 'Фамилия врача', 'Сумма за визит начисленная',
             'Сумма за визит оплаченная', 'Тип Визита', 'Кол-во', 'Дата задолжности', 'Фио направ. врача', 'Примечание'
          ],
@@ -60,7 +60,7 @@ export class ParseLogbook {
          'Ортодонтия': [
             'Администратор', 'Дата', 'Фамилия пациента', 'Фамилия врача', 'Сумма за визит начисленная',
             'Сумма за визит оплаченная', 'Тип Визита', 'Фио направ. врача', 'Примечание'
-         ]
+         ]*/
       };
 
       for (const key in requiredFields) {
@@ -100,14 +100,14 @@ export class ParseLogbook {
          newItem['requestDate'] = stringToDate(item['Дата обращения']);
          newItem['administratorName'] = item['Администратор'];
          newItem['whoSent'] = item['ФИО напра.  адм. call-центр'];
-         newItem['patientName'] = String(item['Имя']).trim();
-         newItem['patientSurname'] = String(item['Фамилия']).trim();
-         newItem['patientPatronymic'] = String(item['Отчество']).trim();
+         newItem['patientName'] = (item['Имя']) ? String(item['Имя']).trim() : null;
+         newItem['patientSurname'] = (item['Фамилия']) ? String(item['Фамилия']).trim() : null;
+         newItem['patientPatronymic'] = (item['Отчество']) ? String(item['Отчество']).trim() : null;
          newItem['patientCategory'] = item['Категории'];
          newItem['referenceSource'] = (item['Источник обращения']) ? item['Источник обращения'] : null;
          newItem['recordPrimaryConsultation'] = stringToDate(item['Записан на первичную консультацию']);
          newItem['wasTreatedEarlier'] = (item['Где лечился ранее']) ? item['Где лечился ранее'] : null;
-         newItem['doctorSurname'] = (item['Фамилия врача']) ? item['Фамилия врача'] : 'Только обращение';
+         newItem['doctorSurname'] = (item['Фамилия врача']) ? item['Фамилия врача'] : null;
 
          if (item['Дата ПК']) {
             const date = new Date(item['Дата ПК']);
