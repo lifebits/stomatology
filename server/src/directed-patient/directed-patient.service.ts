@@ -1,15 +1,9 @@
-import { DirectedPatientModel, DirectedPatient } from './directedPatient.model';
+import { DirectedPatientModel, DirectedPatient } from './directed-patient.model';
 
 interface DirectedPatientQueryParams {
    clinicName: string;
    dateRange?: string;
    requestDate?: Object;
-}
-
-export interface DirectedPatientExtraOptions {
-   initialConsultationDate?: { $exists: boolean, $ne: null };
-   initialTreatmentDate?: { $exists: boolean, $ne: null };
-   reTreatmentDate?: { $exists: boolean, $ne: null };
 }
 
 export class DirectedPatientService {
@@ -50,7 +44,7 @@ export class DirectedPatientService {
       return this.queryInDatabase(searchOpts);
    }
 
-   static reTreatmentPatientList(query: DirectedPatientQueryParams) {
+   static getReTreatmentPatientList(query: DirectedPatientQueryParams) {
       const dateRange = this.getDateRangeUTC(query);
       const searchOpts = {
          clinicName: query.clinicName,
@@ -62,34 +56,45 @@ export class DirectedPatientService {
       return this.queryInDatabase(searchOpts);
    }
 
-   /*static getPatientList(query: DirectedPatientQueryParams, opts?: DirectedPatientExtraOptions) {
-      const dateRange = query.dateRange.split(',');
-      const searchOpts = {
-         clinicName: query.clinicName,
-         requestDate: {
-            $gte: dateRange[0],
-            $lt: dateRange[1]
-         }
-      };
-      if (opts) {
-         Object.assign(searchOpts, opts);
-      }
-      return new Promise((resolve, reject) => {
-         DirectedPatientModel.find(
-            searchOpts,
-            (err, findItems: DirectedPatient[]) => {
-               (err) ? reject(err) : resolve(findItems.map(doc => this.addPatientFullName(doc)));
-            }
-         )
-      });
-   }*/
-
+   static getKeyIndicators(query: DirectedPatientQueryParams) {
+      return Promise.all([
+            this.getRequestedPatientList(query),
+            this.getInitialConsPatientList(query),
+            this.getInitialTreatmentPatientList(query),
+            this.getReTreatmentPatientList(query)
+         ])
+         .then((result: Array<DirectedPatient>[]) => {
+            const [requested, initialConsult, initialTreatment, reTreatment] = result;
+            return [
+               {
+                  title: 'Обращений',
+                  value: requested.length,
+                  percentage: 100
+               },
+               {
+                  title: 'Первичных консультаций',
+                  value: initialConsult.length,
+                  percentage: Math.round(initialConsult.length * 100 / requested.length)
+               },
+               {
+                  title: 'Первичных лечений',
+                  value: initialTreatment.length,
+                  percentage: Math.round(initialTreatment.length * 100 / initialConsult.length)
+               },
+               {
+                  title: 'Вторых лечений',
+                  value: reTreatment.length,
+                  percentage: Math.round(reTreatment.length * 100 / initialTreatment.length)
+               }
+            ];
+         })
+   }
 
    private static getDateRangeUTC(query: DirectedPatientQueryParams) {
-      const dateRange = query.dateRange.split(',');
+      const [startDate, endDate] = query.dateRange.split(',');
       return {
-         startDate: dateRange[0],
-         endDate: dateRange[1]
+         startDate: startDate,
+         endDate: endDate
       };
    }
 

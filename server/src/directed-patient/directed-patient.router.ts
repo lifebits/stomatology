@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { DirectedPatientService } from './directedPatient.service';
+import { DirectedPatientService } from './directed-patient.service';
 
 export const directedPatientRouter: Router = Router();
 
@@ -33,7 +33,7 @@ directedPatientRouter
 
 directedPatientRouter
    .get('/re_treatment', (req, res) => {
-      DirectedPatientService.reTreatmentPatientList(req.query)
+      DirectedPatientService.getReTreatmentPatientList(req.query)
          .then(result => res.send(result))
          .catch(err => res.send(err))
    });
@@ -41,6 +41,13 @@ directedPatientRouter
 directedPatientRouter
    .get('/contacts', (req, res) => {
       DirectedPatientService.getInitialConsPatientList(req.query)
+         .then(result => res.send(result))
+         .catch(err => res.send(err))
+   });
+
+directedPatientRouter
+   .get('/key_indicators', (req, res) => {
+      DirectedPatientService.getKeyIndicators(req.query)
          .then(result => res.send(result))
          .catch(err => res.send(err))
    });

@@ -4,7 +4,7 @@ import * as bodyParser from 'body-parser';
 import { Application } from 'express';
 
 import { logbookRouter } from './routes/logbook.router';
-import { directedPatientRouter } from './directedPatient/directedPatient.router';
+import { directedPatientRouter } from './directed-patient/directed-patient.router';
 import { referralRouter } from './routes/referral.router';
 
 export class Server {

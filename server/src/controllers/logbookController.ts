@@ -1,5 +1,5 @@
 import { mongoose } from '../mongoose';
-import { DirectedPatient, DirectedPatientModel } from '../directedPatient/directedPatient.model';
+import { DirectedPatient, DirectedPatientModel } from '../directed-patient/directed-patient.model';
 
 export interface Logbook {
    referrals: DirectedPatient[]
