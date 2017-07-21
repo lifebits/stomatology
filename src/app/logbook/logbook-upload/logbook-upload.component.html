@@ -1,0 +1,84 @@
+<section>
+
+  <h2>
+    Загрузка журнала регистрации
+  </h2>
+
+  <div class="flex-row upload-container">
+
+    <div class="column left">
+      <h3>Выберите файлы</h3>
+      <div ng2FileDrop
+           [ngClass]="{'nv-file-over': hasBaseDropZoneOver}"
+           (fileOver)="fileOverBase($event)"
+           [uploader]="uploader"
+           class="drop-zone">
+        Перетащите сюда фаил
+      </div>
+      <div class="select-file">
+        <input type="file" ng2FileSelect [uploader]="uploader" />
+      </div>
+    </div>
+
+    <div class="column right">
+      <h3>Очередь загрузки <span>Длина очереди: {{ uploader?.queue?.length }}</span></h3>
+
+
+      <table>
+        <thead>
+          <th width="50%">Название файла</th>
+          <th>Размер</th>
+          <th>Прогресс</th>
+          <th>Статус</th>
+          <th>Actions</th>
+        </thead>
+        <tbody>
+        <tr *ngFor="let item of uploader.queue">
+          <td><strong>{{ item?.file?.name }}</strong></td>
+          <td>
+            <button md-raised-button class="btn-success btn-xs"
+              (click)="item.upload()" [disabled]="item.isReady || item.isUploading || item.isSuccess">
+              Upload
+            </button>
+            <button md-raised-button class="btn-warning btn-xs"
+              (click)="item.cancel()" [disabled]="!item.isUploading">
+              Cancel
+            </button>
+            <button md-raised-button class="btn-danger btn-xs"
+              (click)="item.remove()">
+              Remove
+            </button>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+
+      <div style="margin-top: 20px;">
+        <div>
+          Прогресс загрузки:
+          <div class="progress">
+            <div class="progress-bar" role="progressbar" [ngStyle]="{ 'width': uploader.progress + '%' }"></div>
+          </div>
+        </div>
+      </div>
+      <div class="flex-row multiple-loading">
+        <button class="btn-success" md-raised-button
+          (click)="uploader.uploadAll()" [disabled]="!uploader.getNotUploadedItems().length">
+          Загрузить все
+        </button>
+        <button class="btn-warn" md-raised-button
+          (click)="uploader.cancelAll()" [disabled]="!uploader.isUploading">
+          Отменить все
+        </button>
+        <button class="btn-danger" md-raised-button
+          (click)="uploader.clearQueue()" [disabled]="!uploader.queue.length">
+          Удалить все
+        </button>
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+

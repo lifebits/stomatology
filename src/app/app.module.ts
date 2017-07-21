@@ -12,6 +12,7 @@ import { ErrorPagesModule } from './+error-pages/error-pages.module';
 
 import { ServicesModule } from './services/services.module';
 import { UsersModule } from './users/users.module';
+import { LogbookModule } from './logbook/logbook.module';
 
 import { AppComponent } from './app.component';
 
@@ -27,6 +28,7 @@ import { AppComponent } from './app.component';
       ServicesModule,
       AppRoutingModule,
       UsersModule,
+      LogbookModule,
       SitePagesModule,
       ErrorPagesModule,
       AnalyticsModule,
