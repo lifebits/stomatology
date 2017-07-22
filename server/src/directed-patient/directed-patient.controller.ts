@@ -3,10 +3,9 @@ import { DirectedPatientModel, DirectedPatient } from './directed-patient.model'
 interface DirectedPatientQueryParams {
    clinicName: string;
    dateRange?: string;
-   requestDate?: Object;
 }
 
-export class DirectedPatientService {
+export class DirectedPatientController {
 
    static getRequestedPatientList(query: DirectedPatientQueryParams) {
       const dateRangeUTC = this.getDateRangeUTC(query);
@@ -45,12 +44,12 @@ export class DirectedPatientService {
    }
 
    static getReTreatmentPatientList(query: DirectedPatientQueryParams) {
-      const dateRange = this.getDateRangeUTC(query);
+      const dateRangeUTC = this.getDateRangeUTC(query);
       const searchOpts = {
          clinicName: query.clinicName,
          reTreatmentDate: {
-            $gte: dateRange.startDate,
-            $lte: dateRange.endDate
+            $gte: dateRangeUTC.startDate,
+            $lte: dateRangeUTC.endDate
          }
       };
       return this.queryInDatabase(searchOpts);
@@ -70,18 +69,15 @@ export class DirectedPatientService {
                   title: 'Обращений',
                   value: requested.length,
                   percentage: 100
-               },
-               {
+               }, {
                   title: 'Первичных консультаций',
                   value: initialConsult.length,
                   percentage: Math.round(initialConsult.length * 100 / requested.length)
-               },
-               {
+               }, {
                   title: 'Первичных лечений',
                   value: initialTreatment.length,
                   percentage: Math.round(initialTreatment.length * 100 / initialConsult.length)
-               },
-               {
+               }, {
                   title: 'Вторых лечений',
                   value: reTreatment.length,
                   percentage: Math.round(reTreatment.length * 100 / initialTreatment.length)
@@ -90,11 +86,94 @@ export class DirectedPatientService {
          })
    }
 
+   static getPatientMovement(query: DirectedPatientQueryParams) {
+      const dateRangeUTC = this.getDateRangeUTC(query);
+      const fieldsList = ['requestDate', 'initialConsultationDate', 'initialTreatmentDate', 'reTreatmentDate'];
+      const millisecondsFromUTC = -7 * 60 * 60 * 1000; // погрещность для GMT +7
+      const arrayOfPromises = fieldsList.map(fieldName => {
+         const matchOpts = {
+            [fieldName]: { $gte: dateRangeUTC.startDate, $lte: dateRangeUTC.endDate }
+         };
+         const projectOpts = {
+            [fieldName]: 1,
+            consumeDateLocal: {
+               $subtract: [ '$' + fieldName, millisecondsFromUTC ]
+            }
+         };
+         const groupOpts = {
+            '_id': {
+               /*'year': { '$year': '$date' },'month': { '$month': '$date' },'day': { '$dayOfMonth': '$date' }*/
+               $dateToString: { format: '%Y-%m-%d', date: '$consumeDateLocal' }
+            },
+            'count': { $sum: 1 }
+         };
+         return this.aggregateInDatabase(matchOpts, projectOpts, groupOpts);
+      });
+
+      return Promise.all(arrayOfPromises)
+         .then(result => {
+            const [ requestDate, initialConsultationDate, initialTreatmentDate, reTreatmentDate ] = result;
+            return {
+               requestDate: requestDate,
+               initialConsultationDate: initialConsultationDate,
+               initialTreatmentDate: initialTreatmentDate,
+               reTreatmentDate: reTreatmentDate
+            }
+         });
+
+   }
+
+   private static aggregateInDatabase(matchOpts: Object, projectOpts: Object, groupOpts: Object) {
+      return new Promise((resolve, reject) => {
+         DirectedPatientModel.aggregate()
+            .match(matchOpts)
+            .project(projectOpts)
+            .group(groupOpts)
+            .sort({ '_id': 1 })
+            .exec((err, res) => (err) ? reject(err) : resolve(res))
+      })
+   }
+
+
+   static test(query: DirectedPatientQueryParams) {
+      const dateRangeUTC = this.getDateRangeUTC(query);
+      return new Promise((resolve, reject) => {
+         const millisecondsFromUTC = -7 * 60 * 60 * 1000; // погрещность для GMT +7
+         DirectedPatientModel.aggregate()
+            .match({
+               requestDate: {
+                  $gte: dateRangeUTC.startDate,
+                  $lte: dateRangeUTC.endDate
+               }
+            })
+            .project({
+               patientSurname: 1,
+               requestDate: 1,
+               consumeDateLocal: {
+                  $subtract: [ '$requestDate', millisecondsFromUTC ]
+               }
+            })
+            /*.group({
+               '_id': {
+                  $dateToString: { format: '%Y-%m-%d', date: '$consumeDateLocal' }
+               },
+               count: {$sum: 1}
+            })*/
+            /*.project({
+               count: 1,
+               specs: '$_id' + 2
+            })*/
+            .sort({ 'requestDate': 1 })
+            .exec((err, res) => (err) ? reject(err) : resolve(res))
+      });
+   }
+
+
    private static getDateRangeUTC(query: DirectedPatientQueryParams) {
       const [startDate, endDate] = query.dateRange.split(',');
       return {
-         startDate: startDate,
-         endDate: endDate
+         startDate: new Date(startDate),
+         endDate: new Date(endDate)
       };
    }
 
