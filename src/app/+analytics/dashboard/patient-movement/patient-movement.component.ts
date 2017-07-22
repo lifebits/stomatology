@@ -1,14 +1,20 @@
+import { environment } from 'environments/environment';
+
 import { Component, OnInit } from '@angular/core';
 import { Http, Response } from '@angular/http';
 
 import { ChartsService, ChartsOptions } from 'app/services/chart/charts.service';
 import { DateRangeService } from 'app/+analytics/components/date-range-selection/date-range.service';
 
+import { Observable } from 'rxjs/Observable';
+
+const API_URL = environment.api;
+
 export interface ChartIndicatorsList {
-   referralNumbers: any[];
-   consultationsNumber: any[];
-   primaryTreatmentNumber: any[];
-   reTreatmentNumber: any[];
+   requestDate?: any[],
+   initialConsultationDate?: any[],
+   initialTreatmentDate?: any[],
+   reTreatmentDate?: any[]
 }
 
 @Component({
@@ -51,7 +57,29 @@ export class PatientMovementComponent implements OnInit {
 
    ngOnInit() {
 
-      this.dateRange.currentDateRange$.subscribe(
+      this.dateRange.currentDateRange$
+         .switchMap(() => this.getData())
+         .subscribe(result => {
+            console.log(result);
+            this.chartOptions.series = [
+               {
+                  name: 'Первичные обращения',
+                  data: result.requestDate
+               }, {
+                  name: 'Первичные консультации',
+                  data: result.initialConsultationDate
+               }, {
+                  name: 'Первичные лечения',
+                  data: result.initialTreatmentDate
+               }, {
+                  name: 'Вторичные лечения',
+                  data: result.reTreatmentDate
+               }
+            ];
+            this.chart.draw('container', this.chartOptions);
+         });
+
+      /*this.dateRange.currentDateRange$.subscribe(
          dateRange => {
             this.getData()
                .map(data => this.dataGrouping(data, 'Дата обращения'))
@@ -74,14 +102,36 @@ export class PatientMovementComponent implements OnInit {
                            data: result.reTreatmentNumber
                         }
                      ];
-                     this.chart.draw('container', this.chartOptions);
+                     console.log(999, result);
+                     // this.chart.draw('container', this.chartOptions);
                   }
                );
          }
-      );
+      );*/
    }
 
-   private getData() {
+   private getData(): Observable<ChartIndicatorsList> {
+      const query = {
+         clinicName: 'krsk-lenina',
+         dateRange: this.dateRange.getCurrentDateRangeForQuery()
+      };
+      const url = API_URL + '/directed_patient/patient_movement?clinicName=' + query.clinicName + '&dateRange=' + query.dateRange;
+      return this.http.get(url)
+         .map((res: Response) => res.json())
+         .map((data: ChartIndicatorsList) => this.prepareDataForChart(data));
+   }
+
+   private prepareDataForChart(data: ChartIndicatorsList) {
+      const normalizeData = {};
+      for (const fieldName in data) {
+         if (data.hasOwnProperty(fieldName)) {
+            normalizeData[fieldName] = data[fieldName].map(p => [+new Date(p['_id']), p.count]);
+         }
+      }
+      return normalizeData;
+   }
+
+   /*private getData() {
       const url = 'assets/mocks/analytics/data.json';
       return this.http.get(url)
          .map((res: Response) => res.json())
@@ -135,6 +185,7 @@ export class PatientMovementComponent implements OnInit {
       const obj = {};
       for (const fieldName in data) {
          if (data.hasOwnProperty(fieldName)) {
+
             indicatorsList.forEach(indicatorName => {
                const pushData = [+new Date(fieldName), data[fieldName][indicatorName]];
                if (!obj[indicatorName]) {
@@ -142,9 +193,10 @@ export class PatientMovementComponent implements OnInit {
                }
                obj[indicatorName].push(pushData);
             });
+
          }
       }
       return obj;
-   }
+   }*/
 
 }
