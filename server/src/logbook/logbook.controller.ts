@@ -1,4 +1,3 @@
-import { mongoose } from '../mongoose';
 import { DirectedPatient, DirectedPatientModel } from '../directed-patient/directed-patient.model';
 
 export interface Logbook {
@@ -11,11 +10,6 @@ export class LogbookController {
       return Promise.all([
          this.createDocuments(DirectedPatientModel, logbook.referrals)
       ]);
-   }
-
-   private static dropDatabase() {
-      const db = mongoose.connection.db;
-      return db.dropDatabase();
    }
 
    private static buildIndex(model) {

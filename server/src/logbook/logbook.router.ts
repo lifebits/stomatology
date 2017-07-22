@@ -1,14 +1,13 @@
-import * as express from 'express';
 import * as multer from 'multer';
 
 import { Router } from 'express';
 import { ParseLogbook, ParseLogbookOptions } from '../../../utils/parse-xlsx-to-json/parse';
-import { LogbookController } from '../controllers/logbookController';
+import { LogbookController } from './logbook.controller';
 
 const DIR = './uploads/';
 const upload = multer({dest: DIR});
 
-export const logbookRouter: Router = express.Router();
+export const logbookRouter: Router = Router();
 
 logbookRouter.use(function timeLog(req, res, next) {
    console.log('Time: ', Date.now());
