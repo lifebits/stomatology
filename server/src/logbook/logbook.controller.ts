@@ -1,14 +1,17 @@
 import { DirectedPatient, DirectedPatientModel } from '../directed-patient/directed-patient.model';
+import { TherapistReception, TherapistReceptionModel } from '../therapist-reception/therapist-reception.model';
 
 export interface Logbook {
-   referrals: DirectedPatient[]
+   referrals: DirectedPatient[],
+   therapistReception: TherapistReception[]
 }
 
 export class LogbookController {
 
    static saveLogbook(logbook: Logbook) {
       return Promise.all([
-         this.createDocuments(DirectedPatientModel, logbook.referrals)
+         this.createDocuments(DirectedPatientModel, logbook.referrals),
+         this.createDocuments(TherapistReceptionModel, logbook.therapistReception)
       ]);
    }
 
