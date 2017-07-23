@@ -42,11 +42,11 @@ export class ParseLogbook {
             'Источник обращения', 'Записан на первичную консультацию', 'Где лечился ранее', 'Фамилия врача',
             'Дата ПК', 'Время ПК', 'Дата ПЛ', 'Дата Второго лечения', 'Дата конс. на полную санацию', 'Телефон', 'Почта', 'Примечание'
          ],
-         /*'Терапевты': [
+         'Терапевты': [
             'Администратор', 'Дата', 'Фамилия пациента', 'Фамилия врача', 'Сумма за визит начисленная',
             'Сумма за визит оплаченная', 'Тип Визита', 'Кол-во', 'Дата задолжности', 'Фио направ. врача', 'Примечание'
          ],
-         'Ортопеды': [
+         /*'Ортопеды': [
             'Администратор', 'Дата', 'Фамилия пациента', 'Фамилия врача', 'Ортопед сумма за визит начисленная',
             'Ортопед сумма за визит оплаченая', 'Техническая Сумма начисленная', 'Техническая Сумма оплаченая',
             'Золото Сумма начисленная', 'Золото Сумма оплаченая', 'Тип визита', 'Номер наряда',
@@ -87,16 +87,17 @@ export class ParseLogbook {
    }
 
    private static normalizeLogbook(object) {
+      const clinicName = 'krsk-lenina';
+
       const referralsList = [];
-      const therapists = object['Терапевты'];
+      const therapists = [];
       const orthopedists = object['Ортопеды'];
       const surgeons = object['Хирурги'];
       const orthodontics = object['Ортодонтия'];
 
       object['Обращения'].forEach(item => {
          const newItem = {};
-
-         newItem['clinicName'] = 'krsk-lenina';
+         newItem['clinicName'] = clinicName;
          newItem['requestDate'] = stringToDate(item['Дата обращения']);
          newItem['administratorName'] = item['Администратор'];
          newItem['whoSent'] = item['ФИО напра.  адм. call-центр'];
@@ -108,7 +109,6 @@ export class ParseLogbook {
          newItem['recordPrimaryConsultation'] = stringToDate(item['Записан на первичную консультацию']);
          newItem['wasTreatedEarlier'] = (item['Где лечился ранее']) ? item['Где лечился ранее'] : null;
          newItem['doctorSurname'] = (item['Фамилия врача']) ? item['Фамилия врача'] : null;
-
          if (item['Дата ПК']) {
             const date = new Date(item['Дата ПК']);
             if (item['Время ПК']) {
@@ -117,7 +117,6 @@ export class ParseLogbook {
             }
             newItem['initialConsultationDate'] = date;
          }
-
          newItem['initialTreatmentDate'] = (item['Дата ПЛ']) ? new Date(item['Дата ПЛ']) : null;
          newItem['reTreatmentDate'] = (item['Дата Второго лечения']) ? new Date(item['Дата Второго лечения']) : null;
          newItem['completeSanationConsultDate'] = (item['Дата конс. на полную санацию'])
@@ -129,18 +128,21 @@ export class ParseLogbook {
          referralsList.push(newItem);
       });
 
-      therapists.map(item => {
-         item['Дата'] = new Date(item['Дата']);
-         if (!item['Сумма за визит начисленная']) {
-            item['Сумма за визит начисленная'] = 0;
-         }
-         if (!item['Сумма за визит оплаченная']) {
-            item['Сумма за визит оплаченная'] = 0;
-         }
-         if (!item['Тип Визита']) {
-            item['Тип Визита'] = 'Не указан';
-         }
-         return item;
+      object['Терапевты'].map(item => {
+         const newItem = {};
+         newItem['clinicName'] = clinicName;
+         newItem['administratorName'] = item['Администратор'];
+         newItem['admissionDate'] = new Date(item['Дата']);
+         newItem['patientSurname'] = item['Фамилия пациента'];
+         newItem['doctorSurname'] = item['Фамилия врача'];
+         newItem['amountAccrued'] = (item['Сумма за визит начисленная']) ? item['Сумма за визит начисленная'] : 0;
+         newItem['amountPaid'] = (item['Сумма за визит оплаченная']) ? item['Сумма за визит оплаченная'] : 0;
+         newItem['visitType'] = item['Тип Визита'];
+         newItem['diagnosesNumber'] = (item['Кол-во']) ? item['Кол-во'] : 0;
+         newItem['payableDate'] = (item['Дата задолжности']) ? new Date(item['Дата задолжности']) : null;
+         newItem['surnameReferringDoctor'] = item['Фио направ. врача'];
+         newItem['note'] = item['Примечание'];
+         therapists.push(newItem);
       });
 
       orthopedists.map(item => {
@@ -187,8 +189,8 @@ export class ParseLogbook {
 
       return {
          referrals: referralsList,
-         /*'Терапевты': therapists,
-         'Ортопеды': orthopedists,
+         therapistReception: therapists,
+         /*'Ортопеды': orthopedists,
          'Хирурги': surgeons,
          'Ортодонтия': orthodontics*/
       };
