@@ -4,6 +4,7 @@
   "license": "MIT",
   "scripts": {
     "ng": "ng",
+    "start": "cd server && npm run start",
     "start:dev": "ng serve",
     "start:prod": "ng server --prod --aot",
     "build": "ng build",

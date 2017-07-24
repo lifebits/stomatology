@@ -5,8 +5,9 @@
   "license": "MIT",
   "description": "",
   "scripts": {
+    "start": "set NODE_ENV=prod && node_modules/.bin/ts-node index.ts",
     "server:run": "node_modules/.bin/ts-node index.ts",
-    "server:dev": "nodemon -e ts  --exec \"npm run server:run\""
+    "server:dev": " set NODE_ENV=dev && nodemon -e ts  --exec \"npm run server:run\""
   },
   "private": true,
   "dependencies": {

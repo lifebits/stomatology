@@ -33,3 +33,7 @@ logbookRouter.post('/', upload.any(), (req, res) => {
    // res.send('POST журнал регистрации');
    // res.status(204).end();
 });
+
+logbookRouter.get('/test', (req, res) => {
+   res.send('Test request backend');
+});
