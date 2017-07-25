@@ -1,3 +1,5 @@
+import { config } from '../config/index';
+
 import * as express from 'express';
 import * as bodyParser from 'body-parser';
 
@@ -20,7 +22,7 @@ export class Server {
    private setConfig(): void {
       // create a cors middleware
       this.app.use(function(req, res, next) {
-         res.header('Access-Control-Allow-Origin', 'http://localhost:4200');
+         res.header('Access-Control-Allow-Origin', config.get('frontUri'));
          res.header('Access-Control-Allow-Methods', 'PUT, GET, POST, DELETE, OPTIONS');
          res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
          res.header('Access-Control-Allow-Credentials', 'true');
@@ -32,8 +34,8 @@ export class Server {
 
    private routesApiInit(): void {
       this.app.use('/api/logbook', logbookRouter);
-      /*this.app.use('/api/directed_patient', directedPatientRouter);
+      this.app.use('/api/directed_patient', directedPatientRouter);
       this.app.use('/api/therapist_reception', therapistReceptionRouter);
-      this.app.use('/api/referral', referralRouter);*/
+      this.app.use('/api/referral', referralRouter);
    }
 }

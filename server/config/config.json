@@ -1,5 +1,6 @@
 {
   "port": 3000,
+  "frontUri": "http://localhost:4200",
   "mongoose": {
     "uri": "mongodb://localhost:27017/aldenta",
     "options": {
