@@ -5,9 +5,10 @@
   "license": "MIT",
   "description": "",
   "scripts": {
-    "start": "ts-node index.ts",
+    "start": "cd dist && node bundle.js",
     "server:run": "node_modules/.bin/ts-node index.ts",
-    "server:dev": " set NODE_ENV=dev && nodemon -e ts  --exec \"npm run server:run\""
+    "server:dev": "set NODE_ENV=dev && nodemon -e ts  --exec \"npm run server:run\"",
+    "build": "webpack --config ./webpack.config.ts --progress --profile --color"
   },
   "private": true,
   "dependencies": {
@@ -25,7 +26,14 @@
     "@types/mongoose": "^4.7.19",
     "@types/multer": "^1.3.2",
     "@types/nconf": "0.0.34",
+    "@types/node": "^8.0.16",
+    "@types/webpack": "^3.0.5",
     "nodemon": "^1.11.0",
-    "ts-node": "~3.0.4"
+    "ts-loader": "^2.3.1",
+    "ts-node": "^3.3.0",
+    "typescript": "^2.4.2",
+    "uglifyjs-webpack-plugin": "^0.4.6",
+    "webpack": "^3.3.0",
+    "webpack-node-externals": "^1.6.0"
   }
 }

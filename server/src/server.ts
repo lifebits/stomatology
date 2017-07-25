@@ -5,6 +5,7 @@ import { Application } from 'express';
 
 import { logbookRouter } from './logbook/logbook.router';
 import { directedPatientRouter } from './directed-patient/directed-patient.router';
+import { therapistReceptionRouter } from './therapist-reception/therapist-reception.router';
 import { referralRouter } from './routes/referral.router';
 
 export class Server {
@@ -31,7 +32,8 @@ export class Server {
 
    private routesApiInit(): void {
       this.app.use('/api/logbook', logbookRouter);
-      this.app.use('/api/directed_patient', directedPatientRouter);
-      this.app.use('/api/referral', referralRouter);
+      /*this.app.use('/api/directed_patient', directedPatientRouter);
+      this.app.use('/api/therapist_reception', therapistReceptionRouter);
+      this.app.use('/api/referral', referralRouter);*/
    }
 }
