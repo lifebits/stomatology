@@ -17,11 +17,11 @@ export class LoginComponent implements OnInit {
 
    ngOnInit() {
       this.auth.isLoggedIn$
-         .subscribe(
-            isAuth => {
-               if (isAuth) { this.router.navigate(['/analytics']) }
+         .subscribe(isAuth => {
+            if (isAuth) {
+               this.router.navigate(['/analytics']);
             }
-         )
+         })
    }
 
    cancelAuth() {
