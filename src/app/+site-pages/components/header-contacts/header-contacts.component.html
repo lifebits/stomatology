@@ -35,15 +35,19 @@
           <md-icon svgIcon="main:dots-horizontal"></md-icon>
         </button>
         <md-menu #userMenu="mdMenu">
+          <button md-menu-item [routerLink]="['/crm']">
+            <md-icon svgIcon="main:account-clipboard"></md-icon>
+            <span>Пациенты</span>
+          </button>
           <button md-menu-item [routerLink]="['/analytics']">
             <md-icon svgIcon="main:chart-bar"></md-icon>
-            <span>Статистика</span>
+            <span>Аналитика</span>
           </button>
           <button md-menu-item [routerLink]="['/logbook']">
             <md-icon svgIcon="main:file-excel"></md-icon>
             <span>Загрузить</span>
           </button>
-          <button md-menu-item (click)="exit()">
+          <button md-menu-item [routerLink]="['/logaut']">
             <md-icon svgIcon="main:logout-variant"></md-icon>
             <span>Выйти</span>
           </button>

@@ -35,8 +35,4 @@ export class HeaderContactsComponent implements OnInit {
          );
    }
 
-   exit() {
-      this.auth.logout();
-   }
-
 }
