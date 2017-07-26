@@ -8,7 +8,8 @@
     "start": "cd dist && node bundle.js",
     "server:run": "node_modules/.bin/ts-node index.ts",
     "server:dev": "set NODE_ENV=dev && nodemon -e ts  --exec \"npm run server:run\"",
-    "build": "webpack --config ./webpack.config.ts --progress --profile --color"
+    "build:prod": "set NODE_ENV=prod && webpack --config ./webpack.config.ts --progress --profile --color",
+    "build:dev": "set NODE_ENV=dev && webpack --config ./webpack.config.ts --progress --profile --color"
   },
   "private": true,
   "dependencies": {

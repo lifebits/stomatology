@@ -37,7 +37,6 @@ export class TherapistReceptionController {
          ])
          .then((result: Array<Object>) => {
             const [totalAmountAccrued, totalAmountPaid, totalDiagnosesNumber, initialConsult] = result;
-            console.log(totalDiagnosesNumber);
             const initConsNumber = {
                initConsultNumber: initialConsult['length']
             };

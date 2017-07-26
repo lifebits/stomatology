@@ -26,9 +26,7 @@ const config: webpack.Configuration = {
    },
    plugins: [
       new webpack.IgnorePlugin(/vertx/),
-      new UglifyJsPlugin ({
-
-      })
+      new UglifyJsPlugin ({})
    ],
    target: 'node',
    externals: [nodeExternals()]
