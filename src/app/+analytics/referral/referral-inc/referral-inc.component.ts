@@ -1,3 +1,5 @@
+import { environment } from 'environments/environment';
+
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Http, Response } from '@angular/http';
@@ -6,9 +8,10 @@ import { DateRangeService } from '../../components/date-range-selection/date-ran
 
 import { TableField } from '../../components/data-table/data-table.interface';
 
+const API_URL = environment.api;
 const TABLE_FIELDS: TableField[] = [
    {
-      name: 'Дата обращения',
+      name: 'requestDate',
       title: 'Дата обращения',
       dataType: 'date',
       pattern: 'dd/MM/yyyy',
@@ -17,7 +20,7 @@ const TABLE_FIELDS: TableField[] = [
       ascSort: true,
       isFiltered: false
    }, {
-      name: 'Администратор',
+      name: 'administratorName',
       title: 'Администратор',
       dataType: 'string',
       svg: 'analytics:sort',
@@ -25,7 +28,7 @@ const TABLE_FIELDS: TableField[] = [
       ascSort: true,
       isFiltered: true
    }, {
-      name: 'Источник обращения',
+      name: 'referenceSource',
       title: 'Источник обращения',
       dataType: 'string',
       svg: 'analytics:sort',
@@ -33,7 +36,7 @@ const TABLE_FIELDS: TableField[] = [
       ascSort: true,
       isFiltered: true
    }, {
-      name: 'Пациент',
+      name: 'patientFullName',
       title: 'Пациент',
       dataType: 'string',
       svg: 'analytics:sort',
@@ -41,7 +44,7 @@ const TABLE_FIELDS: TableField[] = [
       ascSort: true,
       isFiltered: true
    }, {
-      name: 'Записан на первичную консультацию',
+      name: 'recordPrimaryConsultation',
       title: 'Запись на консультацию',
       dataType: 'date',
       pattern: 'dd/MM/yyyy HH:mm',
@@ -50,7 +53,7 @@ const TABLE_FIELDS: TableField[] = [
       ascSort: true,
       isFiltered: false
    }, {
-      name: 'Фамилия врача',
+      name: 'doctorSurname',
       title: 'Фамилия врача',
       dataType: 'string',
       svg: 'analytics:sort',
@@ -58,7 +61,7 @@ const TABLE_FIELDS: TableField[] = [
       ascSort: true,
       isFiltered: true
    }, {
-      name: 'Дата ПК',
+      name: 'initialConsultationDate',
       title: 'Дата ПК',
       dataType: 'date',
       pattern: 'dd/MM/yyyy HH:mm',
@@ -67,7 +70,7 @@ const TABLE_FIELDS: TableField[] = [
       ascSort: true,
       isFiltered: false
    }, {
-      name: 'Дата ПЛ',
+      name: 'initialTreatmentDate',
       title: 'Дата ПЛ',
       dataType: 'date',
       pattern: 'dd/MM/yyyy',
@@ -76,7 +79,16 @@ const TABLE_FIELDS: TableField[] = [
       ascSort: true,
       isFiltered: false
    }, {
-      name: 'Телефон',
+      name: 'reTreatmentDate',
+      title: 'Дата ВЛ',
+      dataType: 'date',
+      pattern: 'dd/MM/yyyy',
+      svg: 'analytics:sort',
+      active: false,
+      ascSort: true,
+      isFiltered: false
+   }, {
+      name: 'patientPhone',
       title: 'Телефон',
       dataType: 'string',
       svg: 'analytics:sort',
@@ -84,7 +96,7 @@ const TABLE_FIELDS: TableField[] = [
       ascSort: true,
       isFiltered: false
    }, {
-      name: 'Почта',
+      name: 'patientEmail',
       title: 'Почта',
       dataType: 'string',
       svg: 'analytics:sort',
@@ -92,7 +104,7 @@ const TABLE_FIELDS: TableField[] = [
       ascSort: true,
       isFiltered: false
    }, {
-      name: 'Примечание',
+      name: 'note',
       title: 'Примечание',
       dataType: 'string',
       svg: 'analytics:sort',
@@ -109,27 +121,28 @@ const TABLE_FIELDS: TableField[] = [
 export class ReferralIncComponent implements OnInit {
 
    private tablesList = {
-      'main': [
-         'Дата обращения', 'Администратор', 'Источник обращения', 'Пациент', 'Записан на первичную консультацию', 'Фамилия врача',
-         'Дата ПК', 'Дата ПЛ'
+      'request': [
+         'requestDate', 'administratorName', 'referenceSource', 'patientFullName', 'recordPrimaryConsultation', 'doctorSurname',
+         'initialConsultationDate', 'initialTreatmentDate'
       ],
       'consultation': [
-         'Дата обращения', 'Пациент', 'Записан на первичную консультацию', 'Фамилия врача', 'Дата ПК', 'Дата ПЛ'
+         'requestDate', 'patientFullName', 'recordPrimaryConsultation', 'doctorSurname', 'initialConsultationDate', 'initialTreatmentDate'
       ],
-      'primary-treatment': [
-         'Дата обращения', 'Пациент', 'Записан на первичную консультацию', 'Фамилия врача', 'Дата ПК', 'Дата ПЛ'
+      'primary_treatment': [
+         'requestDate', 'patientFullName', 'recordPrimaryConsultation', 'doctorSurname', 'initialConsultationDate', 'initialTreatmentDate'
       ],
-      're-treatment': [
-         'Дата обращения', 'Пациент', 'Записан на первичную консультацию', 'Фамилия врача', 'Дата ПК', 'Дата ПЛ'
+      're_treatment': [
+         'requestDate', 'patientFullName', 'recordPrimaryConsultation', 'doctorSurname', 'initialConsultationDate', 'initialTreatmentDate',
+         'reTreatmentDate'
       ],
       'contacts': [
-         'Дата обращения', 'Источник обращения', 'Фамилия врача', 'Пациент', 'Телефон', 'Почта', 'Примечание'
+         'requestDate', 'referenceSource', 'doctorSurname', 'patientFullName', 'patientPhone', 'patientEmail', 'note'
       ]
    };
 
-   // private initData: Object[];
    data: Object[];
    tableFields: TableField[];
+   isLoading: boolean;
 
    constructor(
       private route: ActivatedRoute,
@@ -164,26 +177,18 @@ export class ReferralIncComponent implements OnInit {
       }
    }
 
-   private getFilteredData(data: Object[], fieldName: string) {
-      switch (fieldName) {
-         case 'consultation':
-            return data.filter(p => p['Дата ПК']);
-         case 'primary-treatment':
-            return data.filter(p => p['Дата ПЛ']);
-         case 're-treatment':
-            return data.filter(p => p['Дата Второго лечения']);
-         default:
-            return data;
-      }
-   }
-
-   private getData(tableName: string) {
-      const url = 'assets/mocks/analytics/data.json';
+   private getData(tableName) {
+      this.isLoading = true;
+      const query = {
+         clinicName: 'krsk-lenina',
+         dateRange: this.dateRange.getCurrentDateRangeForQuery()
+      };
+      const url = API_URL + '/directed_patient/' + tableName + '?clinicName=' + query.clinicName + '&dateRange=' + query.dateRange;
       return this.http.get(url)
-         .map((res: Response) => res.json())
-         .map((data) => data['Обращения'])
-         .map((data) => this.getFilteredData(data, tableName))
-         .map((data) => this.dateRange.dataFilteringByDate(data, 'Дата ПК'));
+         .map((res: Response) => {
+            this.isLoading = false;
+            return res.json();
+         });
    }
 
 }

@@ -10,16 +10,16 @@ export class ReferralComponent {
    buttonsList = [
       {
          title: 'Основной список',
-         route: ['./main']
+         route: ['./request']
       }, {
          title: 'Доведены до ПК',
          route: ['./consultation']
       }, {
          title: 'Доведены до ПЛ',
-         route: ['./primary-treatment']
+         route: ['./primary_treatment']
       }, {
          title: 'Доведены до ВЛ',
-         route: ['./re-treatment']
+         route: ['./re_treatment']
       }, {
          title: 'Контакты текущих пациентов',
          route: ['./contacts']
