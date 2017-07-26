@@ -9,6 +9,7 @@ import { LoginComponent } from './login/login.component';
 
 import { AuthService } from './auth/auth.service';
 import { AuthGuard } from './auth/auth.guard';
+import { LogautComponent } from './logaut/logaut.component';
 
 @NgModule({
    imports: [
@@ -21,7 +22,8 @@ import { AuthGuard } from './auth/auth.guard';
    declarations: [
       LoginFormComponent,
       LoginModalComponent,
-      LoginComponent
+      LoginComponent,
+      LogautComponent,
    ],
    providers: [
       AuthService,

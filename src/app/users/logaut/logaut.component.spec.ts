@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ParseXlsComponent } from './parse-xls.component';
+import { LogautComponent } from './logaut.component';
 
-describe('ParseXlsComponent', () => {
-  let component: ParseXlsComponent;
-  let fixture: ComponentFixture<ParseXlsComponent>;
+describe('LogautComponent', () => {
+  let component: LogautComponent;
+  let fixture: ComponentFixture<LogautComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ParseXlsComponent ]
+      declarations: [ LogautComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ParseXlsComponent);
+    fixture = TestBed.createComponent(LogautComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

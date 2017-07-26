@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { LogbookUploadComponent } from './logbook/logbook-upload/logbook-upload.component';
 import { LoginComponent } from './users/login/login.component';
+import { LogautComponent } from './users/logaut/logaut.component';
 import { LoginModalComponent } from './users/login-modal/login-modal.component';
 import { PageNotFoundComponent } from './+error-pages/page-not-found/page-not-found.component';
 
@@ -34,6 +35,10 @@ const routes: Routes = [
       path: 'login',
       component: LoginModalComponent,
       outlet: 'popup'
+   },
+   {
+      path: 'logaut',
+      component: LogautComponent
    },
    {
       path: '**',
