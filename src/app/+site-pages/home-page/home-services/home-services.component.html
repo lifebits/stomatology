@@ -1,0 +1,33 @@
+<section class="services">
+
+  <h2>
+    Наши услуги
+  </h2>
+
+  <div>
+    <div *ngFor="let servicesGroup of serviceList" class="item-wrap">
+      <div class="whiteframe-1dp">
+        <div class="title-group-wrap">
+          <div class="icon-wrap">
+            <md-icon svgIcon="{{servicesGroup.svg}}"></md-icon>
+          </div>
+          <div class="title-group">
+            <div>
+              {{ servicesGroup.title }}
+            </div>
+          </div>
+        </div>
+
+        <ul class="service-list">
+          <li *ngFor = "let service of servicesGroup.services">
+            <md-icon svgIcon="home-page:arrow-right"></md-icon>
+            <a>
+              {{ service.title }}
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+</section>

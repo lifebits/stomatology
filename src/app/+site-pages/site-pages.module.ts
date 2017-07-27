@@ -12,6 +12,8 @@ import { SitePagesComponent } from './site-pages.component';
 import { HomePageComponent } from './home-page/home-page.component';
 import { HomeSlideComponent } from './home-page/home-slide/home-slide.component';
 import { AboutPageComponent } from './about-page/about-page.component';
+import { HomeGreetingComponent } from './home-page/home-greeting/home-greeting.component';
+import { HomeServicesComponent } from './home-page/home-services/home-services.component';
 
 
 @NgModule({
@@ -30,6 +32,8 @@ import { AboutPageComponent } from './about-page/about-page.component';
       HomePageComponent,
       HomeSlideComponent,
       AboutPageComponent,
+      HomeGreetingComponent,
+      HomeServicesComponent,
    ]
 })
 export class SitePagesModule {
