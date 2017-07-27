@@ -1,0 +1,26 @@
+.wrap-crm {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  background: #ece9e6; /* fallback for old browsers */
+  background: -webkit-linear-gradient(to left, #ece9e6, #ffffff); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to left, #ece9e6, #ffffff); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+.search-form {
+  position: relative;
+  padding: 10px 20px;
+
+  /deep/ .mat-input-container {
+    width: 40%;
+
+    .mat-input-underline {
+      height: 2px;
+      background-color: #666666;
+    }
+  }
+}
+
+.wrap-search-result {
+  margin: 20px;
+}

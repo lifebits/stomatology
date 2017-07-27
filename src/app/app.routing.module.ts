@@ -16,12 +16,18 @@ const routes: Routes = [
    },
    {
       path: 'logbook',
+      canActivate: [ AuthGuard ],
       component: LogbookUploadComponent
    },
    {
       path: 'analytics',
       canActivate: [ AuthGuard ],
       loadChildren: './+analytics/analytics.module#AnalyticsModule'
+   },
+   {
+      path: 'crm',
+      canActivate: [ AuthGuard ],
+      loadChildren: './+crm/crm.module#CrmModule'
    },
    {
       path: 'error',

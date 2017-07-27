@@ -8,6 +8,7 @@ import { AppRoutingModule } from './app.routing.module';
 
 import { AnalyticsModule } from './+analytics/analytics.module';
 import { SitePagesModule } from './+site-pages/site-pages.module';
+import { CrmModule } from './+crm/crm.module';
 import { ErrorPagesModule } from './+error-pages/error-pages.module';
 
 import { ServicesModule } from './services/services.module';
@@ -30,6 +31,7 @@ import { AppComponent } from './app.component';
       UsersModule,
       LogbookModule,
       SitePagesModule,
+      CrmModule,
       ErrorPagesModule,
       AnalyticsModule,
    ],
