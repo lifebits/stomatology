@@ -134,6 +134,23 @@ export class DirectedPatientController {
       })
    }
 
+   static getPatient(query) {
+      return new Promise((resolve, reject) => {
+         DirectedPatientModel
+            .find(
+               {
+                  patientSurname: {
+                     $regex: query.patient
+                  }
+               },
+               (err, findItems: DirectedPatient[]) => {
+                  (err) ? reject(err) : resolve(findItems.map(doc => this.addPatientFullName(doc)));
+               }
+            )
+            .limit(14)
+      });
+   }
+
 
    static test(query: DirectedPatientQueryParams) {
       const dateRangeUTC = this.getDateRangeUTC(query);

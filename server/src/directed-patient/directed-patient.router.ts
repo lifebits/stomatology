@@ -60,6 +60,14 @@ directedPatientRouter
    });
 
 directedPatientRouter
+   .get('/search_patient', (req, res) => {
+      DirectedPatientController.getPatient(req.query)
+         .then(result => res.send(result))
+         .catch(err => res.send(err));
+
+   });
+
+directedPatientRouter
    .get('/test', (req, res) => {
       DirectedPatientController.test(req.query)
          .then(result => res.send(result))
