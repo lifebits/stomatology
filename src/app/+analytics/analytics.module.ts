@@ -2,7 +2,8 @@ import { NgModule } from '@angular/core';
 import { CommonModule, DatePipe, DecimalPipe } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 
-import { MdIconModule, MdCardModule, MdInputModule, MdButtonModule, MdDatepickerModule, MdNativeDateModule } from '@angular/material';
+import { MdIconModule, MdCardModule, MdInputModule, MdButtonModule, MdDatepickerModule, MdNativeDateModule,
+   MdProgressBarModule, MdMenuModule } from '@angular/material';
 
 import { AnalyticsRoutingModule } from './analytics.routing.module';
 import { DashboardModule } from './dashboard/dashboard.module';
@@ -37,6 +38,8 @@ import { ReferralIncComponent } from './referral/referral-inc/referral-inc.compo
       MdButtonModule,
       MdNativeDateModule,
       MdDatepickerModule,
+      MdProgressBarModule,
+      MdMenuModule
    ],
    declarations: [
       AnalyticsComponent,

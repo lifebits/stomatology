@@ -1,15 +1,23 @@
+import { environment } from 'environments/environment';
+
 import { Component, OnInit } from '@angular/core';
 import { Http, Response } from '@angular/http';
+import { Observable } from 'rxjs/Observable';
+
+import { DateRangeService } from '../components/date-range-selection/date-range.service';
+
+const API_URL = environment.api;
 
 @Component({
    selector: 'app-therapy',
-   templateUrl: './therapy.component.html'
+   templateUrl: './therapy.component.html',
+   styleUrls: ['./therapy.component.scss']
 })
 export class TherapyComponent implements OnInit {
 
    tableFields = [
       {
-         name: 'Дата',
+         name: 'admissionDate',
          title: 'Дата обращения',
          dataType: 'date',
          pattern: 'dd/MM/yyyy',
@@ -18,7 +26,7 @@ export class TherapyComponent implements OnInit {
          ascSort: true,
          isFiltered: false
       }, {
-         name: 'Администратор',
+         name: 'administratorName',
          title: 'Администратор',
          dataType: 'string',
          svg: 'analytics:sort',
@@ -26,7 +34,7 @@ export class TherapyComponent implements OnInit {
          ascSort: true,
          isFiltered: true
       }, {
-         name: 'Фамилия пациента',
+         name: 'patientSurname',
          title: 'Пациент',
          dataType: 'string',
          svg: 'analytics:sort',
@@ -34,7 +42,7 @@ export class TherapyComponent implements OnInit {
          ascSort: true,
          isFiltered: true
       }, {
-         name: 'Фамилия врача',
+         name: 'doctorSurname',
          title: 'Врач',
          dataType: 'string',
          svg: 'analytics:sort',
@@ -42,7 +50,7 @@ export class TherapyComponent implements OnInit {
          ascSort: true,
          isFiltered: true
       }, {
-         name: 'Сумма за визит начисленная',
+         name: 'amountAccrued',
          title: 'Начисленно за визит',
          dataType: 'number',
          svg: 'analytics:sort',
@@ -50,7 +58,7 @@ export class TherapyComponent implements OnInit {
          ascSort: true,
          isFiltered: false
       }, {
-         name: 'Сумма за визит оплаченная',
+         name: 'amountPaid',
          title: 'Оплачено',
          dataType: 'number',
          svg: 'analytics:sort',
@@ -58,7 +66,7 @@ export class TherapyComponent implements OnInit {
          ascSort: true,
          isFiltered: false
       }, {
-         name: 'Тип Визита',
+         name: 'visitType',
          title: 'Тип Визита',
          dataType: 'string',
          svg: 'analytics:sort',
@@ -66,7 +74,7 @@ export class TherapyComponent implements OnInit {
          ascSort: true,
          isFiltered: true
       }, {
-         name: 'Кол-во',
+         name: 'diagnosesNumber',
          title: 'Кол-во',
          dataType: 'number',
          svg: 'analytics:sort',
@@ -75,23 +83,51 @@ export class TherapyComponent implements OnInit {
          isFiltered: false
       }
    ];
+
+   moneyTurnover: Object = {
+      totalAmountAccrued: 0,
+      totalAmountPaid: 0,
+      totalDiagnosesNumber: 0,
+      initConsultNumber: 0
+   };
+
    data: Object[];
+   isLoading: boolean;
 
    constructor(
-      private http: Http) {
+      private http: Http,
+      private dateRange: DateRangeService) {
    }
 
    ngOnInit() {
-      this.getData().subscribe(
-         result => this.data = result
-      );
+      this.dateRange.currentDateRange$
+         .do(() => this.isLoading = true)
+         .switchMap(() => Observable.forkJoin(this.getData(), this.getMoneyTurnover()))
+         .do(() => this.isLoading = false)
+         .subscribe(
+            result => [ this.data, this.moneyTurnover ] = result,
+            error => console.log(error)
+         )
    }
 
    private getData() {
-      const url = 'assets/mocks/analytics/data.json';
+      const query = {
+         clinicName: 'krsk-lenina',
+         dateRange: this.dateRange.getCurrentDateRangeForQuery()
+      };
+      const url = API_URL + '/therapist_reception/?clinicName=' + query.clinicName + '&dateRange=' + query.dateRange;
+      return this.http.get(url)
+         .map((res: Response) => res.json());
+   }
+
+   private getMoneyTurnover() {
+      const query = {
+         clinicName: 'krsk-lenina',
+         dateRange: this.dateRange.getCurrentDateRangeForQuery()
+      };
+      const url = API_URL + '/therapist_reception/money_turnover?clinicName=' + query.clinicName + '&dateRange=' + query.dateRange;
       return this.http.get(url)
          .map((res: Response) => res.json())
-         .map((data) => data['Терапевты']);
    }
 
 }
