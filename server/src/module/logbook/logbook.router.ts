@@ -1,7 +1,7 @@
 import * as multer from 'multer';
 
 import { Router } from 'express';
-import { ParseLogbook, ParseLogbookOptions } from '../../../utils/parse-xlsx-to-json/parse';
+import { ParseLogbook, ParseLogbookOptions } from '../../../../utils/parse-xlsx-to-json/parse';
 import { LogbookController } from './logbook.controller';
 
 const DIR = './uploads/';

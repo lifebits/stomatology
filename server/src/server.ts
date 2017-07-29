@@ -5,10 +5,10 @@ import * as bodyParser from 'body-parser';
 
 import { Application } from 'express';
 
-import { logbookRouter } from './logbook/logbook.router';
+import { logbookRouter } from './module/logbook/logbook.router';
 import { directedPatientRouter } from './module/directed-patient/directed-patient.router';
 import { therapistReceptionRouter } from './module/therapist-reception/therapist-reception.router';
-import { referralRouter } from './routes/referral.router';
+import { referralRouter } from './module/test/referral.router';
 
 export class Server {
 

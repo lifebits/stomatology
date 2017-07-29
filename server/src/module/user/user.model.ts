@@ -1,4 +1,4 @@
-import { mongoose } from '../mongoose';
+import { mongoose } from '../../mongoose';
 import { Schema } from 'mongoose';
 
 import * as crypto from 'crypto';

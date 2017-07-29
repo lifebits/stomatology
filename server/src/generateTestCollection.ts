@@ -1,5 +1,5 @@
 import { mongoose } from './mongoose';
-import { User } from './models/user';
+import { User } from './module/user/user.model';
 
 export class GenerateTestCollection {
 

@@ -1,10 +1,10 @@
 import * as express from 'express';
 import { Router } from 'express';
 
-import { User } from '../models/user';
-import { Referral, ReferralModel } from '../models/referral';
+import { User } from '../user/user.model';
+import { Referral, ReferralModel } from './referral.model';
 
-import { GenerateTestCollection } from '../generateTestCollection';
+import { GenerateTestCollection } from '../../generateTestCollection';
 
 export const referralRouter: Router = express.Router();
 
