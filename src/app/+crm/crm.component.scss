@@ -1,7 +1,8 @@
 .wrap-crm {
+  overflow: hidden;
   position: relative;
   width: 100vw;
-  height: 100vh;
+  min-height: 100vh;
   background: #ece9e6; /* fallback for old browsers */
   background: -webkit-linear-gradient(to left, #ece9e6, #ffffff); /* Chrome 10-25, Safari 5.1-6 */
   background: linear-gradient(to left, #ece9e6, #ffffff); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
@@ -23,4 +24,39 @@
 
 .wrap-search-result {
   margin: 20px;
+
+  ul{
+    width: 40%;
+  }
+
+  li {
+    padding: 6px;
+    margin-bottom: 4px;
+    border: 1px solid #999999;
+    border-radius: 2px;
+
+    &:hover {
+      cursor: default;
+      background-color: #ffecb3;
+    }
+  }
+}
+
+.wrap-select-patient {
+  margin: 20px;
+
+  .name {
+    line-height: 1.6;
+    font-size: 1.5em;
+    font-weight: 600;
+  }
+
+  .contacts {
+    font-size: 0.9em;
+    margin-bottom: 20px;
+  }
+
+  .line {
+    line-height: 1.5;
+  }
 }

@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MdInputModule } from '@angular/material';
+import { ReactiveFormsModule } from '@angular/forms';
+
+import { MdInputModule, MdProgressBarModule } from '@angular/material';
 
 import { CrmRoutingModule } from './crm.routing.module';
 
@@ -10,7 +12,9 @@ import { CrmComponent } from './crm.component';
    imports: [
       CommonModule,
       CrmRoutingModule,
-      MdInputModule
+      ReactiveFormsModule,
+      MdInputModule,
+      MdProgressBarModule
    ],
    declarations: [CrmComponent]
 })
