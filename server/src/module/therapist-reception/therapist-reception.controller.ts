@@ -1,21 +1,11 @@
 import { TherapistReceptionModel, TherapistReception } from './therapist-reception.model';
-import { DirectedPatientController } from '../module/directed-patient/directed-patient.controller';
-
-interface QueryParams {
-   clinicName: string;
-   dateRange: string;
-}
-
-interface MoneyTurnover {
-   totalAmountAccrued: number;
-   totalAmountPaid: number;
-   totalDiagnosesNumber: number;
-   initConsultNumber: number;
-}
+import { DirectedPatientController } from '../directed-patient/directed-patient.controller';
+import { QueryParams, TherapistReceptionMoneyTurnover,
+   InitConsultNumber, TotalAmountAccrued, TotalAmountPaid, TotalDiagnosesNumber } from './therapist-reception.interface';
 
 export class TherapistReceptionController {
 
-   static getTherapistReceptionsList(query: QueryParams) {
+   static getTherapistReceptionsList(query: QueryParams): Promise<TherapistReception[]> {
       const dateRangeUTC = this.getDateRangeUTC(query);
       const searchOpts = {
          clinicName: query.clinicName,
@@ -27,7 +17,7 @@ export class TherapistReceptionController {
       return this.queryInDatabase(searchOpts);
    }
 
-   static getMoneyTurnover(query: QueryParams) {
+   static getMoneyTurnover(query: QueryParams): Promise<TherapistReceptionMoneyTurnover> {
       return Promise
          .all([
             this.getTotalAmountAccrued(query),
@@ -37,14 +27,14 @@ export class TherapistReceptionController {
          ])
          .then((result: Array<Object>) => {
             const [totalAmountAccrued, totalAmountPaid, totalDiagnosesNumber, initialConsult] = result;
-            const initConsNumber = {
+            const initConsNumber: InitConsultNumber = {
                initConsultNumber: initialConsult['length']
             };
             return Object.assign({}, totalAmountAccrued, totalAmountPaid, totalDiagnosesNumber, initConsNumber);
          });
    }
 
-   static getTotalAmountAccrued(query: QueryParams) {
+   static getTotalAmountAccrued(query: QueryParams): Promise<TotalAmountAccrued> {
       const dateRangeUTC = this.getDateRangeUTC(query);
       return new Promise((resolve, reject) => {
          TherapistReceptionModel.aggregate()
@@ -60,11 +50,11 @@ export class TherapistReceptionController {
                _id: 0,
                totalAmountAccrued: 1
             })
-            .exec((err, res) => (err) ? reject(err) : resolve(res[0]));
+            .exec((err, res: TotalAmountAccrued[]) => (err) ? reject(err) : resolve(res[0]));
       })
    }
 
-   static getTotalAmountPaid(query: QueryParams) {
+   static getTotalAmountPaid(query: QueryParams): Promise<TotalAmountPaid> {
       const dateRangeUTC = this.getDateRangeUTC(query);
       return new Promise((resolve, reject) => {
          TherapistReceptionModel.aggregate()
@@ -80,11 +70,11 @@ export class TherapistReceptionController {
                _id: 0,
                totalAmountPaid: 1
             })
-            .exec((err, res) => (err) ? reject(err) : resolve(res[0]));
+            .exec((err, res: TotalAmountPaid[]) => (err) ? reject(err) : resolve(res[0]));
       })
    }
 
-   static getTotalDiagnosesNumber(query: QueryParams) {
+   static getTotalDiagnosesNumber(query: QueryParams): Promise<TotalDiagnosesNumber> {
       const dateRangeUTC = this.getDateRangeUTC(query);
       return new Promise((resolve, reject) => {
          TherapistReceptionModel.aggregate()
@@ -100,11 +90,11 @@ export class TherapistReceptionController {
                _id: 0,
                totalDiagnosesNumber: 1
             })
-            .exec((err, res) => (err) ? reject(err) : resolve(res[0]));
+            .exec((err, res: TotalDiagnosesNumber[]) => (err) ? reject(err) : resolve(res[0]));
       })
    }
 
-   private static getDateRangeUTC(query: QueryParams) {
+   private static getDateRangeUTC(query: QueryParams): {startDate: Date, endDate: Date} {
       const [startDate, endDate] = query.dateRange.split(',');
       return {
          startDate: new Date(startDate),
@@ -112,7 +102,7 @@ export class TherapistReceptionController {
       };
    }
 
-   private static queryInDatabase(searchOpts) {
+   private static queryInDatabase(searchOpts): Promise<TherapistReception[]> {
       return new Promise((resolve, reject) => {
          TherapistReceptionModel.find(
             searchOpts,

@@ -1,5 +1,5 @@
 import { Schema } from 'mongoose';
-import { mongoose } from '../mongoose';
+import { mongoose } from '../../mongoose';
 
 export interface TherapistReception {
    clinicName: string; // название клиники
