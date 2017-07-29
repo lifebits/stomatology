@@ -1,9 +1,5 @@
 import { DirectedPatientModel, DirectedPatient } from './directed-patient.model';
-
-interface DirectedPatientQueryParams {
-   clinicName: string;
-   dateRange?: string;
-}
+import { DirectedPatientQueryParams, DirectedPatientKeyIndicator, PatientMovement, CounterByDay } from './directed-patient.interface';
 
 export class DirectedPatientController {
 
@@ -55,7 +51,7 @@ export class DirectedPatientController {
       return this.queryInDatabase(searchOpts);
    }
 
-   static getKeyIndicators(query: DirectedPatientQueryParams) {
+   static getKeyIndicators(query: DirectedPatientQueryParams): Promise<DirectedPatientKeyIndicator[]> {
       return Promise.all([
             this.getRequestedPatientList(query),
             this.getInitialConsPatientList(query),
@@ -86,7 +82,7 @@ export class DirectedPatientController {
          })
    }
 
-   static getPatientMovement(query: DirectedPatientQueryParams) {
+   static getPatientMovement(query: DirectedPatientQueryParams): Promise<PatientMovement> {
       const dateRangeUTC = this.getDateRangeUTC(query);
       const fieldsList = ['requestDate', 'initialConsultationDate', 'initialTreatmentDate', 'reTreatmentDate'];
       const millisecondsFromUTC = -7 * 60 * 60 * 1000; // погрещность для GMT +7
@@ -111,7 +107,7 @@ export class DirectedPatientController {
       });
 
       return Promise.all(arrayOfPromises)
-         .then(result => {
+         .then((result: Array<CounterByDay[]>) => {
             const [ requestDate, initialConsultationDate, initialTreatmentDate, reTreatmentDate ] = result;
             return {
                requestDate: requestDate,
@@ -123,25 +119,23 @@ export class DirectedPatientController {
 
    }
 
-   private static aggregateInDatabase(matchOpts: Object, projectOpts: Object, groupOpts: Object) {
+   private static aggregateInDatabase(matchOpts: Object, projectOpts: Object, groupOpts: Object): Promise<CounterByDay[]> {
       return new Promise((resolve, reject) => {
          DirectedPatientModel.aggregate()
             .match(matchOpts)
             .project(projectOpts)
             .group(groupOpts)
             .sort({ '_id': 1 })
-            .exec((err, res) => (err) ? reject(err) : resolve(res))
+            .exec((err, res: CounterByDay[]) => (err) ? reject(err) : resolve(res))
       })
    }
 
-   static getPatient(query) {
+   static getPatient(query): Promise<DirectedPatient[]> {
       return new Promise((resolve, reject) => {
          DirectedPatientModel
             .find(
                {
-                  patientSurname: {
-                     $regex: query.patient
-                  }
+                  patientSurname: { $regex: query.patient }
                },
                (err, findItems: DirectedPatient[]) => {
                   (err) ? reject(err) : resolve(findItems.map(doc => this.addPatientFullName(doc)));
@@ -186,7 +180,7 @@ export class DirectedPatientController {
    }
 
 
-   private static getDateRangeUTC(query: DirectedPatientQueryParams) {
+   private static getDateRangeUTC(query: DirectedPatientQueryParams): {startDate: Date, endDate: Date} {
       const [startDate, endDate] = query.dateRange.split(',');
       return {
          startDate: new Date(startDate),
@@ -194,7 +188,7 @@ export class DirectedPatientController {
       };
    }
 
-   private static queryInDatabase(searchOpts: DirectedPatientQueryParams) {
+   private static queryInDatabase(searchOpts: DirectedPatientQueryParams): Promise<DirectedPatient[]> {
       return new Promise((resolve, reject) => {
          DirectedPatientModel.find(
             searchOpts,
@@ -205,7 +199,7 @@ export class DirectedPatientController {
       });
    }
 
-   private static addPatientFullName(document) {
+   private static addPatientFullName(document): DirectedPatient {
       const firstName = document.patientName || '';
       const surname = document.patientSurname || '';
       const patronymic = document.patientPatronymic || '';

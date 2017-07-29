@@ -1,5 +1,5 @@
 import { TherapistReceptionModel, TherapistReception } from './therapist-reception.model';
-import { DirectedPatientController } from '../directed-patient/directed-patient.controller';
+import { DirectedPatientController } from '../module/directed-patient/directed-patient.controller';
 
 interface QueryParams {
    clinicName: string;

@@ -1,4 +1,4 @@
-import { DirectedPatient, DirectedPatientModel } from '../directed-patient/directed-patient.model';
+import { DirectedPatient, DirectedPatientModel } from '../module/directed-patient/directed-patient.model';
 import { TherapistReception, TherapistReceptionModel } from '../therapist-reception/therapist-reception.model';
 
 export interface Logbook {

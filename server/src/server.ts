@@ -6,7 +6,7 @@ import * as bodyParser from 'body-parser';
 import { Application } from 'express';
 
 import { logbookRouter } from './logbook/logbook.router';
-import { directedPatientRouter } from './directed-patient/directed-patient.router';
+import { directedPatientRouter } from './module/directed-patient/directed-patient.router';
 import { therapistReceptionRouter } from './therapist-reception/therapist-reception.router';
 import { referralRouter } from './routes/referral.router';
 
