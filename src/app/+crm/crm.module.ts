@@ -2,11 +2,12 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 
-import { MdInputModule, MdProgressBarModule } from '@angular/material';
+import { MdInputModule, MdProgressBarModule, MdButtonModule } from '@angular/material';
 
 import { CrmRoutingModule } from './crm.routing.module';
 
 import { CrmComponent } from './crm.component';
+import { PatientDetailComponent } from './patient-detail/patient-detail.component';
 
 @NgModule({
    imports: [
@@ -14,9 +15,13 @@ import { CrmComponent } from './crm.component';
       CrmRoutingModule,
       ReactiveFormsModule,
       MdInputModule,
-      MdProgressBarModule
+      MdProgressBarModule,
+      MdButtonModule
    ],
-   declarations: [CrmComponent]
+   declarations: [
+      CrmComponent,
+      PatientDetailComponent
+   ]
 })
 export class CrmModule {
 }
