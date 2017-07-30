@@ -4,7 +4,7 @@ import { DirectedPatientController } from './directed-patient.controller';
 export const directedPatientRouter: Router = Router();
 
 directedPatientRouter.use(function timeLog(req, res, next) {
-   console.log('Time directed_patient: ', Date.now());
+   console.log('Time directed_patient: ', new Date(Date.now()));
    console.log('QUERY: ', req.query);
    next();
 });
@@ -65,6 +65,13 @@ directedPatientRouter
          .then(result => res.send(result))
          .catch(err => res.send(err));
 
+   });
+
+directedPatientRouter
+   .get('/patient_detail', (req, res) => {
+      DirectedPatientController.getPatientDetail(req.query)
+         .then(result => res.send(result))
+         .catch(err => res.send(err));
    });
 
 directedPatientRouter

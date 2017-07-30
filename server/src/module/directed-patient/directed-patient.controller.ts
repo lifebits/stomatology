@@ -130,12 +130,12 @@ export class DirectedPatientController {
       })
    }
 
-   static getPatient(query): Promise<DirectedPatient[]> {
+   static getPatient(query: {surname: string}): Promise<DirectedPatient[]> {
       return new Promise((resolve, reject) => {
          DirectedPatientModel
             .find(
                {
-                  patientSurname: { $regex: query.patient }
+                  patientSurname: { $regex: query.surname }
                },
                (err, findItems: DirectedPatient[]) => {
                   (err) ? reject(err) : resolve(findItems.map(doc => this.addPatientFullName(doc)));
@@ -145,6 +145,23 @@ export class DirectedPatientController {
       });
    }
 
+   static getPatientDetail(query: {surname: string, name: string, patronymic: string}): Promise<DirectedPatient> {
+      return new Promise((resolve, reject) => {
+         DirectedPatientModel
+            .find(
+               {
+                  $and: [
+                     { patientSurname: query.surname },
+                     { patientName: query.name },
+                     { patientPatronymic: query.patronymic }
+                  ]
+               },
+               (err, findItems: DirectedPatient[]) => {
+                  (err) ? reject(err) : resolve(findItems.map(doc => this.addPatientFullName(doc))[0]);
+               }
+            )
+      });
+   }
 
    static test(query: DirectedPatientQueryParams) {
       const dateRangeUTC = this.getDateRangeUTC(query);
