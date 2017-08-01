@@ -130,10 +130,13 @@ export class ParseLogbook {
 
       object['Терапевты'].map(item => {
          const newItem = {};
+         const patientFullName = getPatientFullName(item['Фамилия пациента']);
          newItem['clinicName'] = clinicName;
          newItem['administratorName'] = item['Администратор'];
          newItem['admissionDate'] = new Date(item['Дата']);
-         newItem['patientSurname'] = item['Фамилия пациента'];
+         newItem['patientFullName'] = item['Фамилия пациента'];
+         newItem['patientSurname'] = patientFullName.surname;
+         newItem['patientInitials'] = patientFullName.initials;
          newItem['doctorSurname'] = item['Фамилия врача'];
          newItem['amountAccrued'] = (item['Сумма за визит начисленная']) ? item['Сумма за визит начисленная'] : 0;
          newItem['amountPaid'] = (item['Сумма за визит оплаченная']) ? item['Сумма за визит оплаченная'] : 0;
@@ -143,6 +146,16 @@ export class ParseLogbook {
          newItem['surnameReferringDoctor'] = item['Фио направ. врача'];
          newItem['note'] = item['Примечание'];
          therapists.push(newItem);
+
+         function getPatientFullName(shortName: string): {surname: string, initials: string} {
+            const shortNameArray = shortName.split(' ');
+            const initials = shortNameArray[1];
+            const initialsArray = (initials) ? initials.split('.') : null;
+            return {
+               surname: shortNameArray[0],
+               initials: (initialsArray) ? initialsArray[0] + initialsArray[1] : null
+            }
+         }
       });
 
       orthopedists.map(item => {
