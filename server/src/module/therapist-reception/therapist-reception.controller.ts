@@ -17,6 +17,19 @@ export class TherapistReceptionController {
       return this.queryInDatabase(searchOpts);
    }
 
+   static getPatientTreatment(query: {surname: string, initials: string}) {
+      return new Promise((resolve, reject) => {
+         TherapistReceptionModel.aggregate()
+            .match({
+               $and: [
+                  { patientSurname: query.surname },
+                  { patientInitials: query.initials }
+               ]
+            })
+            .exec((err, res) => (err) ? reject(err) : resolve(res));
+      });
+   }
+
    static getMoneyTurnover(query: QueryParams): Promise<TherapistReceptionMoneyTurnover> {
       return Promise
          .all([

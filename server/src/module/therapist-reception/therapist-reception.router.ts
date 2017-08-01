@@ -22,3 +22,10 @@ therapistReceptionRouter
          .then(result => res.send(result))
          .catch(err => res.send(err));
    });
+
+therapistReceptionRouter
+   .get('/patient_treatment', (req, res) => {
+      TherapistReceptionController.getPatientTreatment(req.query)
+         .then(result => res.send(result))
+         .catch(err => res.send(err));
+   });

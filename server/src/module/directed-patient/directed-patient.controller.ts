@@ -145,7 +145,7 @@ export class DirectedPatientController {
       });
    }
 
-   static getPatientDetail(query: {surname: string, name: string, patronymic: string}): Promise<DirectedPatient> {
+   static getPatientRequests(query: {surname: string, name: string, patronymic: string}): Promise<DirectedPatient[]> {
       return new Promise((resolve, reject) => {
          DirectedPatientModel
             .find(
@@ -157,7 +157,7 @@ export class DirectedPatientController {
                   ]
                },
                (err, findItems: DirectedPatient[]) => {
-                  (err) ? reject(err) : resolve(findItems.map(doc => this.addPatientFullName(doc))[0]);
+                  (err) ? reject(err) : resolve(findItems.map(doc => this.addPatientFullName(doc)));
                }
             )
       });

@@ -5,7 +5,9 @@ export interface TherapistReception {
    clinicName: string; // название клиники
    administratorName: string; // администратор
    admissionDate: string; // дата поступления
+   patientFullName: string; // фамилия + инициалы пациента
    patientSurname: string; // фамилия пациента
+   patientInitials: string; // инициалы пациента
    doctorSurname: string; // фамилия врача
    amountAccrued?: number; // сумма за визит начисленная
    amountPaid?: number; // сумма за визит оплаченная
@@ -20,7 +22,9 @@ const schema: Schema = new Schema({
    clinicName: String,
    administratorName: String,
    admissionDate: Date,
+   patientFullName: String,
    patientSurname: String,
+   patientInitials: String,
    doctorSurname: String,
    amountAccrued: Number,
    amountPaid: Number,

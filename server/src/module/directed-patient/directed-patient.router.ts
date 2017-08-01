@@ -69,7 +69,7 @@ directedPatientRouter
 
 directedPatientRouter
    .get('/patient_detail', (req, res) => {
-      DirectedPatientController.getPatientDetail(req.query)
+      DirectedPatientController.getPatientRequests(req.query)
          .then(result => res.send(result))
          .catch(err => res.send(err));
    });
