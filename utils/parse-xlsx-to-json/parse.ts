@@ -46,13 +46,13 @@ export class ParseLogbook {
             'Администратор', 'Дата', 'Фамилия пациента', 'Фамилия врача', 'Сумма за визит начисленная',
             'Сумма за визит оплаченная', 'Тип Визита', 'Кол-во', 'Дата задолжности', 'Фио направ. врача', 'Примечание'
          ],
-         /*'Ортопеды': [
+         'Ортопеды': [
             'Администратор', 'Дата', 'Фамилия пациента', 'Фамилия врача', 'Ортопед сумма за визит начисленная',
             'Ортопед сумма за визит оплаченая', 'Техническая Сумма начисленная', 'Техническая Сумма оплаченая',
             'Золото Сумма начисленная', 'Золото Сумма оплаченая', 'Тип визита', 'Номер наряда',
             'Дата задолженности', 'ФИО направившего врача', 'Начало приема', 'Конец приема', 'Примечание'
          ],
-         'Хирурги': [
+         /*'Хирурги': [
             'Администратор', 'Дата', 'Фамилия пациента', 'Фамилия врача', 'Сумма за визит начисленная',
             'Сумма за визит оплаченная', 'Тип Визита', 'Кол-во постав. имплантов', 'Направившая клиника',
             'ФИО направившего врача', 'Примечания'
@@ -86,12 +86,13 @@ export class ParseLogbook {
       return rawData;
    }
 
-   private static normalizeLogbook(object) {
+   private static normalizeLogbook(object): Object {
       const clinicName = 'krsk-lenina';
 
       const referralsList = [];
       const therapists = [];
-      const orthopedists = object['Ортопеды'];
+      const orthopedists = [];
+
       const surgeons = object['Хирурги'];
       const orthodontics = object['Ортодонтия'];
 
@@ -130,7 +131,8 @@ export class ParseLogbook {
 
       object['Терапевты'].map(item => {
          const newItem = {};
-         const patientFullName = getPatientFullName(item['Фамилия пациента']);
+         const patientFullName = getPatientSurnameAndInitials(item['Фамилия пациента']);
+
          newItem['clinicName'] = clinicName;
          newItem['administratorName'] = item['Администратор'];
          newItem['admissionDate'] = new Date(item['Дата']);
@@ -145,33 +147,36 @@ export class ParseLogbook {
          newItem['payableDate'] = (item['Дата задолжности']) ? new Date(item['Дата задолжности']) : null;
          newItem['surnameReferringDoctor'] = item['Фио направ. врача'];
          newItem['note'] = item['Примечание'];
-         therapists.push(newItem);
 
-         function getPatientFullName(shortName: string): {surname: string, initials: string} {
-            const shortNameArray = shortName.split(' ');
-            const initials = shortNameArray[1];
-            const initialsArray = (initials) ? initials.split('.') : null;
-            return {
-               surname: shortNameArray[0],
-               initials: (initialsArray) ? initialsArray[0] + initialsArray[1] : null
-            }
-         }
+         therapists.push(newItem);
       });
 
-      orthopedists.map(item => {
-         item['Дата'] = new Date(item['Дата']);
-         if (!item['Ортопед сумма за визит начисленная']) {
-            item['Ортопед сумма за визит начисленная'] = 0;
-         }
-         if (!item['Ортопед сумма за визит оплаченая']) {
-            item['Ортопед сумма за визит оплаченая'] = 0;
-         }
-         if (!item['Тип визита']) {
-            item['Тип визита'] = 'Не указан';
-         }
-         if (!item['Дата задолженности']) {
-            item['Дата задолженности'] = new Date(item['Дата задолженности']);
-         }
+      object['Ортопеды'].map(item => {
+         const newItem = {};
+         const patientFullName = getPatientSurnameAndInitials(item['Фамилия пациента']);
+
+         newItem['clinicName'] = clinicName;
+         newItem['administratorName'] = item['Администратор'];
+         newItem['admissionDate'] = new Date(item['Дата']);
+         newItem['patientFullName'] = item['Фамилия пациента'];
+         newItem['patientSurname'] = patientFullName.surname;
+         newItem['patientInitials'] = patientFullName.initials;
+         newItem['doctorSurname'] = item['Фамилия врача'];
+         newItem['amountAccrued'] = (item['Ортопед сумма за визит начисленная']) ? item['Ортопед сумма за визит начисленная'] : 0;
+         newItem['amountPaid'] = (item['Ортопед сумма за визит оплаченая']) ? item['Ортопед сумма за визит оплаченая'] : 0;
+         newItem['technicalPartAmountAccrued'] = (item['Техническая Сумма начисленная']) ? item['Техническая Сумма начисленная'] : 0;
+         newItem['technicalPartAmountPaid'] = (item['Техническая Сумма оплаченая']) ? item['Техническая Сумма оплаченая'] : 0;
+         newItem['goldAmountAccrued'] = (item['Золото Сумма начисленная']) ? item['Золото Сумма начисленная'] : 0;
+         newItem['goldAmountPaid'] = (item['Золото Сумма оплаченая']) ? item['Золото Сумма оплаченая'] : 0;
+         newItem['visitType'] = item['Тип Визита'];
+         newItem['orderNumber'] = item['Номер наряда'];
+         newItem['payableDate'] = (item['Дата задолжности']) ? new Date(item['Дата задолжности']) : null;
+         newItem['surnameReferringDoctor'] = item['ФИО направившего врача'];
+         newItem['beginningAdmission'] = item['Начало приема'];
+         newItem['endAdmission'] = item['Конец приема'];
+         newItem['note'] = item['Примечание'];
+
+         orthopedists.push(newItem);
       });
 
       surgeons.map(item => {
@@ -203,11 +208,20 @@ export class ParseLogbook {
       return {
          referrals: referralsList,
          therapistReception: therapists,
-         /*'Ортопеды': orthopedists,
-         'Хирурги': surgeons,
+         orthopedistReception: orthopedists,
+         /*'Хирурги': surgeons,
          'Ортодонтия': orthodontics*/
       };
 
+      function getPatientSurnameAndInitials(shortName: string): {surname: string, initials: string} {
+         const shortNameArray = shortName.split(' ');
+         const initials = shortNameArray[1];
+         const initialsArray = (initials) ? initials.split('.') : null;
+         return {
+            surname: shortNameArray[0],
+            initials: (initialsArray) ? initialsArray[0] + initialsArray[1] : null
+         }
+      }
 
       function stringToDate(string) {
          // format xx/xx/xx xx:xx
