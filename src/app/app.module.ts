@@ -6,6 +6,7 @@ import { HttpModule } from '@angular/http';
 
 import { AppRoutingModule } from './app.routing.module';
 
+import { ComponentsModule } from './components/components.module';
 import { AnalyticsModule } from './+analytics/analytics.module';
 import { SitePagesModule } from './+site-pages/site-pages.module';
 import { CrmModule } from './+crm/crm.module';
@@ -28,12 +29,13 @@ import { AppComponent } from './app.component';
       BrowserAnimationsModule,
       ServicesModule,
       AppRoutingModule,
+      ComponentsModule,
       UsersModule,
       LogbookModule,
       SitePagesModule,
       CrmModule,
       ErrorPagesModule,
-      AnalyticsModule,
+      AnalyticsModule
    ],
    bootstrap: [AppComponent]
 })
