@@ -141,7 +141,7 @@ export class DirectedPatientController {
                   (err) ? reject(err) : resolve(findItems.map(doc => this.addPatientFullName(doc)));
                }
             )
-            .limit(14)
+            .limit(20)
       });
    }
 

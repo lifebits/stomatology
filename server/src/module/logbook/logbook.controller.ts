@@ -1,9 +1,11 @@
 import { DirectedPatient, DirectedPatientModel } from '../directed-patient/directed-patient.model';
 import { TherapistReception, TherapistReceptionModel } from '../therapist-reception/therapist-reception.model';
+import { OrthopedistReception, OrthopedistReceptionModel } from '../orthopedist-reception/orthopedist-reception.model';
 
 export interface Logbook {
    referrals: DirectedPatient[],
-   therapistReception: TherapistReception[]
+   therapistReception: TherapistReception[],
+   orthopedistReception: OrthopedistReception[]
 }
 
 export class LogbookController {
@@ -11,7 +13,8 @@ export class LogbookController {
    static saveLogbook(logbook: Logbook) {
       return Promise.all([
          this.createDocuments(DirectedPatientModel, logbook.referrals),
-         this.createDocuments(TherapistReceptionModel, logbook.therapistReception)
+         this.createDocuments(TherapistReceptionModel, logbook.therapistReception),
+         this.createDocuments(OrthopedistReceptionModel, logbook.orthopedistReception)
       ]);
    }
 
