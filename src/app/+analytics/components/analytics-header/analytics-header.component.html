@@ -13,10 +13,31 @@
     <app-date-range-selection></app-date-range-selection>
   </div>
 
-  <!--<ul class="flex-row">
-    <li>123</li>
-    <li>456</li>
-  </ul>-->
+  <ul class="flex-row">
+    <li>
+      <button md-icon-button [mdMenuTriggerFor]="userMenu">
+        <md-icon svgIcon="main:dots-vertical"></md-icon>
+      </button>
+      <md-menu #userMenu="mdMenu">
+        <button md-menu-item [routerLink]="['/']">
+          <md-icon svgIcon="main:home"></md-icon>
+          <span>Домашняя</span>
+        </button>
+        <button md-menu-item [routerLink]="['/crm']">
+          <md-icon svgIcon="main:account-clipboard"></md-icon>
+          <span>Пациенты</span>
+        </button>
+        <button md-menu-item [routerLink]="['/logbook']">
+          <md-icon svgIcon="main:file-excel"></md-icon>
+          <span>Загрузить</span>
+        </button>
+        <button md-menu-item [routerLink]="['/logaut']">
+          <md-icon svgIcon="main:logout-variant"></md-icon>
+          <span>Выйти</span>
+        </button>
+      </md-menu>
+    </li>
+  </ul>
 
 </header>
 
