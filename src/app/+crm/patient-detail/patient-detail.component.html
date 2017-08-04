@@ -1,0 +1,43 @@
+<section *ngIf="contactInfo" style="margin: 0 20px">
+
+  <div class="patient-name">
+    <span>{{ contactInfo.patientFullName }}</span>
+  </div>
+
+  <div class="contact-info">
+    <span>Тел: </span>
+    <span>{{ contactInfo.patientPhone || 'нет' }},</span>
+    <span>Почта: </span>
+    <span>{{ contactInfo.patientEmail || 'нет' }},</span>
+    <span>Источник обращения: </span>
+    <span>{{ contactInfo.referenceSource || 'не указан' }}</span>
+  </div>
+
+  <div>
+    <app-data-table
+      title="Обращения в клинику"
+      [fields]="fields.directedPatient"
+      [data]="patientRequest"
+      [tfoot]="false">
+    </app-data-table>
+  </div>
+
+  <div>
+    <app-data-table
+      title="Обращения в терапию"
+      [fields]="fields.therapyTreatment"
+      [data]="therapyTreatment"
+      [tfoot]="false">
+    </app-data-table>
+  </div>
+
+  <div>
+    <app-data-table
+      title="Обращения в ортопедию"
+      [fields]="fields.orthopedicsTreatment"
+      [data]="orthopedicsTreatment"
+      [tfoot]="false">
+    </app-data-table>
+  </div>
+
+</section>
