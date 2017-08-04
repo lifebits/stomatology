@@ -1,5 +1,11 @@
+import { environment } from 'environments/environment';
+
 import { Component, OnInit } from '@angular/core';
 import { Http, Response } from '@angular/http';
+
+import { DateRangeService } from '../components/date-range-selection/date-range.service';
+
+const API_URL = environment.api;
 
 @Component({
    selector: 'app-orthopedics',
@@ -10,75 +16,75 @@ export class OrthopedicsComponent implements OnInit {
 
    tableFields = [
       {
-         name: 'Дата',
+         name: 'admissionDate',
          title: 'Дата обращения',
          dataType: 'date',
          pattern: 'dd/MM/yyyy',
-         svg: 'analytics:sort',
+         svg: 'main:sort',
          active: false,
          ascSort: true,
          isFiltered: false
       }, {
-         name: 'Администратор',
+         name: 'administratorName',
          title: 'Администратор',
          dataType: 'string',
-         svg: 'analytics:sort',
+         svg: 'main:sort',
          active: false,
          ascSort: true,
          isFiltered: true
       }, {
-         name: 'Фамилия пациента',
+         name: 'patientFullName',
          title: 'Пациент',
          dataType: 'string',
-         svg: 'analytics:sort',
+         svg: 'main:sort',
          active: false,
          ascSort: true,
          isFiltered: true
       }, {
-         name: 'Фамилия врача',
+         name: 'doctorSurname',
          title: 'Врач',
          dataType: 'string',
-         svg: 'analytics:sort',
+         svg: 'main:sort',
          active: false,
          ascSort: true,
          isFiltered: true
       }, {
-         name: 'Ортопед сумма за визит начисленная',
-         title: 'Начисленно за визит',
+         name: 'amountAccrued',
+         title: 'Начисленно',
          dataType: 'number',
-         svg: 'analytics:sort',
+         svg: 'main:sort',
          active: false,
          ascSort: true,
          isFiltered: false
       }, {
-         name: 'Ортопед сумма за визит оплаченая',
+         name: 'amountPaid',
          title: 'Оплачено',
          dataType: 'number',
-         svg: 'analytics:sort',
+         svg: 'main:sort',
          active: false,
          ascSort: true,
          isFiltered: false
       }, {
-         name: 'Тип визита',
+         name: 'visitType',
          title: 'Тип Визита',
          dataType: 'string',
-         svg: 'analytics:sort',
+         svg: 'main:sort',
          active: false,
          ascSort: true,
          isFiltered: true
       }, {
-         name: 'Начало приема',
+         name: 'beginningAdmission',
          title: 'Начало приема',
          dataType: 'string',
-         svg: 'analytics:sort',
+         svg: 'main:sort',
          active: false,
          ascSort: true,
          isFiltered: false
       }, {
-         name: 'Конец приема',
+         name: 'endAdmission',
          title: 'Конец приема',
          dataType: 'string',
-         svg: 'analytics:sort',
+         svg: 'main:sort',
          active: false,
          ascSort: true,
          isFiltered: false
@@ -87,7 +93,8 @@ export class OrthopedicsComponent implements OnInit {
    data: [{}];
 
    constructor(
-      private http: Http) {
+      private http: Http,
+      private dateRange: DateRangeService) {
    }
 
    ngOnInit() {
@@ -97,10 +104,13 @@ export class OrthopedicsComponent implements OnInit {
    }
 
    private getData() {
-      const url = 'assets/mocks/analytics/data.json';
+      const params = {
+         clinicName: 'krsk-lenina',
+         dateRange: this.dateRange.getCurrentDateRangeForQuery()
+      };
+      const url = API_URL + '/orthopedist_reception?clinicName=' + params.clinicName + '&dateRange=' + params.dateRange;
       return this.http.get(url)
          .map((res: Response) => res.json())
-         .map((data) => data['Ортопеды']);
    }
 
 }
