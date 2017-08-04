@@ -8,6 +8,8 @@ import { Application } from 'express';
 import { logbookRouter } from './module/logbook/logbook.router';
 import { directedPatientRouter } from './module/directed-patient/directed-patient.router';
 import { therapistReceptionRouter } from './module/therapist-reception/therapist-reception.router';
+import { orthopedistReceptionRouter } from './module/orthopedist-reception/orthopedist-reception.router';
+
 import { referralRouter } from './module/test/referral.router';
 
 export class Server {
@@ -36,6 +38,7 @@ export class Server {
       this.app.use('/api/logbook', logbookRouter);
       this.app.use('/api/directed_patient', directedPatientRouter);
       this.app.use('/api/therapist_reception', therapistReceptionRouter);
+      this.app.use('/api/orthopedist_reception', orthopedistReceptionRouter);
       this.app.use('/api/referral', referralRouter);
    }
 }
