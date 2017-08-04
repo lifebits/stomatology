@@ -17,7 +17,7 @@ export class TherapistReceptionController {
       return this.queryInDatabase(searchOpts);
    }
 
-   static getPatientTreatment(query: {surname: string, initials: string}) {
+   static getPatientTreatment(query: {surname: string, initials: string}): Promise<TherapistReception[]> {
       return new Promise((resolve, reject) => {
          TherapistReceptionModel.aggregate()
             .match({
@@ -26,7 +26,7 @@ export class TherapistReceptionController {
                   { patientInitials: query.initials }
                ]
             })
-            .exec((err, res) => (err) ? reject(err) : resolve(res));
+            .exec((err, res: TherapistReception[]) => (err) ? reject(err) : resolve(res));
       });
    }
 

@@ -17,6 +17,13 @@ orthopedistReceptionRouter
    });
 
 orthopedistReceptionRouter
+   .get('/money_turnover', (req, res) => {
+      OrthopedistReceptionController.getMoneyTurnover(req.query)
+         .then(result => res.send(result))
+         .catch(err => res.send(err));
+   });
+
+orthopedistReceptionRouter
    .get('/patient_treatment', (req, res) => {
       OrthopedistReceptionController.getPatientTreatment(req.query)
          .then(result => res.send(result))

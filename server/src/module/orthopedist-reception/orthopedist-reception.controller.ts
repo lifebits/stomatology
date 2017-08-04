@@ -1,20 +1,5 @@
 import { OrthopedistReception, OrthopedistReceptionModel } from './orthopedist-reception.model';
-
-export interface QueryParams {
-   clinicName: string;
-   dateRange: string;
-}
-
-export interface InitConsultNumber {
-   initConsultNumber: number;
-}
-
-export interface TherapistReceptionMoneyTurnover {
-   /*totalAmountAccrued: TotalAmountAccrued;
-   totalAmountPaid: TotalAmountPaid;
-   totalDiagnosesNumber: TotalDiagnosesNumber;*/
-   initConsultNumber: InitConsultNumber;
-}
+import { QueryParams, InitialConsultCount, OrthopedistReceptionMoneyTurnover } from './orthopedist-reception.interface';
 
 export class OrthopedistReceptionController {
 
@@ -30,7 +15,7 @@ export class OrthopedistReceptionController {
       return this.queryInDatabase(searchOpts);
    }
 
-   static getPatientTreatment(query: {surname: string, initials: string}) {
+   static getPatientTreatment(query: {surname: string, initials: string}): Promise<OrthopedistReception[]> {
       return new Promise((resolve, reject) => {
          OrthopedistReceptionModel.aggregate()
             .match({
@@ -39,25 +24,70 @@ export class OrthopedistReceptionController {
                   { patientInitials: query.initials }
                ]
             })
-            .exec((err, res) => (err) ? reject(err) : resolve(res));
+            .exec((err, res: OrthopedistReception[]) => (err) ? reject(err) : resolve(res));
       });
    }
 
-   static getMoneyTurnover(query: QueryParams): Promise<TherapistReceptionMoneyTurnover> {
+   static getMoneyTurnover(query: QueryParams): Promise<OrthopedistReceptionMoneyTurnover> {
       return Promise
          .all([
-            /*this.getTotalAmountAccrued(query),
-            this.getTotalAmountPaid(query),
-            this.getTotalDiagnosesNumber(query),
-            DirectedPatientController.getInitialConsPatientList(query)*/
+            this.getTotalAmountByField(query, 'amountAccrued'),
+            this.getTotalAmountByField(query, 'amountPaid'),
+            this.getTotalAmountByField(query, 'technicalPartAmountAccrued'),
+            this.getTotalAmountByField(query, 'technicalPartAmountPaid'),
+            this.getInitialConsultations(query)
          ])
          .then((result: Array<Object>) => {
-            const [totalAmountAccrued, totalAmountPaid, totalDiagnosesNumber, initialConsult] = result;
-            const initConsNumber: InitConsultNumber = {
-               initConsultNumber: initialConsult['length']
-            };
-            return Object.assign({}, totalAmountAccrued, totalAmountPaid, totalDiagnosesNumber, initConsNumber);
+            const [amountAccrued, amountPaid, technicalPartAmountAccrued, technicalPartAmountPaid, initConsult] = result;
+            return Object.assign({}, amountAccrued, amountPaid, technicalPartAmountAccrued, technicalPartAmountPaid, initConsult);
          });
+   }
+
+   static getInitialConsultations(query: QueryParams): Promise<InitialConsultCount> {
+      const dateRangeUTC = this.getDateRangeUTC(query);
+      return new Promise((resolve, reject) => {
+         OrthopedistReceptionModel.aggregate()
+            .match({
+               clinicName: query.clinicName,
+               admissionDate: { $gte: dateRangeUTC.startDate, $lte: dateRangeUTC.endDate },
+               visitType: 'Первичная консультация'
+            })
+            .group({
+               _id: null,
+               initialConsultCount: { $sum: 1 }
+            })
+            .project({
+               _id: 0,
+               initialConsultCount: 1
+            })
+            .exec((err, res: Array<InitialConsultCount>) => (err) ? reject(err) : resolve(res[0]));
+      });
+   }
+
+   static getTotalAmountByField(query: QueryParams, fieldName: string): Promise<Object> {
+      const dateRangeUTC = this.getDateRangeUTC(query);
+      const field = ucFirst(fieldName);
+      return new Promise((resolve, reject) => {
+         OrthopedistReceptionModel.aggregate()
+            .match({
+               clinicName: query.clinicName,
+               admissionDate: { $gte: dateRangeUTC.startDate, $lte: dateRangeUTC.endDate }
+            })
+            .group({
+               _id: null,
+               ['total' + field]: { $sum: '$' + fieldName }
+            })
+            .project({
+               _id: 0,
+               ['total' + field]: 1
+            })
+            .exec((err, res: Object[]) => (err) ? reject(err) : resolve(res[0]));
+      });
+
+      function ucFirst(str: string): string {
+         if (!str) { return str; }
+         return str[0].toUpperCase() + str.slice(1);
+      }
    }
 
 
