@@ -13,65 +13,19 @@
 
     <div class="wrap-search-result">
       <ul>
-        <li *ngFor="let patient of foundPatients" (click)="selectPatient(patient)">
+        <li *ngFor="let patient of foundPatients" routerLink="./patient" routerLinkActive="active"
+            [queryParams]="{ surname: patient.patientSurname, name: patient.patientName, patronymic: patient.patientPatronymic }">
           {{ patient.patientFullName }}
         </li>
       </ul>
     </div>
 
-    <div *ngIf="currentPatient" class="wrap-select-patient">
-      <div class="name">
-        <span>{{ currentPatient.patientFullName }}</span>
-      </div>
-      <div class="contacts">
-        <span>тел: </span>
-        <span>{{ currentPatient.patientPhone }},</span>
-        <span>почта: </span>
-        <span>{{ currentPatient.patientEmail || 'нет' }}</span>
-      </div>
-      <div class="row">
-        <span>Обратился:</span>
-        <span>{{ currentPatient.requestDate | date:'dd.MM.y' }},</span>
-        <span>Источник обращения: </span>
-        <span>{{ currentPatient.referenceSource }}.</span>
-      </div>
-      <div class="row">
-        <span>Администратор: </span>
-        <span>{{ currentPatient.administratorName }}.</span>
-      </div>
-      <div class="row">
-        <span>Записан на первичную консультацию: </span>
-        <span>{{ currentPatient.initialConsultationDate | date:'dd.MM.y HH:mm' }},</span>
-        <span>Врач: </span>
-        <span>{{ currentPatient.doctorSurname || 'не указан' }}.</span>
-      </div>
-      <div class="row">
-        <span>Дата ПК: </span>
-        <span *ngIf="currentPatient.initialConsultationDate">{{ currentPatient.initialConsultationDate | date:'dd.MM.y HH:mm' }},</span>
-        <span *ngIf="!currentPatient.initialConsultationDate">нет,</span>
-        <span>Дата ПЛ: </span>
-        <span *ngIf="currentPatient.initialTreatmentDate">{{ currentPatient.initialTreatmentDate | date:'dd.MM.y' }},</span>
-        <span *ngIf="!currentPatient.initialTreatmentDate">нет,</span>
-        <span>Дата ВЛ: </span>
-        <span *ngIf="currentPatient.reTreatmentDate">{{ currentPatient.reTreatmentDate | date:'dd.MM.y' }}.</span>
-        <span *ngIf="!currentPatient.reTreatmentDate">нет.</span>
-      </div>
-
-      <div class="wrap-btn">
-        <a class="btn-warn" md-raised-button (click)="reset()">
-          Очистить
-        </a>
-        <a class="btn-accepted" md-raised-button routerLink="./patient"
-           [queryParams]="{ surname: currentPatient.patientSurname, name: currentPatient.patientName, patronymic: currentPatient.patientPatronymic }">
-          Подробнее
-        </a>
-      </div>
-    </div>
-
   </div>
 
-  <div>
+  <div class="right">
+
     <router-outlet></router-outlet>
+
   </div>
 
 </section>

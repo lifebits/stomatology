@@ -1,14 +1,22 @@
 .wrap-crm {
   overflow: hidden;
   position: relative;
-  width: 100vw;
+  width: 100%;
   min-height: 100vh;
   background: #ece9e6; /* fallback for old browsers */
   background: -webkit-linear-gradient(to left, #ece9e6, #ffffff); /* Chrome 10-25, Safari 5.1-6 */
   background: linear-gradient(to left, #ece9e6, #ffffff); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
 .left {
-  width: 40%;
+  width: 30%;
+}
+
+.right {
+  width: 70%;
+}
+
+.active {
+  background-color: #ffecb3;
 }
 
 .search-form {
@@ -41,50 +49,6 @@
     &:hover {
       cursor: default;
       background-color: #ffecb3;
-    }
-  }
-}
-
-.wrap-select-patient {
-  margin: 20px;
-
-  .name {
-    line-height: 1.6;
-    font-size: 1.5em;
-    font-weight: 600;
-  }
-
-  .contacts {
-    font-size: 0.9em;
-    margin-bottom: 20px;
-  }
-
-  .row {
-    font-size: 1em;
-    line-height: 1.5;
-  }
-}
-
-.wrap-btn {
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
-  align-items: center;
-  margin-top: 16px;
-  padding: 10px 0;
-  border-top: 2px solid #999999;
-
-  a {
-    margin-left: 10px;
-
-    &.btn-accepted {
-      background-color: #333333;
-      color: #FFFFFF;
-    }
-
-    &.btn-warn {
-      background-color: #d43f3a;
-      color: #FFFFFF;
     }
   }
 }

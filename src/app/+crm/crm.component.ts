@@ -15,10 +15,9 @@ export class CrmComponent implements OnInit {
 
    isLoading: boolean;
    foundPatients;
-   currentPatient;
 
    searchForm: FormGroup = new FormGroup({
-      query: new FormControl('Ка')
+      query: new FormControl('Ма')
    });
 
    constructor(
@@ -26,7 +25,7 @@ export class CrmComponent implements OnInit {
    }
 
    ngOnInit() {
-      this.findPatient('Ка')
+      this.findPatient('Ма')
          .subscribe(value => this.foundPatients = value);
 
       this.searchForm.valueChanges
@@ -39,20 +38,10 @@ export class CrmComponent implements OnInit {
          })
    }
 
-   selectPatient(patient: Object) {
-      this.currentPatient = patient;
-      /*this.searchForm.patchValue({
-         query: null
-      });*/
-   }
-
-   reset() {
-      console.log('reset search');
-   }
-
    private findPatient(surname: string) {
       const url = API_URL + '/directed_patient/search_patient?surname=' + surname;
       return this.http.get(url)
          .map((res: Response) => res.json())
    }
+
 }
