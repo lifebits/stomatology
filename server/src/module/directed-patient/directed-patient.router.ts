@@ -9,10 +9,9 @@ directedPatientRouter.use(function timeLog(req, res, next) {
    next();
 });
 
-// api/directed_patient/main?clinicName=krsk-lenina&requestDate=2017-01-16T17:00:00.000Z,2017-01-17T17:00:00.000Z
+// api/directed_patient/request?clinicName=krsk-lenina&requestDate=2017-01-16T17:00:00.000Z,2017-01-17T17:00:00.000Z
 directedPatientRouter
    .get('/request', (req, res) => {
-      // DirectedPatientController.getRequestedPatientList(req.query)
       DirectedPatientController.getPatientListByField(req.query, 'requestDate')
          .then(result => res.send(result))
          .catch(err => res.send(err));
@@ -20,7 +19,6 @@ directedPatientRouter
 
 directedPatientRouter
    .get('/consultation', (req, res) => {
-      // DirectedPatientController.getInitialConsPatientList(req.query)
       DirectedPatientController.getPatientListByField(req.query, 'initialConsultationDate')
          .then(result => res.send(result))
          .catch(err => res.send(err))
@@ -28,7 +26,6 @@ directedPatientRouter
 
 directedPatientRouter
    .get('/primary_treatment', (req, res) => {
-      // DirectedPatientController.getInitialTreatmentPatientList(req.query)
       DirectedPatientController.getPatientListByField(req.query, 'initialTreatmentDate')
          .then(result => res.send(result))
          .catch(err => res.send(err))
@@ -36,7 +33,6 @@ directedPatientRouter
 
 directedPatientRouter
    .get('/re_treatment', (req, res) => {
-      // DirectedPatientController.getReTreatmentPatientList(req.query)
       DirectedPatientController.getPatientListByField(req.query, 'reTreatmentDate')
          .then(result => res.send(result))
          .catch(err => res.send(err))
@@ -44,7 +40,6 @@ directedPatientRouter
 
 directedPatientRouter
    .get('/contacts', (req, res) => {
-      // DirectedPatientController.getInitialConsPatientList(req.query)
       DirectedPatientController.getPatientListByField(req.query, 'initialConsultationDate')
          .then(result => res.send(result))
          .catch(err => res.send(err))

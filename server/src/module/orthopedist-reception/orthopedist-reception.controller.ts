@@ -1,5 +1,6 @@
-import { OrthopedistReception, OrthopedistReceptionModel } from './orthopedist-reception.model';
-import { QueryParams, InitialConsultCount, OrthopedistReceptionMoneyTurnover } from './orthopedist-reception.interface';
+import { OrthopedistReceptionModel } from './orthopedist-reception.schema';
+import { OrthopedistReception,
+         QueryParams, InitialConsultCount, OrthopedistReceptionMoneyTurnover } from './orthopedist-reception.interface';
 
 export class OrthopedistReceptionController {
 
