@@ -5,6 +5,7 @@ import { Http, Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 
 import { DateRangeService } from '../components/date-range-selection/date-range.service';
+import { TherapistReception, TherapistReceptionMoneyTurnover } from './therapy.interface';
 
 const API_URL = environment.api;
 
@@ -84,14 +85,14 @@ export class TherapyComponent implements OnInit {
       }
    ];
 
-   moneyTurnover: Object = {
+   moneyTurnover: TherapistReceptionMoneyTurnover = {
       totalAmountAccrued: 0,
       totalAmountPaid: 0,
       totalDiagnosesNumber: 0,
       initConsultNumber: 0
    };
 
-   data: Object[];
+   data: TherapistReception[];
    isLoading: boolean;
 
    constructor(
@@ -110,22 +111,20 @@ export class TherapyComponent implements OnInit {
          )
    }
 
-   private getData() {
-      const query = {
-         clinicName: 'krsk-lenina',
-         dateRange: this.dateRange.getCurrentDateRangeForQuery()
-      };
-      const url = API_URL + '/therapist_reception/?clinicName=' + query.clinicName + '&dateRange=' + query.dateRange;
+   private getData(): Observable<TherapistReception[]> {
+      const params = new URLSearchParams();
+      params.set('clinicName', 'krsk-lenina');
+      params.set('dateRange', this.dateRange.getCurrentDateRangeForQuery());
+      const url = API_URL + '/therapist_reception?' + params;
       return this.http.get(url)
          .map((res: Response) => res.json());
    }
 
-   private getMoneyTurnover() {
-      const query = {
-         clinicName: 'krsk-lenina',
-         dateRange: this.dateRange.getCurrentDateRangeForQuery()
-      };
-      const url = API_URL + '/therapist_reception/money_turnover?clinicName=' + query.clinicName + '&dateRange=' + query.dateRange;
+   private getMoneyTurnover(): Observable<TherapistReceptionMoneyTurnover> {
+      const params = new URLSearchParams();
+      params.set('clinicName', 'krsk-lenina');
+      params.set('dateRange', this.dateRange.getCurrentDateRangeForQuery());
+      const url = API_URL + '/therapist_reception/money_turnover?' + params;
       return this.http.get(url)
          .map((res: Response) => res.json())
    }
