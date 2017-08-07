@@ -1,6 +1,9 @@
-import { DirectedPatient, DirectedPatientModel } from '../directed-patient/directed-patient.model';
-import { TherapistReception, TherapistReceptionModel } from '../therapist-reception/therapist-reception.model';
-import { OrthopedistReception, OrthopedistReceptionModel } from '../orthopedist-reception/orthopedist-reception.model';
+import { DirectedPatientModel } from '../directed-patient/directed-patient.schema';
+import { DirectedPatient } from '../directed-patient/directed-patient.interface';
+import { TherapistReceptionModel } from '../therapist-reception/therapist-reception.schema';
+import { TherapistReception } from '../therapist-reception/therapist-reception.interface';
+import { OrthopedistReceptionModel } from '../orthopedist-reception/orthopedist-reception.schema';
+import { OrthopedistReception } from '../orthopedist-reception/orthopedist-reception.interface';
 
 export interface Logbook {
    referrals: DirectedPatient[],

@@ -1,6 +1,6 @@
-import { TherapistReceptionModel, TherapistReception } from './therapist-reception.model';
+import { TherapistReceptionModel } from './therapist-reception.schema';
 import { DirectedPatientController } from '../directed-patient/directed-patient.controller';
-import { QueryParams, TherapistReceptionMoneyTurnover,
+import { TherapistReception, QueryParams, TherapistReceptionMoneyTurnover,
    InitConsultNumber, TotalAmountAccrued, TotalAmountPaid, TotalDiagnosesNumber } from './therapist-reception.interface';
 
 export class TherapistReceptionController {
@@ -36,7 +36,8 @@ export class TherapistReceptionController {
             this.getTotalAmountAccrued(query),
             this.getTotalAmountPaid(query),
             this.getTotalDiagnosesNumber(query),
-            DirectedPatientController.getInitialConsPatientList(query)
+            // DirectedPatientController.getInitialConsPatientList(query)
+            DirectedPatientController.getPatientListByField(query, 'initialConsultationDate')
          ])
          .then((result: Array<Object>) => {
             const [totalAmountAccrued, totalAmountPaid, totalDiagnosesNumber, initialConsult] = result;

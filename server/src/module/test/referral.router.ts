@@ -1,7 +1,7 @@
 import * as express from 'express';
 import { Router } from 'express';
 
-import { User } from '../user/user.model';
+import { User } from '../user/user.schema';
 import { Referral, ReferralModel } from './referral.model';
 
 import { GenerateTestCollection } from '../../generateTestCollection';
