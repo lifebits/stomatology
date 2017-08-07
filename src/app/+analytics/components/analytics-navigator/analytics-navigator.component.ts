@@ -1,6 +1,11 @@
-import {Component, OnInit} from '@angular/core';
-import {Route} from '@angular/router';
+import { Component } from '@angular/core';
+import { Route } from '@angular/router';
 
+export interface AnalyticsParts {
+   title: string;
+   svg: string;
+   route: Route;
+}
 
 const PARTS: AnalyticsParts[] = [
    {
@@ -56,10 +61,4 @@ export class AnalyticsNavigatorComponent {
 
    constructor() {}
 
-}
-
-export interface AnalyticsParts {
-   title: string;
-   svg: string;
-   route: Route;
 }

@@ -5,7 +5,6 @@ import { MdIconModule, MdDatepickerModule, MdInputModule, MdNativeDateModule } f
 
 import { AnalyticsHeaderComponent } from './analytics-header.component';
 import { DateRangeSelectionComponent } from '../date-range-selection/date-range-selection.component';
-import { AnalyticsService } from '../../analytics.service';
 import { DateRangeService } from '../date-range-selection/date-range.service';
 
 
@@ -17,7 +16,7 @@ describe('AnalyticsHeaderComponent', () => {
       TestBed.configureTestingModule({
          imports: [ ReactiveFormsModule, MdIconModule, MdDatepickerModule, MdNativeDateModule, MdInputModule, BrowserAnimationsModule ],
          declarations: [ AnalyticsHeaderComponent, DateRangeSelectionComponent ],
-         providers: [ AnalyticsService, DateRangeService ]
+         providers: [ DateRangeService ]
       })
          .compileComponents();
    }));

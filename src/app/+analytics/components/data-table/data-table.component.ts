@@ -69,7 +69,6 @@ export class DataTableComponent implements OnInit {
    private dataFilter(data: Object[], query: string): Object[] {
       const filteredData = data.map(i => Object.assign({}, i));
       const isFilteredFields = this.fields.filter(p => p.isFiltered);
-
       return filteredData.filter(item => {
          return isFilteredFields.some(field => {
             if (item[field.name]) {
