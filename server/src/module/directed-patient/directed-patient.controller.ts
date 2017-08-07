@@ -1,49 +1,17 @@
-import { DirectedPatientModel, DirectedPatient } from './directed-patient.model';
-import { DirectedPatientQueryParams, DirectedPatientKeyIndicator, PatientMovement, CounterByDay } from './directed-patient.interface';
+import { DirectedPatientModel } from './directed-patient.schema';
+import { DirectedPatient,
+         DirectedPatientQueryParams,
+         DirectedPatientKeyIndicator,
+         PatientMovement,
+         CounterByDay } from './directed-patient.interface';
 
 export class DirectedPatientController {
 
-   static getRequestedPatientList(query: DirectedPatientQueryParams) {
+   static getPatientListByField(query: DirectedPatientQueryParams, fieldName: string): Promise<DirectedPatient[]> {
       const dateRangeUTC = this.getDateRangeUTC(query);
       const searchOpts = {
          clinicName: query.clinicName,
-         requestDate: {
-            $gte: dateRangeUTC.startDate,
-            $lte: dateRangeUTC.endDate
-         }
-      };
-      return this.queryInDatabase(searchOpts);
-   }
-
-   static getInitialConsPatientList(query: DirectedPatientQueryParams) {
-      const dateRangeUTC = this.getDateRangeUTC(query);
-      const searchOpts = {
-         clinicName: query.clinicName,
-         initialConsultationDate: {
-            $gte: dateRangeUTC.startDate,
-            $lte: dateRangeUTC.endDate
-         }
-      };
-      return this.queryInDatabase(searchOpts);
-   }
-
-   static getInitialTreatmentPatientList(query: DirectedPatientQueryParams) {
-      const dateRangeUTC = this.getDateRangeUTC(query);
-      const searchOpts = {
-         clinicName: query.clinicName,
-         initialTreatmentDate: {
-            $gte: dateRangeUTC.startDate,
-            $lte: dateRangeUTC.endDate
-         }
-      };
-      return this.queryInDatabase(searchOpts);
-   }
-
-   static getReTreatmentPatientList(query: DirectedPatientQueryParams) {
-      const dateRangeUTC = this.getDateRangeUTC(query);
-      const searchOpts = {
-         clinicName: query.clinicName,
-         reTreatmentDate: {
+         [fieldName]: {
             $gte: dateRangeUTC.startDate,
             $lte: dateRangeUTC.endDate
          }
@@ -53,10 +21,10 @@ export class DirectedPatientController {
 
    static getKeyIndicators(query: DirectedPatientQueryParams): Promise<DirectedPatientKeyIndicator[]> {
       return Promise.all([
-            this.getRequestedPatientList(query),
-            this.getInitialConsPatientList(query),
-            this.getInitialTreatmentPatientList(query),
-            this.getReTreatmentPatientList(query)
+            this.getPatientListByField(query, 'requestDate'),
+            this.getPatientListByField(query, 'initialConsultationDate'),
+            this.getPatientListByField(query, 'initialTreatmentDate'),
+            this.getPatientListByField(query, 'reTreatmentDate')
          ])
          .then((result: Array<DirectedPatient>[]) => {
             const [requested, initialConsult, initialTreatment, reTreatment] = result;
