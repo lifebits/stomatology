@@ -1,28 +1,20 @@
-# Stomatology
+# Изоморфное приложение написанное на MEAN стэке
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.0.3.
+Фронтэнд часть собрана с помощью angular-cli и развернута на github pages - https://pages.github.com/
 
-## Development server
+Бэкенд часть собрана с помощью webpack и развернута на облачной PaaS платформе heroku - https://www.heroku.com/
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+В качестве базы данных используется mongodb, которая храниться на серверах mLab - https://mlab.com/welcome/
 
-## Code scaffolding
+## Описание приложения
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|module`.
+Проект создан для демонстрации архитектуры изоморфного приложения под нужды среднего и малого бизнеса, когда все сервисы компании, включая ее сайт, находятся в едином приложении.
 
-## Build
+В текущем приложении реализованы три основных модуля:
+- многостраничный сайт компании
+- сервис аналитики для бизнеса
+- сервис crm для бизнеса
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `-prod` flag for a production build.
+Данные собираются из журнала регистрации(xlsx файл), который заполняется сотрудниками компании и далее парсится подготовленным парсером, с валидацией полей. Далее информация складывается в mongodb в соответствующие коллекции и используется для аналитики и создания единой базы пациентов.
 
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-Before running the tests make sure you are serving the app via `ng serve`.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+[live preview](https://lifebits.github.io/stomatology/analytics)
