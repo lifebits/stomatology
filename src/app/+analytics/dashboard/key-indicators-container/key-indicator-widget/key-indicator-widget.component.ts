@@ -1,11 +1,11 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
    selector: 'app-key-indicator-widget',
    templateUrl: './key-indicator-widget.component.html',
    styleUrls: ['./key-indicator-widget.component.scss']
 })
-export class KeyIndicatorWidgetComponent implements OnInit {
+export class KeyIndicatorWidgetComponent {
 
    @Input()
    title: string;
@@ -17,7 +17,5 @@ export class KeyIndicatorWidgetComponent implements OnInit {
    percentage: number;
 
    constructor() {}
-
-   ngOnInit() {}
 
 }

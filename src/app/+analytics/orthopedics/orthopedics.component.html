@@ -1,5 +1,26 @@
 <md-card>
 
+  <md-progress-bar *ngIf="isLoading" mode="query" color="primary"
+                   style="position: absolute; top: 0; left: 0;">
+  </md-progress-bar>
+
+  <div class="summaryInfo" *ngIf="data">
+    <span>Начисленно за период: <b>{{ moneyTurnover.totalAmountAccrued | number }}</b> руб.</span>
+    <span>Оплачено за период: <b>{{ moneyTurnover.totalAmountPaid | number }}</b> руб.</span>
+    <span>Разница: <b>{{ moneyTurnover.totalAmountAccrued - moneyTurnover.totalAmountPaid | number }} руб.</b></span>
+  </div>
+
+  <div class="summaryInfo" *ngIf="data">
+    <span>Техническая часть начисленна: <b>{{ moneyTurnover.totalTechnicalPartAmountAccrued | number }}</b> руб.</span>
+    <span>Техническая часть оплачена: <b>{{ moneyTurnover.totalTechnicalPartAmountPaid | number }}</b> руб.</span>
+    <span>Разница: <b>{{ moneyTurnover.totalTechnicalPartAmountAccrued - moneyTurnover.totalTechnicalPartAmountPaid | number }}</b> руб.</span>
+  </div>
+
+  <div class="summaryInfo" *ngIf="data">
+    <span>Кол-во консультаций: <b>{{ moneyTurnover.initialConsultCount | number }}.</b></span>
+    <span>Оборот на консультацию: <b>{{ moneyTurnover.totalAmountAccrued / moneyTurnover.initialConsultCount | number }} руб.</b></span>
+  </div>
+
   <app-data-table
     [title] = "'Статистика по ортопедии'"
     [fields]="tableFields"

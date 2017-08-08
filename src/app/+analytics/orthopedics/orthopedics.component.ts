@@ -2,8 +2,12 @@ import { environment } from 'environments/environment';
 
 import { Component, OnInit } from '@angular/core';
 import { Http, Response } from '@angular/http';
+import { Observable } from 'rxjs/Observable';
 
 import { DateRangeService } from '../components/date-range-selection/date-range.service';
+
+import { OrthopedistReception, OrthopedistMoneyTurnover } from './orthopedics.interface';
+import { TableField } from 'app/components/data-table/data-table.interface';
 
 const API_URL = environment.api;
 
@@ -14,7 +18,7 @@ const API_URL = environment.api;
 })
 export class OrthopedicsComponent implements OnInit {
 
-   tableFields = [
+   tableFields: TableField[] = [
       {
          name: 'admissionDate',
          title: 'Дата обращения',
@@ -90,7 +94,17 @@ export class OrthopedicsComponent implements OnInit {
          isFiltered: false
       }
    ];
-   data: [{}];
+
+   moneyTurnover: OrthopedistMoneyTurnover = {
+      totalAmountAccrued: 0,
+      totalAmountPaid: 0,
+      totalTechnicalPartAmountAccrued: 0,
+      totalTechnicalPartAmountPaid: 0,
+      initialConsultCount: 0
+   };
+
+   data: OrthopedistReception[];
+   isLoading: boolean;
 
    constructor(
       private http: Http,
@@ -98,17 +112,30 @@ export class OrthopedicsComponent implements OnInit {
    }
 
    ngOnInit() {
-      this.getData().subscribe(
-         result => this.data = result
-      );
+      this.dateRange.currentDateRange$
+         .do(() => this.isLoading = true)
+         .switchMap(() => Observable.forkJoin(this.getData(), this.getMoneyTurnover()))
+         .do(() => this.isLoading = false)
+         .subscribe(
+            result => [ this.data, this.moneyTurnover ] = result,
+            error => console.log(error)
+         );
    }
 
-   private getData() {
-      const params = {
-         clinicName: 'krsk-lenina',
-         dateRange: this.dateRange.getCurrentDateRangeForQuery()
-      };
-      const url = API_URL + '/orthopedist_reception?clinicName=' + params.clinicName + '&dateRange=' + params.dateRange;
+   private getData(): Observable<OrthopedistReception[]> {
+      const params = new URLSearchParams();
+      params.set('clinicName', 'krsk-lenina');
+      params.set('dateRange', this.dateRange.getCurrentDateRangeForQuery());
+      const url = API_URL + '/orthopedist_reception?' + params;
+      return this.http.get(url)
+         .map((res: Response) => res.json())
+   }
+
+   private getMoneyTurnover(): Observable<OrthopedistMoneyTurnover> {
+      const params = new URLSearchParams();
+      params.set('clinicName', 'krsk-lenina');
+      params.set('dateRange', this.dateRange.getCurrentDateRangeForQuery());
+      const url = API_URL + '/orthopedist_reception/money_turnover?' + params;
       return this.http.get(url)
          .map((res: Response) => res.json())
    }
