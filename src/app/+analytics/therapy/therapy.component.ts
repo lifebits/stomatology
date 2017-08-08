@@ -22,7 +22,7 @@ export class TherapyComponent implements OnInit {
          title: 'Дата обращения',
          dataType: 'date',
          pattern: 'dd/MM/yyyy',
-         svg: 'analytics:sort',
+         svg: 'main:sort',
          active: false,
          ascSort: true,
          isFiltered: false
@@ -30,7 +30,7 @@ export class TherapyComponent implements OnInit {
          name: 'administratorName',
          title: 'Администратор',
          dataType: 'string',
-         svg: 'analytics:sort',
+         svg: 'main:sort',
          active: false,
          ascSort: true,
          isFiltered: true
@@ -38,7 +38,7 @@ export class TherapyComponent implements OnInit {
          name: 'patientSurname',
          title: 'Пациент',
          dataType: 'string',
-         svg: 'analytics:sort',
+         svg: 'main:sort',
          active: false,
          ascSort: true,
          isFiltered: true
@@ -46,7 +46,7 @@ export class TherapyComponent implements OnInit {
          name: 'doctorSurname',
          title: 'Врач',
          dataType: 'string',
-         svg: 'analytics:sort',
+         svg: 'main:sort',
          active: false,
          ascSort: true,
          isFiltered: true
@@ -54,7 +54,7 @@ export class TherapyComponent implements OnInit {
          name: 'amountAccrued',
          title: 'Начисленно за визит',
          dataType: 'number',
-         svg: 'analytics:sort',
+         svg: 'main:sort',
          active: false,
          ascSort: true,
          isFiltered: false
@@ -62,7 +62,7 @@ export class TherapyComponent implements OnInit {
          name: 'amountPaid',
          title: 'Оплачено',
          dataType: 'number',
-         svg: 'analytics:sort',
+         svg: 'main:sort',
          active: false,
          ascSort: true,
          isFiltered: false
@@ -70,7 +70,7 @@ export class TherapyComponent implements OnInit {
          name: 'visitType',
          title: 'Тип Визита',
          dataType: 'string',
-         svg: 'analytics:sort',
+         svg: 'main:sort',
          active: false,
          ascSort: true,
          isFiltered: true
@@ -78,7 +78,7 @@ export class TherapyComponent implements OnInit {
          name: 'diagnosesNumber',
          title: 'Кол-во',
          dataType: 'number',
-         svg: 'analytics:sort',
+         svg: 'main:sort',
          active: false,
          ascSort: true,
          isFiltered: false

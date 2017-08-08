@@ -14,7 +14,7 @@ export class SurgeryComponent implements OnInit {
          title: 'Дата обращения',
          dataType: 'date',
          pattern: 'dd/MM/yyyy',
-         svg: 'analytics:sort',
+         svg: 'main:sort',
          active: false,
          ascSort: true,
          isFiltered: false
@@ -22,7 +22,7 @@ export class SurgeryComponent implements OnInit {
          name: 'Администратор',
          title: 'Администратор',
          dataType: 'string',
-         svg: 'analytics:sort',
+         svg: 'main:sort',
          active: false,
          ascSort: true,
          isFiltered: true
@@ -30,7 +30,7 @@ export class SurgeryComponent implements OnInit {
          name: 'Фамилия пациента',
          title: 'Пациент',
          dataType: 'string',
-         svg: 'analytics:sort',
+         svg: 'main:sort',
          active: false,
          ascSort: true,
          isFiltered: true
@@ -38,7 +38,7 @@ export class SurgeryComponent implements OnInit {
          name: 'Фамилия врача',
          title: 'Врач',
          dataType: 'string',
-         svg: 'analytics:sort',
+         svg: 'main:sort',
          active: false,
          ascSort: true,
          isFiltered: true
@@ -46,7 +46,7 @@ export class SurgeryComponent implements OnInit {
          name: 'Сумма за визит начисленная',
          title: 'Начисленно за визит',
          dataType: 'number',
-         svg: 'analytics:sort',
+         svg: 'main:sort',
          active: false,
          ascSort: true,
          isFiltered: false
@@ -54,7 +54,7 @@ export class SurgeryComponent implements OnInit {
          name: 'Сумма за визит оплаченная',
          title: 'Оплачено',
          dataType: 'number',
-         svg: 'analytics:sort',
+         svg: 'main:sort',
          active: false,
          ascSort: true,
          isFiltered: false
@@ -62,7 +62,7 @@ export class SurgeryComponent implements OnInit {
          name: 'Тип Визита',
          title: 'Тип визита',
          dataType: 'string',
-         svg: 'analytics:sort',
+         svg: 'main:sort',
          active: false,
          ascSort: true,
          isFiltered: true
