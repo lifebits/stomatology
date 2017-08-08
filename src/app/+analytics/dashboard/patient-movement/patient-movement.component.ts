@@ -10,11 +10,28 @@ import { Observable } from 'rxjs/Observable';
 
 const API_URL = environment.api;
 
-export interface ChartIndicatorsList {
-   requestDate?: any[],
-   initialConsultationDate?: any[],
-   initialTreatmentDate?: any[],
-   reTreatmentDate?: any[]
+interface IndicatorsList {
+   requestDate: IndicatorData[],
+   initialConsultationDate: IndicatorData[],
+   initialTreatmentDate: IndicatorData[],
+   reTreatmentDate: IndicatorData[]
+}
+
+interface IndicatorData {
+   _id: string,
+   count: number
+}
+
+interface ChartIndicatorsList {
+   requestDate?: ChartIndicatorData[],
+   initialConsultationDate?: ChartIndicatorData[],
+   initialTreatmentDate?: ChartIndicatorData[],
+   reTreatmentDate?: ChartIndicatorData[]
+}
+
+interface ChartIndicatorData {
+   0: Date,
+   1: Number
 }
 
 @Component({
@@ -56,11 +73,9 @@ export class PatientMovementComponent implements OnInit {
    }
 
    ngOnInit() {
-
       this.dateRange.currentDateRange$
          .switchMap(() => this.getData())
          .subscribe(result => {
-            console.log(result);
             this.chartOptions.series = [
                {
                   name: 'Первичные обращения',
@@ -78,54 +93,25 @@ export class PatientMovementComponent implements OnInit {
             ];
             this.chart.draw('container', this.chartOptions);
          });
-
-      /*this.dateRange.currentDateRange$.subscribe(
-         dateRange => {
-            this.getData()
-               .map(data => this.dataGrouping(data, 'Дата обращения'))
-               .map(data => this.calcDaysIndicators(data))
-               .map(data => this.prepareDataForChart(data))
-               .subscribe(
-                  (result: ChartIndicatorsList) => {
-                     this.chartOptions.series = [
-                        {
-                           name: 'Первичные обращения',
-                           data: result.referralNumbers
-                        }, {
-                           name: 'Первичные консультации',
-                           data: result.consultationsNumber
-                        }, {
-                           name: 'Первичные лечения',
-                           data: result.primaryTreatmentNumber
-                        }, {
-                           name: 'Вторичные лечения',
-                           data: result.reTreatmentNumber
-                        }
-                     ];
-                     console.log(999, result);
-                     // this.chart.draw('container', this.chartOptions);
-                  }
-               );
-         }
-      );*/
    }
 
    private getData(): Observable<ChartIndicatorsList> {
-      const query = {
-         clinicName: 'krsk-lenina',
-         dateRange: this.dateRange.getCurrentDateRangeForQuery()
-      };
-      const url = API_URL + '/directed_patient/patient_movement?clinicName=' + query.clinicName + '&dateRange=' + query.dateRange;
+      const params = new URLSearchParams();
+      params.set('clinicName', 'krsk-lenina');
+      params.set('dateRange', this.dateRange.getCurrentDateRangeForQuery());
+      const url = API_URL + '/directed_patient/patient_movement?' + params;
       return this.http.get(url)
          .map((res: Response) => res.json())
-         .map((data: ChartIndicatorsList) => this.prepareDataForChart(data));
+         .map((data: IndicatorsList) => this.prepareDataForChart(data));
    }
 
-   private prepareDataForChart(data: ChartIndicatorsList) {
-      const normalizeData = {};
+   private prepareDataForChart(data: IndicatorsList): ChartIndicatorsList {
+      const normalizeData: ChartIndicatorsList = {};
       for (const fieldName in data) {
          if (data.hasOwnProperty(fieldName)) {
-            normalizeData[fieldName] = data[fieldName].map(p => [+new Date(p['_id']), p.count]);
+            normalizeData[fieldName] = data[fieldName].map(
+               p => [+new Date(p['_id']), p.count]
+            );
          }
       }
       return normalizeData;

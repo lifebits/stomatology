@@ -31,8 +31,8 @@ export class ChartsService {
 
   constructor() {}
 
-  draw(container: string, opts: ChartsOptions) {
-     Highcharts.chart('container', opts);
+  draw(container: string, options: ChartsOptions) {
+     Highcharts.chart('container', options);
   }
 
 }
