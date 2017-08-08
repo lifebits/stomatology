@@ -3,10 +3,12 @@ import { environment } from 'environments/environment';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Http, Response } from '@angular/http';
+import { Observable } from 'rxjs/Observable';
 
 import { DateRangeService } from '../../components/date-range-selection/date-range.service';
 
-import { TableField } from '../../../components/data-table/data-table.interface';
+import { DirectedPatient } from '../referral.interface';
+import { TableField } from 'app/components/data-table/data-table.interface';
 
 const API_URL = environment.api;
 const TABLE_FIELDS: TableField[] = [
@@ -15,7 +17,7 @@ const TABLE_FIELDS: TableField[] = [
       title: 'Дата обращения',
       dataType: 'date',
       pattern: 'dd/MM/yyyy',
-      svg: 'analytics:sort',
+      svg: 'main:sort',
       active: false,
       ascSort: true,
       isFiltered: false
@@ -23,7 +25,7 @@ const TABLE_FIELDS: TableField[] = [
       name: 'administratorName',
       title: 'Администратор',
       dataType: 'string',
-      svg: 'analytics:sort',
+      svg: 'main:sort',
       active: false,
       ascSort: true,
       isFiltered: true
@@ -31,7 +33,7 @@ const TABLE_FIELDS: TableField[] = [
       name: 'referenceSource',
       title: 'Источник обращения',
       dataType: 'string',
-      svg: 'analytics:sort',
+      svg: 'main:sort',
       active: false,
       ascSort: true,
       isFiltered: true
@@ -39,7 +41,7 @@ const TABLE_FIELDS: TableField[] = [
       name: 'patientFullName',
       title: 'Пациент',
       dataType: 'string',
-      svg: 'analytics:sort',
+      svg: 'main:sort',
       active: false,
       ascSort: true,
       isFiltered: true
@@ -48,7 +50,7 @@ const TABLE_FIELDS: TableField[] = [
       title: 'Запись на консультацию',
       dataType: 'date',
       pattern: 'dd/MM/yyyy HH:mm',
-      svg: 'analytics:sort',
+      svg: 'main:sort',
       active: false,
       ascSort: true,
       isFiltered: false
@@ -56,7 +58,7 @@ const TABLE_FIELDS: TableField[] = [
       name: 'doctorSurname',
       title: 'Фамилия врача',
       dataType: 'string',
-      svg: 'analytics:sort',
+      svg: 'main:sort',
       active: false,
       ascSort: true,
       isFiltered: true
@@ -65,7 +67,7 @@ const TABLE_FIELDS: TableField[] = [
       title: 'Дата ПК',
       dataType: 'date',
       pattern: 'dd/MM/yyyy HH:mm',
-      svg: 'analytics:sort',
+      svg: 'main:sort',
       active: false,
       ascSort: true,
       isFiltered: false
@@ -74,7 +76,7 @@ const TABLE_FIELDS: TableField[] = [
       title: 'Дата ПЛ',
       dataType: 'date',
       pattern: 'dd/MM/yyyy',
-      svg: 'analytics:sort',
+      svg: 'main:sort',
       active: false,
       ascSort: true,
       isFiltered: false
@@ -83,7 +85,7 @@ const TABLE_FIELDS: TableField[] = [
       title: 'Дата ВЛ',
       dataType: 'date',
       pattern: 'dd/MM/yyyy',
-      svg: 'analytics:sort',
+      svg: 'main:sort',
       active: false,
       ascSort: true,
       isFiltered: false
@@ -91,7 +93,7 @@ const TABLE_FIELDS: TableField[] = [
       name: 'patientPhone',
       title: 'Телефон',
       dataType: 'string',
-      svg: 'analytics:sort',
+      svg: 'main:sort',
       active: false,
       ascSort: true,
       isFiltered: false
@@ -99,7 +101,7 @@ const TABLE_FIELDS: TableField[] = [
       name: 'patientEmail',
       title: 'Почта',
       dataType: 'string',
-      svg: 'analytics:sort',
+      svg: 'main:sort',
       active: false,
       ascSort: true,
       isFiltered: false
@@ -107,7 +109,7 @@ const TABLE_FIELDS: TableField[] = [
       name: 'note',
       title: 'Примечание',
       dataType: 'string',
-      svg: 'analytics:sort',
+      svg: 'main:sort',
       active: false,
       ascSort: true,
       isFiltered: true
@@ -140,7 +142,7 @@ export class ReferralIncComponent implements OnInit {
       ]
    };
 
-   data: Object[];
+   data: DirectedPatient[];
    tableFields: TableField[];
    isLoading: boolean;
 
@@ -153,13 +155,13 @@ export class ReferralIncComponent implements OnInit {
    ngOnInit() {
       let tableName: string;
       this.route.params
-         .switchMap(params => {
-            tableName = params.listType || 'main';
-            this.tableFields = this.getTableFields(tableName);
-            return this.dateRange.currentDateRange$
-         })
+         .do(params => tableName = params.listType)
+         .do(() => this.tableFields = this.getTableFields(tableName))
+         .switchMap(params => this.dateRange.currentDateRange$)
+         .do(() => this.isLoading = true)
          .switchMap(() => this.getData(tableName))
-         .subscribe((data) => this.data = data);
+         .do(() => this.isLoading = false)
+         .subscribe(data => this.data = data);
    }
 
    private getTableFields(tableName: string): TableField[] {
@@ -177,18 +179,13 @@ export class ReferralIncComponent implements OnInit {
       }
    }
 
-   private getData(tableName) {
-      this.isLoading = true;
-      const query = {
-         clinicName: 'krsk-lenina',
-         dateRange: this.dateRange.getCurrentDateRangeForQuery()
-      };
-      const url = API_URL + '/directed_patient/' + tableName + '?clinicName=' + query.clinicName + '&dateRange=' + query.dateRange;
+   private getData(tableName: string): Observable<DirectedPatient[]> {
+      const params = new URLSearchParams();
+      params.set('clinicName', 'krsk-lenina');
+      params.set('dateRange', this.dateRange.getCurrentDateRangeForQuery());
+      const url = API_URL + '/directed_patient/' + tableName + '?' + params;
       return this.http.get(url)
-         .map((res: Response) => {
-            this.isLoading = false;
-            return res.json();
-         });
+         .map((res: Response) => res.json());
    }
 
 }

@@ -13,8 +13,8 @@ import { LoginUser } from '../../users.interface';
 export class LoginFormComponent {
 
    public authForm: FormGroup = new FormGroup({
-      login: new FormControl('veronika@lifebits.ru', [Validators.required]),
-      password: new FormControl('', [Validators.required])
+      login: new FormControl('testuser@stom.com', [Validators.required]),
+      password: new FormControl('12345', [Validators.required])
    });
 
    @Output() onCanceledAuth = new EventEmitter();

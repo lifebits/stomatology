@@ -1,4 +1,10 @@
 import { Component } from '@angular/core';
+import { Route } from '@angular/router';
+
+interface Button {
+   title: string,
+   route: Route
+}
 
 @Component({
    selector: 'app-referral',
@@ -7,7 +13,7 @@ import { Component } from '@angular/core';
 })
 export class ReferralComponent {
 
-   buttonsList = [
+   buttonsList: Button[] = [
       {
          title: 'Основной список',
          route: ['./request']

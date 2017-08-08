@@ -21,10 +21,10 @@ export interface QueryParams {
 }
 
 export interface TherapistReceptionMoneyTurnover {
-   totalAmountAccrued: TotalAmountAccrued;
-   totalAmountPaid: TotalAmountPaid;
-   totalDiagnosesNumber: TotalDiagnosesNumber;
-   initConsultNumber: InitConsultNumber;
+   totalAmountAccrued: number;
+   totalAmountPaid: number;
+   totalDiagnosesNumber: number;
+   initConsultNumber: number;
 }
 
 export interface TotalAmountAccrued {
