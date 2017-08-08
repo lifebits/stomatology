@@ -6,7 +6,7 @@ import { Http, Response } from '@angular/http';
 
 import { DateRangeService } from '../../components/date-range-selection/date-range.service';
 
-import { TableField } from '../../components/data-table/data-table.interface';
+import { TableField } from '../../../components/data-table/data-table.interface';
 
 const API_URL = environment.api;
 const TABLE_FIELDS: TableField[] = [
