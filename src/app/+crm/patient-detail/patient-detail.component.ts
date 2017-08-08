@@ -3,8 +3,11 @@ import { environment } from 'environments/environment';
 import { Component, OnInit } from '@angular/core';
 import { Http, Response } from '@angular/http';
 import { ActivatedRoute } from '@angular/router';
+import { Observable } from 'rxjs/Observable';
 
-import { tableFields } from './table-fields'
+import { tableFields } from './table-fields';
+
+import { DirectedPatient, TherapistReception, OrthopedistReception } from '../crm.interface';
 
 const API_URL = environment.api;
 
@@ -17,11 +20,12 @@ export class PatientDetailComponent implements OnInit {
 
    fields = tableFields;
 
-   contactInfo;
+   contactInfo: DirectedPatient;
    patientInitials: string;
-   patientRequest;
-   therapyTreatment;
-   orthopedicsTreatment;
+
+   patientRequest: DirectedPatient[];
+   therapyTreatment: TherapistReception[];
+   orthopedicsTreatment: OrthopedistReception[];
 
    private static getPatientInitials(patientInfo): string {
       const name = patientInfo.patientName.split('')[0];
@@ -35,9 +39,9 @@ export class PatientDetailComponent implements OnInit {
    }
 
    ngOnInit() {
-      this.route.queryParams.subscribe(queryParam => {
+      this.route.queryParams.subscribe((queryParam: {surname: string, name: string, patronymic: string}) => {
          console.log(queryParam);
-         this.findPatient(queryParam)
+         this.getPatient(queryParam)
             .do(data => this.contactInfo = data[0])
             .do(data => this.patientInitials = PatientDetailComponent.getPatientInitials(this.contactInfo))
             .switchMap(data => {
@@ -46,30 +50,38 @@ export class PatientDetailComponent implements OnInit {
             })
             .switchMap(data => {
                this.therapyTreatment = data;
-               return this.getOrtopedistTreatment({surname: this.contactInfo.patientSurname, initials: this.patientInitials})
+               return this.getOrthopedistTreatment({surname: this.contactInfo.patientSurname, initials: this.patientInitials})
             })
             .subscribe(result => {
                this.orthopedicsTreatment = result;
-               console.log('GET DATA DONE!');
-               console.log(999, this.therapyTreatment);
             })
       })
    }
 
-   private findPatient(p) {
-      const url = API_URL + '/directed_patient/patient_detail?surname=' + p.surname + '&name=' + p.name + '&patronymic=' + p.patronymic;
+   private getPatient(patient: {surname: string, name: string, patronymic: string}): Observable<DirectedPatient[]> {
+      const params = new URLSearchParams();
+      params.set('surname', patient.surname);
+      params.set('name', patient.name);
+      params.set('patronymic', patient.patronymic);
+      const url = API_URL + '/directed_patient/patient_detail?' + params;
       return this.http.get(url)
          .map((res: Response) => res.json())
    }
 
-   private getTherapistTreatment(params: {surname: string, initials: string}) {
-      const url = API_URL + '/therapist_reception/patient_treatment?surname=' + params.surname + '&initials=' + params.initials;
+   private getTherapistTreatment(patient: {surname: string, initials: string}): Observable<TherapistReception[]> {
+      const params = new URLSearchParams();
+      params.set('surname', patient.surname);
+      params.set('initials', patient.initials);
+      const url = API_URL + '/therapist_reception/patient_treatment?' + params;
       return this.http.get(url)
          .map((res: Response) => res.json())
    }
 
-   private getOrtopedistTreatment(params: {surname: string, initials: string}) {
-      const url = API_URL + '/orthopedist_reception/patient_treatment?surname=' + params.surname + '&initials=' + params.initials;
+   private getOrthopedistTreatment(patient: {surname: string, initials: string}): Observable<OrthopedistReception[]> {
+      const params = new URLSearchParams();
+      params.set('surname', patient.surname);
+      params.set('initials', patient.initials);
+      const url = API_URL + '/orthopedist_reception/patient_treatment?' + params;
       return this.http.get(url)
          .map((res: Response) => res.json())
    }
