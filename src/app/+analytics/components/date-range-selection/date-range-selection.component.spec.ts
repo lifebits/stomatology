@@ -5,7 +5,6 @@ import { MdDatepickerModule, MdNativeDateModule, MdInputModule } from '@angular/
 
 import { DateRangeSelectionComponent } from './date-range-selection.component';
 import { DateRangeService } from './date-range.service';
-import { AnalyticsService } from '../../analytics.service';
 
 describe('DateRangeSelectionComponent', () => {
    let component: DateRangeSelectionComponent;
@@ -15,7 +14,7 @@ describe('DateRangeSelectionComponent', () => {
       TestBed.configureTestingModule({
          imports: [ ReactiveFormsModule, MdDatepickerModule, MdNativeDateModule, MdInputModule, BrowserAnimationsModule ],
          declarations: [ DateRangeSelectionComponent ],
-         providers: [ AnalyticsService, DateRangeService ]
+         providers: [ DateRangeService ]
       })
          .compileComponents();
    }));
