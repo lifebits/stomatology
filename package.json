@@ -8,7 +8,7 @@
     "start:dev": "ng serve",
     "start:prod": "ng server --prod --aot",
     "build": "ng build",
-    "build:ghpages": "ng build --prod --base-href /stomatology/",
+    "deploy:ghpages": "ng build --prod --base-href /stomatology/ && ngh --no-silent",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
